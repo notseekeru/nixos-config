@@ -59,6 +59,7 @@
     packages = with pkgs; [
       tree
       git
+      gh
       vim
     ];
   };
