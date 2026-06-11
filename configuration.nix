@@ -12,8 +12,7 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
-
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Asia/Singapore";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -42,10 +41,11 @@
 
   users.users.seeker = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" ];
     packages = with pkgs; [
       gh
     ];
+    shell = pkgs.zsh;
   };
 
   environment.sessionVariables = {
@@ -89,6 +89,26 @@
   security.polkit.enable = true;
   services.libinput.enable = true;
   services.openssh.enable = true;
+
+  users.defaultUserShell = pkgs.zsh;
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+
+    ohMyZsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [ "git" "sudo" "history" "npm" ];
+    };
+
+    shellAliases = {
+      ll = "ls -l";
+      rebuild = "sudo nixos-rebuild switch";
+    };
+  };
 
   networking.firewall.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
