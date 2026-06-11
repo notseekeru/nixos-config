@@ -86,7 +86,7 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  }
+  };
 
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
