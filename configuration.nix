@@ -45,10 +45,14 @@
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -79,12 +83,19 @@
     dunst
   ];
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  }
+
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
 
+  security.polkit.enable = true;
+  services.libinput.enable = true;
   services.openssh.enable = true;
 
   # Open ports in the firewall.
