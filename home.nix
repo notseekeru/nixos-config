@@ -10,8 +10,14 @@
   home.stateVersion = "26.05";
 
   home.packages = with pkgs; [
+    vim
     kitty
+    networkmanagerapplet
     pi-coding-agent
+
+    waybar
+    wofi
+    dunst
   ];
 
   programs.neovim = {

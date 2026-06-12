@@ -70,15 +70,13 @@
   virtualisation.vmware.guest.enable = true;
   
   environment.systemPackages = with pkgs; [
-    vim
     wget
     tree
-    networkmanagerapplet
   ];
 
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
+  programs.hyprland = {
+   enable = true;
+   xwayland.enable;
   };
 
   security.polkit.enable = true;
