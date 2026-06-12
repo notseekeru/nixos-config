@@ -11,7 +11,7 @@
     oh-my-zsh = {
       enable = true;
       package = pkgs.oh-my-zsh;
-      theme = "robbyrussell";
+      theme = "agnoster";
       plugins = [ "git" "sudo" "history" "npm" ];
     };
 

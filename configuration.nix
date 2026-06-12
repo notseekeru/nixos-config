@@ -42,7 +42,7 @@
     jack.enable = true;
   };
 
-  programs.zsh.enable = true;
+  programs.zsh.enable = true; # Added due to warning
 
   users.users.seeker = {
     isNormalUser = true;
