@@ -11,7 +11,7 @@
 
   home.packages = with pkgs; [
     kitty
-    nodejs
+    pi-coding-agent
   ];
 
   programs.neovim = {
