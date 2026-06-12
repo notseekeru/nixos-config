@@ -39,9 +39,12 @@
     enable32Bit = true;
   };
 
+  programs.zsh.enable = true;
+
   users.users.seeker = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
       gh
     ];
@@ -61,7 +64,6 @@
   virtualisation.vmware.guest.enable = true;
   
   environment.systemPackages = with pkgs; [
-    zsh
     vim
     wget
     tree
