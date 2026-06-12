@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  networking.hostName = "nixos";
+  networking.hostName = "seeker";
   networking.networkmanager.enable = true;
   time.timeZone = "Asia/Singapore";
 
@@ -73,8 +73,6 @@
     vim
     wget
     tree
-    git
-    kitty
     networkmanagerapplet
   ];
 
