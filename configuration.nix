@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-{
+{	
   imports =
     [
       ./hardware-configuration.nix
@@ -13,6 +13,12 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "Asia/Singapore";
+
+  nix.gc = {
+  automatic = true;
+  dates = "daily;";
+  options = "--delete-older-than 1d";
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
