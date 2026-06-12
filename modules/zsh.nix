@@ -18,7 +18,10 @@
       ll = "ls -l";
       la = "ls -a";
       mountboot = "sudo mount /dev/sda1 /boot";
+      config = "nvim ~/nixos-config/configuration.nix";
+      garbage = "nix-collect-garbage -d";
       rebuild = "sudo nixos-rebuild switch --flake .#nixos --show-trace";
+      cleanrebuild = "sudo nixos-rebuild switch --flake .#nixos --refresh --show-trace";
     };
   };
 }
