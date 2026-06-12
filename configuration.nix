@@ -97,7 +97,7 @@
       ll = "ls -l";
       la = "ls -a";
       mountboot = "sudo mount /dev/sda1 /boot";
-      rebuild = "sudo nixos-rebuild switch --flake .#nixos;
+      rebuild = "sudo nixos-rebuild switch --flake .#nixos";
     };
   };
 
@@ -107,4 +107,3 @@
   system.stateVersion = "26.05";
 
 }
-
