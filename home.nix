@@ -14,11 +14,11 @@
     nodejs
   ];
 
-  programs.neovim.enable = {
+  programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
-  }
+  };
 
   programs.tmux.enable = true;
   programs.git.enable = true;
