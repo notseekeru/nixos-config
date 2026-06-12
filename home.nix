@@ -10,14 +10,16 @@
   home.stateVersion = "26.05";
 
   home.packages = with pkgs; [
-    git
     kitty
-    neovim
-    tmux
     nodejs
   ];
 
-  programs.neovim.enable = true;
+  programs.neovim.enable = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  }
+
   programs.tmux.enable = true;
   programs.git.enable = true;
 
