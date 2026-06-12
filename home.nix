@@ -2,7 +2,8 @@
 
 {
   imports = [
-  ./modules/zsh.nix
+    ./modules/zsh.nix
+    ./modules/hyprland-home.nix
   ];
 
   home.username = "seeker";
@@ -11,13 +12,7 @@
 
   home.packages = with pkgs; [
     vim
-    kitty
-    networkmanagerapplet
     pi-coding-agent
-
-    waybar
-    wofi
-    dunst
   ];
 
   programs.neovim = {

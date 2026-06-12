@@ -4,6 +4,8 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./modules/vm.nix
+      ./modules/hyprland.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -40,11 +42,6 @@
     jack.enable = true;
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
   programs.zsh.enable = true;
 
   users.users.seeker = {
@@ -58,29 +55,12 @@
 
   environment.sessionVariables = {
     EDITOR = "nvim";
-    NIXOS_OZONE_WL = "1";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    
-    # Crucial VMware Fixes:
-    WLR_RENDERER = "pixman";
-    WLR_RENDERER_ALLOW_SOFTWARE = "1";
-    AQ_DRIVERS = "pixman"; # Forces Hyprland's new backend engine to use safe graphics
   };
-
-  virtualisation.vmware.guest.enable = true;
   
   environment.systemPackages = with pkgs; [
     wget
     tree
   ];
-
-  programs.hyprland = {
-   enable = true;
-   xwayland.enable;
-  };
-
-  security.polkit.enable = true;
-  services.libinput.enable = true;
 
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
