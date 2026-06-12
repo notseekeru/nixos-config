@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "Asia/Singapore";
 
@@ -64,6 +64,7 @@
     zsh
     vim
     neovim
+    tmux
     wget
     tree
     git
@@ -78,7 +79,6 @@
 
   security.polkit.enable = true;
   services.libinput.enable = true;
-  services.openssh.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
@@ -103,14 +103,8 @@
     };
   };
 
+  services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   system.stateVersion = "26.05";
 
