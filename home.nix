@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./modules/git.nix
     ./modules/zsh.nix
     ./modules/hyprland-home.nix
     ./modules/tmux.nix
@@ -24,8 +25,6 @@
     viAlias = true;
     vimAlias = true;
   };
-
-  programs.git.enable = true;
 
   programs.home-manager.enable = true; # Always leave this enabled
 }
