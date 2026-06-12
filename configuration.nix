@@ -97,9 +97,7 @@
       ll = "ls -l";
       la = "ls -a";
       mountboot = "sudo mount /dev/sda1 /boot";
-      copy = "cp /etc/nixos/configuration.nix ~/nixos-config/configuration.nix";
-      config = "sudo nvim /etc/nixos/configuration.nix";
-      rebuild = "sudo nixos-rebuild switch";
+      rebuild = "sudo nixos-rebuild switch --flake .#nixos;
     };
   };
 
