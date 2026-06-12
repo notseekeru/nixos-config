@@ -23,6 +23,7 @@
       garbage = "nix-collect-garbage -d";
       rebuild = "sudo nixos-rebuild switch --flake .#nixos --show-trace";
       cleanrebuild = "sudo nixos-rebuild switch --flake .#nixos --refresh --show-trace";
+      update = "sudo nix flake update --extra-experimental-features 'nix-command flakes'";
     };
   };
 }
