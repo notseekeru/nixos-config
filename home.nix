@@ -1,6 +1,11 @@
    { config, pkgs, ... }:
 
    {
+
+     imports = [
+       ./modules/zsh.nix
+     ];
+
      home.username = "seeker";
      home.homeDirectory = "/home/seeker";
      home.stateVersion = "26.05";
