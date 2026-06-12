@@ -63,8 +63,6 @@
   environment.systemPackages = with pkgs; [
     zsh
     vim
-    neovim
-    tmux
     wget
     tree
     git
