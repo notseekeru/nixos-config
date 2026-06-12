@@ -45,10 +45,10 @@
     packages = with pkgs; [
       gh
     ];
-    shell = pkgs.zsh;
   };
 
   environment.sessionVariables = {
+    EDITOR = "nvim";
     NIXOS_OZONE_WL = "1";
     WLR_NO_HARDWARE_CURSORS = "1";
     
@@ -61,16 +61,14 @@
   virtualisation.vmware.guest.enable = true;
   
   environment.systemPackages = with pkgs; [
+    zsh
     vim
+    neovim
     wget
     tree
     git
     kitty
-    ghostty
-    waybar
-    wofi
     networkmanagerapplet
-    dunst
   ];
 
   programs.sway = {
@@ -78,20 +76,11 @@
     wrapperFeatures.gtk = true;
   };
 
-  services.displayManager.sddm.enable = false;
-  services.displayManager.sddm.wayland.enable = false;
-
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   security.polkit.enable = true;
   services.libinput.enable = true;
   services.openssh.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -106,6 +95,10 @@
 
     shellAliases = {
       ll = "ls -l";
+      la = "ls -a";
+      mountboot = "sudo mount /dev/sda1 /boot";
+      copy = "cp /etc/nixos/configuration.nix ~/nixos-config/configuration.nix";
+      config = "sudo nvim /etc/nixos/configuration.nix";
       rebuild = "sudo nixos-rebuild switch";
     };
   };
@@ -119,7 +112,7 @@
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
 
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05";
 
 }
 
