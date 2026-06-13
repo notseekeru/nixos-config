@@ -3,7 +3,6 @@
 {	
   imports =
     [
-      ./hardware-configuration.nix
       ./modules/vm.nix
       ./modules/hyprland.nix
     ];
@@ -12,7 +11,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  networking.hostName = "seeker";
+  # Override per-host in hosts/<name>/configuration.nix
+  networking.hostName = lib.mkDefault "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "Asia/Singapore";
 

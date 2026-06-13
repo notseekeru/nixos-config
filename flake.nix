@@ -6,17 +6,30 @@
        home-manager.inputs.nixpkgs.follows = "nixpkgs";
      };
 
-     outputs = { self, nixpkgs, home-manager, ... }: {
-       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-         system = "x86_64-linux";
-         modules = [
-           ./configuration.nix
-           home-manager.nixosModules.home-manager {
-             home-manager.useGlobalPkgs = true;
-             home-manager.useUserPackages = true;
-             home-manager.users.seeker = import ./home.nix;
-           }
-         ];
+     outputs = { self, nixpkgs, home-manager, ... }: let
+       system = "x86_64-linux";
+       sharedModules = [
+         home-manager.nixosModules.home-manager {
+           home-manager.useGlobalPkgs = true;
+           home-manager.useUserPackages = true;
+           home-manager.users.seeker = import ./home.nix;
+         }
+       ];
+     in {
+       nixosConfigurations = {
+         desktop = nixpkgs.lib.nixosSystem {
+           inherit system;
+           modules = [
+             ./hosts/desktop/configuration.nix
+           ] ++ sharedModules;
+         };
+
+         laptop = nixpkgs.lib.nixosSystem {
+           inherit system;
+           modules = [
+             ./hosts/laptop/configuration.nix
+           ] ++ sharedModules;
+         };
        };
      };
    }
