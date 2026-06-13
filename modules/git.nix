@@ -1,12 +1,15 @@
 { config, pkgs, ... }:
 
+{ pkgs, ... }:
+
 {
   programs.git = {
     enable = true;
-    userName = "seeker";
-    userEmail = "seeker@gmail.com";
 
-    extraConfig = {
+    settings = {
+      user.name = "seeker";
+      user.email = "seeker@gmail.com";
+
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
       pull.rebase = true;
