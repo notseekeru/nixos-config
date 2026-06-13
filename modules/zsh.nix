@@ -21,9 +21,9 @@
       mountboot = "sudo mount /dev/sda1 /mnt/boot";
       config = "nvim ~/nixos-config/configuration.nix";
       garbage = "nix-collect-garbage -d";
-      rebuild = "sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
-      cleanrebuild = "sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
-      update = "sudo nix flake update --extra-experimental-features 'nix-command flakes'";
+      rebuild = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
+      cleanrebuild = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
+      update = "cd ~/nixos-config && sudo nix flake update --extra-experimental-features 'nix-command flakes'";
     };
   };
 }
