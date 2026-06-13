@@ -18,7 +18,7 @@
     shellAliases = {
       ll = "ls -l";
       la = "ls -a";
-      mountboot = "sudo mount /dev/sda1 /mnt/boot";
+      mountboot = "sudo mount /dev/sda1 /boot";
       config = "nvim ~/nixos-config/configuration.nix";
       garbage = "nix-collect-garbage -d";
       rebuild = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
