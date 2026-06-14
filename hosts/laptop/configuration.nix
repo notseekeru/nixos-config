@@ -12,7 +12,7 @@
 
   # SDDM display manager
   services.displayManager.sddm = {
-    enable = true;
+    enable = false;
     wayland.enable = false;
     theme = "elarun";
     settings = {
@@ -24,6 +24,22 @@
         Current = "elarun"; # Reflect the theme change here as well
       };
     };
+  };
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        user = "greeter";
+      };
+    };
+  };
+
+  # Required for tuigreet
+  users.users.greeter = {
+    isNormalUser = false;
+    home = "/var/lib/greetd";
+    createHome = true;
   };
   services.displayManager.defaultSession = "hyprland";
 
