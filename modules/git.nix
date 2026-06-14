@@ -5,8 +5,8 @@
     enable = true;
 
     settings = {
-      user.name = "seeker";
-      user.email = "seeker@gmail.com";
+      user.name = "Stephen Macabulos";
+      user.email = "myteseeker18@gmail.com";
 
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
