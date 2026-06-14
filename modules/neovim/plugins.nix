@@ -9,8 +9,6 @@
       blink-cmp                      # Completion engine
       snacks-nvim                    # Utility suite (replaces mini, noice, etc.)
       harpoon2                       # File navigation
-      gitsigns-nvim                  # Git integration
-
       # === Treesitter parsers (pre-compiled) ===
       # Additional parsers beyond the built-in ones are bundled by nvim-treesitter
 

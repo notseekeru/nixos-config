@@ -13,8 +13,6 @@
     vimAlias = true;
 
     extraLuaConfig = ''
-      -- Treesitter (nvim-treesitter v0.10 — parser management only)
-      -- Highlight/indent handled by Neovim built-in vim.treesitter
       require("nvim-treesitter").setup({})
 
       -- Enable tree-sitter highlighting for all supported filetypes
@@ -64,45 +62,6 @@
       vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
       vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
       vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
-
-      -- gitsigns
-      require("gitsigns").setup({
-        signs = {
-          add          = { text = "+" },
-          change       = { text = "~" },
-          delete       = { text = "_" },
-          topdelete    = { text = "‾" },
-          changedelete = { text = "~" },
-        },
-        on_attach = function(bufnr)
-          local gs = package.loaded.gitsigns
-          local function map(mode, lhs, rhs, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, lhs, rhs, opts)
-          end
-          map("n", "<leader>hs", gs.stage_hunk)
-          map("n", "<leader>hr", gs.reset_hunk)
-          map("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end)
-          map("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end)
-          map("n", "<leader>hS", gs.stage_buffer)
-          map("n", "<leader>hu", gs.undo_stage_hunk)
-          map("n", "<leader>hR", gs.reset_buffer)
-          map("n", "<leader>hp", gs.preview_hunk)
-          map("n", "<leader>hb", function() gs.blame_line({ full = true }) end)
-          map("n", "<leader>tb", gs.toggle_current_line_blame)
-          map("n", "]c", function()
-            if vim.wo.diff then return "]c" end
-            vim.schedule(function() gs.next_hunk() end)
-            return "<Ignore>"
-          end, { expr = true })
-          map("n", "[c", function()
-            if vim.wo.diff then return "[c" end
-            vim.schedule(function() gs.prev_hunk() end)
-            return "<Ignore>"
-          end, { expr = true })
-        end,
-      })
 
       -- General settings
       vim.opt.number = true
