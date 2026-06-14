@@ -17,14 +17,6 @@
       vim.g.maplocalleader = " "
       vim.keymap.set('n', 's', '<C-^>', { desc = 'Switch to last buffer' })
 
-      vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function()
-        if vim.fn.argc() == 0 then
-           vim.cmd("silent! b#")
-          end
-        end,
-      })
-
       require("nvim-treesitter").setup({})
 
       -- Enable tree-sitter highlighting for all supported filetypes
@@ -87,8 +79,9 @@
       vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon: File 3" })
       vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon: File 4" })
 
-      -- mini.files (File System Management)
-      require("mini.files").setup({
+      -- mini.files (File System Management) — toggle based
+      local MiniFiles = require("mini.files")
+      MiniFiles.setup({
         windows = {
           preview = true,
           width_preview = 50,
@@ -98,8 +91,13 @@
         },
       })
 
-      vim.keymap.set("n", "<leader>e", function() require("mini.files").open(vim.api.nvim_buf_get_name(0), true) end, { desc = "Mini Files: Open explorer" })
-      vim.keymap.set("n", "<leader>E", function() require("mini.files").open(vim.loop.cwd(), false) end, { desc = "Mini Files: Open cwd" })
+      vim.keymap.set("n", "<leader>e", function()
+        if MiniFiles.close() then
+          -- was open, now closed
+        else
+          MiniFiles.open(vim.api.nvim_buf_get_name(0), true)
+        end
+      end, { desc = "Mini Files: Toggle explorer" })
 
       -- flash.nvim (Intra-file Motion)
       require("flash").setup({
@@ -153,6 +151,16 @@
           timeout_ms = 1000,
         })
       end, { desc = "Format" })
+
+      -- Smart scroll: <C-d>/<C-e> scroll half page then center cursor
+      vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down half page, cursor center" })
+      vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up half page, cursor center" })
+      vim.keymap.set("n", "<C-f>", "<C-f>zz", { desc = "Scroll down full page, cursor center" })
+      vim.keymap.set("n", "<C-b>", "<C-b>zz", { desc = "Scroll up full page, cursor center" })
+
+      -- Also center after search motions
+      vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result, cursor center" })
+      vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev search result, cursor center" })
 
       -- General settings
       vim.opt.number = true
