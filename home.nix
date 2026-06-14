@@ -1,4 +1,4 @@
-   { config, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -6,6 +6,7 @@
     ./modules/zsh.nix
     ./modules/hyprland-home.nix
     ./modules/tmux.nix
+    ./modules/neovim/default.nix
   ];
 
   home.username = "seeker";
@@ -19,12 +20,6 @@
     vim
     pi-coding-agent
   ];
-
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-  };
 
   programs.home-manager.enable = true; # Always leave this enabled
 }
