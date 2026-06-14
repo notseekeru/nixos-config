@@ -5,9 +5,10 @@
     enable = true;
 
     mouse = true;
-    extendedKeys = true;
 
     extraConfig = ''
+      set -g extended-keys on
+
       # Custom key bindings
       unbind-key C-o
       bind-key m select-pane -t :.+
