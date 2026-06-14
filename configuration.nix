@@ -1,9 +1,8 @@
 { config, lib, pkgs, ... }:
 
-{	
+{
   imports =
     [
-      ./modules/vm.nix
       ./modules/hyprland.nix
     ];
 
@@ -17,9 +16,9 @@
   time.timeZone = "Asia/Singapore";
 
   nix.gc = {
-  automatic = true;
-  dates = "daily";
-  options = "--delete-older-than 1d";
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 1d";
   };
 
   security.rtkit.enable = true;
@@ -45,7 +44,7 @@
   environment.sessionVariables = {
     EDITOR = "nvim";
   };
-  
+
   environment.systemPackages = with pkgs; [
     wget
     tree
