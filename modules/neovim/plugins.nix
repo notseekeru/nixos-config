@@ -8,7 +8,9 @@
       nvim-lspconfig                 # LSP client configuration
       blink-cmp                      # Completion engine
       snacks-nvim                    # Utility suite (replaces mini, noice, etc.)
-      harpoon2                       # File navigation
+      harpoon2                       # Active context management
+      mini-files                     # File system management
+      flash-nvim                     # Intra-file motion
       # === Treesitter parsers (pre-compiled) ===
       # Additional parsers beyond the built-in ones are bundled by nvim-treesitter
 
