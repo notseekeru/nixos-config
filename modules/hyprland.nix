@@ -4,10 +4,6 @@
   # NixOS-level Hyprland configuration
   services.xserver.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-  };
-
   # Graphics hardware acceleration
   hardware.graphics = {
     enable = true;
