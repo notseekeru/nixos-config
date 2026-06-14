@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.displayManager.ssdm.enable = true;
+  services.displayManager.sddm.enable = true;
 
   imports = [
     ../../configuration.nix
