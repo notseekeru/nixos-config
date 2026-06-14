@@ -18,6 +18,7 @@
     shellAliases = {
       ll = "ls -l";
       la = "ls -a";
+      lg = "lazygit";
       mountboot = "sudo mount /dev/sda1 /boot";
       config = "nvim ~/nixos-config/configuration.nix";
       garbage = "nix-collect-garbage -d";

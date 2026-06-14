@@ -13,9 +13,17 @@
     vimAlias = true;
 
     extraLuaConfig = ''
-      -- Leader key MUST be set before any <leader> keymaps
       vim.g.mapleader = " "
       vim.g.maplocalleader = " "
+      vim.keymap.set('n', 's', '<C-^>', { desc = 'Switch to last buffer' })
+
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+        if vim.fn.argc() == 0 then
+           vim.cmd("silent! b#")
+          end
+        end,
+      })
 
       require("nvim-treesitter").setup({})
 
@@ -74,10 +82,10 @@
 
       vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Harpoon: Add file" })
       vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: Quick menu" })
-      vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Harpoon: File 1" })
-      vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Harpoon: File 2" })
-      vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Harpoon: File 3" })
-      vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Harpoon: File 4" })
+      vim.keymap.set("n", "<leader>h1", function() harpoon:list():select(1) end, { desc = "Harpoon: File 1" })
+      vim.keymap.set("n", "<leader>h2", function() harpoon:list():select(2) end, { desc = "Harpoon: File 2" })
+      vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon: File 3" })
+      vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon: File 4" })
 
       -- mini.files (File System Management)
       require("mini.files").setup({
