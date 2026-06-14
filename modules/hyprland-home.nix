@@ -1,7 +1,24 @@
 { config, pkgs, ... }:
 
 {
-   home.packages = with pkgs; [
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    systemd.enable = true;
+    settings = {
+      # Basic keybinds
+      bind = [
+        "$mod, Q, exec, kitty"
+        "$mod, C, killactive,"
+        "$mod, M, exit,"
+        "$mod, E, exec, thunar"
+        "$mod, V, togglefloating,"
+      ];
+      "$mod" = "SUPER";
+    };
+  };
+
+  home.packages = with pkgs; [
     waybar
     wofi
     dunst
