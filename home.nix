@@ -19,6 +19,8 @@
     nerd-fonts.geist-mono
     vim
     pi-coding-agent
+    pre-commit
+    gitleaks
   ];
 
   programs.home-manager.enable = true; # Always leave this enabled

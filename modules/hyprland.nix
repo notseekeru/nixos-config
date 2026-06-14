@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
- services.displayManager.sddm.enable = false; # False for now due to issues
-
   # NixOS-level Hyprland configuration
   programs.hyprland = {
     enable = true;
