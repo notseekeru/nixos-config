@@ -5,6 +5,7 @@
     enable = true;
 
     mouse = true;
+    extendedKeys = true;
 
     extraConfig = ''
       # Custom key bindings
