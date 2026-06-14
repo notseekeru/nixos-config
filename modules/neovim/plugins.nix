@@ -11,6 +11,7 @@
       harpoon2                       # Active context management
       mini-files                     # File system management
       flash-nvim                     # Intra-file motion
+      conform-nvim                   # Formatting (uses LSP + standalone formatters)
       # === Treesitter parsers (pre-compiled) ===
       # Additional parsers beyond the built-in ones are bundled by nvim-treesitter
 

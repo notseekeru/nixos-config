@@ -110,6 +110,42 @@
       vim.keymap.set({"n", "x", "o"}, "<leader>j", function() require("flash").jump() end, { desc = "Flash: Jump" })
       vim.keymap.set({"n", "x", "o"}, "<leader>J", function() require("flash").treesitter() end, { desc = "Flash: Treesitter" })
 
+      -- conform.nvim (Formatting)
+      require("conform").setup({
+        formatters_by_ft = {
+          -- LSP-provided formatting (gopls, rust-analyzer, vtsls, etc.)
+          go         = { "lsp" },
+          rust       = { "lsp" },
+          -- Standalone formatters
+          nix        = { "nixpkgs-fmt" },
+          lua        = { "stylua" },
+          python     = { "ruff" },
+          javascript = { "prettierd", "prettier", stop_after_first = true },
+          typescript = { "prettierd", "prettier", stop_after_first = true },
+          javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+          typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+          json       = { "prettierd", "prettier", stop_after_first = true },
+          yaml       = { "yamlfmt" },
+          bash       = { "shfmt" },
+          markdown   = { "prettierd", "prettier", stop_after_first = true },
+          -- Fallback: use any LSP that provides formatting
+          ["_"] = { "lsp" },
+        },
+        format_on_save = {
+          lsp_fallback = true,
+          timeout_ms = 1000,
+        },
+      })
+
+      -- Format keymap
+      vim.keymap.set({"n", "v"}, "<leader>F", function()
+        require("conform").format({
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1000,
+        })
+      end, { desc = "Format" })
+
       -- General settings
       vim.opt.number = true
       vim.opt.relativenumber = true

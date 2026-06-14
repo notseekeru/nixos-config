@@ -22,6 +22,11 @@
 
     # === Formatting ===
     nixpkgs-fmt                           # Nix formatter
+    stylua                                # Lua formatter
+    ruff                                  # Python formatter (also linter)
+    prettierd                             # TS/JS/JSON/YAML/MD formatter (daemon)
+    shfmt                                 # Bash formatter
+    yamlfmt                               # YAML formatter
 
     # === Tree-sitter CLI (optional) ===
     tree-sitter
