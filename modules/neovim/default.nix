@@ -15,9 +15,41 @@
     extraLuaConfig = ''
       vim.g.mapleader = " "
       vim.g.maplocalleader = " "
-      vim.keymap.set('n', 's', '<C-^>', { desc = 'Switch to last buffer' })
 
       require("nvim-treesitter").setup({})
+
+      -- Last buffer Switching
+      vim.keymap.set('n', 's', '<C-^>')
+
+      vim.keymap.set("n", "gg", "gg0")
+
+      -- Upward Select
+      vim.keymap.set("v", "J", "j")
+
+      -- Downward Select
+      vim.keymap.set("v", "K", "k")
+
+      -- Ctrl D and E for upward and downward long navigation
+      vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+      vim.keymap.set("n", "<C-e>", "<C-u>zz", { noremap = true, silent = true })
+
+      -- Move line up and down (Normal Mode)
+      vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move up" })
+      vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move down" })
+
+      -- Move line up and down (Insert Mode)
+      vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move down" })
+      vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move up" })
+
+      -- Select all
+      vim.keymap.set("n", "<C-a>", ":<C-u>normal! ggVG<CR>", { silent = true })
+
+      -- Yanking Remap (No Previous Delete Last Copy)
+      vim.keymap.set("x", "<leader>p", '"_dP')
+
+      -- Clipboard Remap (Copy)
+      vim.keymap.set("v", "<leader>y", '"+y')
+      vim.keymap.set("n", "<leader>y", '"+y')
 
       -- Enable tree-sitter highlighting for all supported filetypes
       vim.api.nvim_create_autocmd("FileType", {
@@ -151,16 +183,6 @@
           timeout_ms = 1000,
         })
       end, { desc = "Format" })
-
-      -- Smart scroll: <C-d>/<C-e> scroll half page then center cursor
-      vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down half page, cursor center" })
-      vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up half page, cursor center" })
-      vim.keymap.set("n", "<C-f>", "<C-f>zz", { desc = "Scroll down full page, cursor center" })
-      vim.keymap.set("n", "<C-b>", "<C-b>zz", { desc = "Scroll up full page, cursor center" })
-
-      -- Also center after search motions
-      vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result, cursor center" })
-      vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev search result, cursor center" })
 
       -- General settings
       vim.opt.number = true
