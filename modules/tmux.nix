@@ -9,6 +9,13 @@
     extraConfig = ''
       set -g extended-keys on
 
+      # Start window numbering at 1 instead of 0
+      set -g base-index 1
+      setw -g pane-base-index 1
+
+      # Only show windows 1-9
+      set -g renumber-windows on
+
       # Custom key bindings
       unbind-key C-o
       bind-key m select-pane -t :.+
