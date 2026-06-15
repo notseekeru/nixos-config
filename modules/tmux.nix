@@ -9,6 +9,10 @@
     extraConfig = ''
       set -g extended-keys on
 
+      set -g mouse on
+      set -s copy-command 'wl-copy'
+      set -s set-clipboard on
+
       # Start window numbering at 1 instead of 0
       set -g base-index 1
       setw -g pane-base-index 1

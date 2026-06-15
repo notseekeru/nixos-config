@@ -9,7 +9,7 @@
       "$mod" = "SUPER";
 
       monitor = [
-        ",preferred,auto,1"
+        ",preferred,auto,1.2"
       ];
 
       bind = [
@@ -53,6 +53,7 @@
   };
 
   home.packages = with pkgs; [
+    wl-clipboard
     waybar
     rofi
     dunst
