@@ -76,9 +76,10 @@
         fuzzy = { implementation = "prefer_rust_with_warning" },
       })
 
-      -- snacks.nvim (utility suite: picker, notifier, scroll, indent, etc.)
+      -- snacks.nvim (utility suite: picker, notifier, explorer, scroll, indent, etc.)
       require("snacks").setup({
         bigfile = { enabled = true },
+        explorer = { enabled = true },
         indent = { enabled = true },
         input = { enabled = true },
         notifier = { enabled = true, style = "compact" },
@@ -111,25 +112,25 @@
       vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon: File 3" })
       vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon: File 4" })
 
-      -- mini.files (File System Management) — toggle based
-      local MiniFiles = require("mini.files")
-      MiniFiles.setup({
-        windows = {
-          preview = true,
-          width_preview = 50,
-        },
-        options = {
-          use_as_default_explorer = false,
-        },
-      })
-
+      -- snacks.nvim explorer (File System Management) — toggle based
       vim.keymap.set("n", "<leader>e", function()
-        if MiniFiles.close() then
-          -- was open, now closed
-        else
-          MiniFiles.open(vim.api.nvim_buf_get_name(0), true)
-        end
-      end, { desc = "Mini Files: Toggle explorer" })
+        require("snacks").explorer()
+      end, { desc = "Snacks: Toggle explorer" })
+
+      -- snacks explorer keymaps (inside explorer window)
+      vim.keymap.set("n", "<leader>E", function()
+        require("snacks").explorer({
+          layout = {
+            position = "right",
+            width = 40,
+          },
+        })
+      end, { desc = "Snacks: Explorer right panel" })
+
+      -- lazygit (Git TUI) in a Snacks floating terminal
+      vim.keymap.set("n", "<leader>gg", function()
+        require("snacks").terminal("lazygit", { cwd = vim.fn.getcwd() })
+      end, { desc = "Lazygit" })
 
       -- flash.nvim (Intra-file Motion)
       require("flash").setup({
