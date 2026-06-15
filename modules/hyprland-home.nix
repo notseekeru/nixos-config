@@ -6,8 +6,12 @@
     enable = true;
     configType = "hyprlang";
     settings = {
-      # Basic keybinds
       "$mod" = "SUPER";
+
+      monitor = [
+        ",preferred,auto,1"
+      ];
+
       bind = [
         "$mod, Q, exec, kitty"
         "$mod, C, killactive,"
@@ -35,10 +39,8 @@
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod, TAB, workspace, previous "
 
-        # Launcher
         "$mod, SPACE, exec, rofi -show drun"
 
-        # Audio controls with wpctl
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
