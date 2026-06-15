@@ -13,10 +13,11 @@
   home.homeDirectory = "/home/seeker";
   home.stateVersion = "26.05";
 
-  fonts.fontconfig.enable=true;
+  fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
     nerd-fonts.geist-mono
+    brave
     vim
     pi-coding-agent
     pre-commit
