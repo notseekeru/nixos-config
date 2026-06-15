@@ -16,7 +16,6 @@
   # Input handling via libinput
   services.libinput.enable = true;
 
-  # Ozone/Wayland session variables
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     XDG_CURRENT_DESKTOP = "Hyprland";

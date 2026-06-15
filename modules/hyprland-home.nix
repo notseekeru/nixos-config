@@ -35,6 +35,9 @@
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod, TAB, workspace, previous "
 
+        # Launcher
+        "$mod, SPACE, exec, rofi -show drun"
+
         # Audio controls with wpctl
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
@@ -49,7 +52,7 @@
 
   home.packages = with pkgs; [
     waybar
-    wofi
+    rofi
     dunst
     kitty
     networkmanagerapplet
