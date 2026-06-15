@@ -9,7 +9,6 @@
       blink-cmp                      # Completion engine
       snacks-nvim                    # Utility suite (replaces mini, noice, etc.)
       harpoon2                       # Active context management
-      mini-files                     # File system management
       flash-nvim                     # Intra-file motion
       conform-nvim                   # Formatting (uses LSP + standalone formatters)
       # === Treesitter parsers (pre-compiled) ===
