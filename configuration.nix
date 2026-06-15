@@ -36,9 +36,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      gh
-    ];
   };
 
   environment.sessionVariables = {

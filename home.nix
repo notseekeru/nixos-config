@@ -17,8 +17,9 @@
 
   home.packages = with pkgs; [
     nerd-fonts.geist-mono
-    brave
     vim
+    gh
+    brave
     pi-coding-agent
     pre-commit
     gitleaks
