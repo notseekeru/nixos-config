@@ -21,6 +21,7 @@
     vim
     gh
     brave
+    obsidian
     pi-coding-agent
     pre-commit
     gitleaks
