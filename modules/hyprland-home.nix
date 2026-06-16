@@ -17,6 +17,13 @@
         "[workspace 1] brave"
         "[workspace 2] kitty"
         "[workspace 3] obsidian"
+        "awww-daemon"
+        "awww img ~/wallpaper/default3.png"
+      ];
+
+      env = [
+        "XCURSOR_THEME,Bibata-Modern-Classic"
+        "XCURSOR_SIZE,24"
       ];
 
       bind = [
@@ -69,5 +76,7 @@
     dunst
     kitty
     networkmanagerapplet
+    awww # renamed from swww to awww in nixpkgs (June 2026)
+    bibata-cursors
   ];
 }
