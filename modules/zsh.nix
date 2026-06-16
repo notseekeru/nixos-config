@@ -19,6 +19,10 @@
       if type direnv &>/dev/null; then
         eval "$(direnv hook zsh)"
       fi
+
+      if [ -f ~/gh-token ]; then
+        export GH_TOKEN=$(cat ~/gh-token)
+      fi 
     '';
 
     shellAliases = {
