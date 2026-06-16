@@ -18,40 +18,30 @@
 
       require("nvim-treesitter").setup({})
 
-      -- Last buffer Switching
       vim.keymap.set('n', 's', '<C-^>')
 
       vim.keymap.set("n", "gg", "gg0")
 
-      -- Upward Select
       vim.keymap.set("v", "J", "j")
 
-      -- Downward Select
       vim.keymap.set("v", "K", "k")
 
-      -- Ctrl D and E for upward and downward long navigation
       vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
       vim.keymap.set("n", "<C-e>", "<C-u>zz", { noremap = true, silent = true })
 
-      -- Move line up and down (Normal Mode)
       vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move up" })
       vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move down" })
 
-      -- Move line up and down (Insert Mode)
       vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move down" })
       vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move up" })
 
-      -- Select all
       vim.keymap.set("n", "<C-a>", ":<C-u>normal! ggVG<CR>", { silent = true })
 
-      -- Yanking Remap (No Previous Delete Last Copy)
       vim.keymap.set("x", "<leader>p", '"_dP')
 
-      -- Clipboard Remap (Copy)
       vim.keymap.set("v", "<leader>y", '"+y')
       vim.keymap.set("n", "<leader>y", '"+y')
 
-      -- Enable tree-sitter highlighting for all supported filetypes
       vim.api.nvim_create_autocmd("FileType", {
         pattern = {"*"},
         callback = function()
@@ -59,10 +49,8 @@
         end,
       })
 
-      -- LSP setup
       dofile(vim.fn.stdpath("config") .. "/lsp.lua")
 
-      -- blink-cmp
       require("blink-cmp").setup({
         keymap = {
           preset = "default",
@@ -76,7 +64,6 @@
         fuzzy = { implementation = "prefer_rust_with_warning" },
       })
 
-      -- snacks.nvim (utility suite: picker, notifier, explorer, scroll, indent, etc.)
       require("snacks").setup({
         bigfile = { enabled = true },
         explorer = { enabled = true },
@@ -90,7 +77,6 @@
         words = { enabled = true },
       })
 
-      -- snacks picker keymaps (Search/Find)
       vim.keymap.set("n", "<leader>ff", function() require("snacks").picker.files() end, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>fg", function() require("snacks").picker.grep() end, { desc = "Grep" })
       vim.keymap.set("n", "<leader>fb", function() require("snacks").picker.buffers() end, { desc = "Buffers" })
@@ -101,7 +87,6 @@
       vim.keymap.set("n", "<leader>fS", function() require("snacks").picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
       vim.keymap.set("n", "<leader>fw", function() require("snacks").picker.grep_word() end, { desc = "Grep Word" })
 
-      -- harpoon2 (Active Context Management)
       local harpoon = require("harpoon")
       harpoon:setup({})
 
@@ -112,12 +97,10 @@
       vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon: File 3" })
       vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon: File 4" })
 
-      -- snacks.nvim explorer (File System Management) — toggle based
       vim.keymap.set("n", "<leader>e", function()
         require("snacks").explorer()
       end, { desc = "Snacks: Toggle explorer" })
 
-      -- snacks explorer keymaps (inside explorer window)
       vim.keymap.set("n", "<leader>E", function()
         require("snacks").explorer({
           layout = {
@@ -127,12 +110,10 @@
         })
       end, { desc = "Snacks: Explorer right panel" })
 
-      -- lazygit (Git TUI) in a Snacks floating terminal
       vim.keymap.set("n", "<leader>gg", function()
         require("snacks").terminal("lazygit", { cwd = vim.fn.getcwd() })
       end, { desc = "Lazygit" })
 
-      -- flash.nvim (Intra-file Motion)
       require("flash").setup({
         modes = {
           search = { enabled = false },
@@ -149,13 +130,10 @@
       vim.keymap.set({"n", "x", "o"}, "<leader>j", function() require("flash").jump() end, { desc = "Flash: Jump" })
       vim.keymap.set({"n", "x", "o"}, "<leader>J", function() require("flash").treesitter() end, { desc = "Flash: Treesitter" })
 
-      -- conform.nvim (Formatting)
       require("conform").setup({
         formatters_by_ft = {
-          -- LSP-provided formatting (gopls, rust-analyzer, vtsls, etc.)
           go         = { "lsp" },
           rust       = { "lsp" },
-          -- Standalone formatters
           nix        = { "nixpkgs-fmt" },
           lua        = { "stylua" },
           python     = { "ruff" },
@@ -167,7 +145,6 @@
           yaml       = { "yamlfmt" },
           bash       = { "shfmt" },
           markdown   = { "prettierd", "prettier", stop_after_first = true },
-          -- Fallback: use any LSP that provides formatting
           ["_"] = { "lsp" },
         },
         format_on_save = {
@@ -176,7 +153,6 @@
         },
       })
 
-      -- Format keymap
       vim.keymap.set({"n", "v"}, "<leader>F", function()
         require("conform").format({
           lsp_fallback = true,
@@ -185,7 +161,6 @@
         })
       end, { desc = "Format" })
 
-      -- General settings
       vim.opt.number = true
       vim.opt.relativenumber = true
       vim.opt.termguicolors = true
