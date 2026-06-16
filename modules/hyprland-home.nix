@@ -12,6 +12,10 @@
         ",preferred,auto,1.2"
       ];
 
+      exec-once = [
+        "waybar"
+      ];
+
       bind = [
         "$mod, Q, exec, kitty"
         "$mod, C, killactive,"
