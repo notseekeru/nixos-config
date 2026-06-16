@@ -14,6 +14,9 @@
 
       exec-once = [
         "waybar"
+        "[workspace 1] brave"
+        "[workspace 2] kitty"
+        "[workspace 3] obsidian"
       ];
 
       bind = [
@@ -56,9 +59,12 @@
     };
   };
 
+  imports = [
+    ./waybar
+  ];
+
   home.packages = with pkgs; [
     wl-clipboard
-    waybar
     rofi
     dunst
     kitty
