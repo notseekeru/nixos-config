@@ -20,8 +20,8 @@
     nerd-fonts.geist-mono
     vim
     gh
-    brave
     obsidian
+    brave
     pi-coding-agent
     pre-commit
     gitleaks
@@ -29,3 +29,4 @@
 
   programs.home-manager.enable = true; # Always leave this enabled
 }
+
