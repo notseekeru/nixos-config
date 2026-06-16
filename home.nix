@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./modules/direnv.nix
     ./modules/git.nix
     ./modules/zsh.nix
     ./modules/hyprland-home.nix
