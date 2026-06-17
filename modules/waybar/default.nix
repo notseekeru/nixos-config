@@ -73,29 +73,8 @@
             active = "";
           };
           "persistent-workspaces" = {
-            "*" = 8;
+            "*" = 3;
           };
-        };
-
-        "custom/separator" = {
-          format = "|";
-          tooltip = false;
-        };
-
-        "custom/omarchy" = {
-          format = "󱡓";
-          "on-click" = "omarchy-menu";
-          "on-click-right" = "xdg-terminal-exec";
-          "tooltip-format" = "Omarchy Menu\n\nSuper + Alt + Space";
-        };
-
-        "custom/update" = {
-          format = "";
-          exec = "omarchy-update-available";
-          "on-click" = "omarchy-launch-floating-terminal-with-presentation omarchy-update";
-          "tooltip-format" = "Omarchy update available";
-          signal = 7;
-          interval = 21600;
         };
 
         "custom/voxtype" = {
@@ -110,20 +89,6 @@
           tooltip = true;
           "on-click-right" = "omarchy-voxtype-config";
           "on-click" = "omarchy-voxtype-model";
-        };
-
-        "custom/idle-indicator" = {
-          "on-click" = "omarchy-toggle-idle";
-          exec = "$OMARCHY_PATH/default/waybar/indicators/idle.sh";
-          signal = 9;
-          "return-type" = "json";
-        };
-
-        "custom/notification-silencing-indicator" = {
-          "on-click" = "omarchy-toggle-notification-silencing";
-          exec = "$OMARCHY_PATH/default/waybar/indicators/notification-silencing.sh";
-          signal = 10;
-          "return-type" = "json";
         };
 
         "power-profiles-daemon" = {
