@@ -10,6 +10,7 @@
       harpoon2
       flash-nvim
       conform-nvim
+      codediff-nvim
     ];
   };
 }

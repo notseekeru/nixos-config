@@ -51,6 +51,8 @@
 
       dofile(vim.fn.stdpath("config") .. "/lsp.lua")
 
+      require("codediff").setup({})
+
       require("blink-cmp").setup({
         keymap = {
           preset = "default",
