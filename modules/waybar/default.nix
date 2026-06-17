@@ -14,53 +14,20 @@
         "margin-left" = 5;
         "margin-right" = 5;
         "margin-bottom" = 0;
-        "modules-left" = [ "group/left1" "group/left2" ];
+
+        "modules-left" = [ "group/left" ];
         "modules-center" = [ "hyprland/workspaces" ];
-        "modules-right" = [ "group/right2" "group/right1" ];
+        "modules-right" = [ "group/right" ];
 
-        "group/right1" = {
+        # ─── LEFT: Just the clock ───
+        "group/left" = {
           orientation = "inherit";
           modules = [
-            "backlight"
-            "bluetooth"
-            "network"
-            "power-profiles-daemon"
-            "pulseaudio#output"
-            "pulseaudio#input"
-            "memory"
-            "cpu"
-            "battery"
-          ];
-        };
-
-        "group/right2" = {
-          orientation = "inherit";
-          modules = [ "group/tray-expander" ];
-        };
-
-        "group/left2" = {
-          orientation = "inherit";
-          modules = [
-            "idle_inhibitor"
-            "custom/updatespacman"
-            "mpris"
-          ];
-        };
-
-        "group/left1" = {
-          orientation = "inherit";
-          modules = [
-            "custom/omarchy"
-            "custom/separator"
             "clock"
-            "custom/idle-indicator"
-            "custom/notification-silencing-indicator"
-            "custom/voxtype"
-            "custom/update"
-            "custom/screenrecording-indicator"
           ];
         };
 
+        # ─── CENTER: Workspaces ───
         "hyprland/workspaces" = {
           "disable-scroll" = true;
           "all-outputs" = true;
@@ -73,60 +40,28 @@
             active = "";
           };
           "persistent-workspaces" = {
-            "*" = 3;
+            "*" = 4;
           };
         };
 
-        "custom/voxtype" = {
-          exec = "omarchy-voxtype-status";
-          "return-type" = "json";
-          format = "{icon}";
-          "format-icons" = {
-            idle = "";
-            recording = "󰍬";
-            transcribing = "󰔟";
-          };
-          tooltip = true;
-          "on-click-right" = "omarchy-voxtype-config";
-          "on-click" = "omarchy-voxtype-model";
+        # ─── RIGHT: System essentials + tray ───
+        "group/right" = {
+          orientation = "inherit";
+          modules = [
+            "network"
+            "pulseaudio"
+            "memory"
+            "cpu"
+            "battery"
+            "tray"
+          ];
         };
 
-        "power-profiles-daemon" = {
-          format = "{icon}";
-          "tooltip-format" = "Power profile: {profile}\nDriver: {driver}";
-          tooltip = true;
-          "format-icons" = {
-            performance = "";
-            balanced = "";
-            "power-saver" = "";
-          };
-        };
-
-        cpu = {
-          interval = 10;
-          format = " {usage}%";
-          "on-click" = "omarchy-launch-or-focus-tui btop";
-        };
-
-        backlight = {
-          device = "intel_backlight";
-          rotate = 0;
-          format = "{icon}";
-          "tooltip-format" = "{percent}%";
-          "format-icons" = [ "󰃞" "󰃝" "󰃟" "󰃠" ];
-          "scroll-step" = 1;
-          "min-length" = 2;
-        };
-
-        memory = {
-          interval = 2;
-          format = " {used:0.1f}G";
-          "on-click" = "omarchy-launch-or-focus-tui btop";
-        };
+        # ─── MODULE CONFIGS ───
 
         clock = {
-          format = "{:%d/%m %H:%M}";
-          "format-alt" = "{:L%d %B W%V %Y}";
+          format = "{:%H:%M}";
+          "format-alt" = "{:%d/%m/%Y}";
           "tooltip-format" = "<span>{calendar}</span>";
           calendar = {
             mode = "month";
@@ -138,7 +73,7 @@
               today = "<span color='#ff6699'><b>{}</b></span>";
             };
           };
-          "on-click-right" = "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select";
+
         };
 
         network = {
@@ -152,126 +87,60 @@
           "tooltip-format-disconnected" = "Disconnected";
           interval = 3;
           spacing = 1;
-          "on-click" = "omarchy-launch-wifi";
+          "on-click" = "rofi -show drun";
         };
 
-        battery = {
-          format = "{capacity}% {icon}";
-          "format-discharging" = "{capacity}% {icon}";
-          "format-charging" = "{capacity}% {icon}";
-          "format-plugged" = " {capacity}%";
-          "format-icons" = {
-            charging = [ "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
-            default = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-          };
-          "format-full" = "󰂅 {capacity}%";
-          "tooltip-format-discharging" = "{timeTo}";
-          "tooltip-format-charging" = "{timeTo}";
-          interval = 5;
-          "on-click" = "omarchy-menu power";
-          "on-click-right" = ''notify-send -u low "$(omarchy-battery-status)"'';
-          states = {
-            warning = 20;
-            critical = 10;
-          };
-        };
-
-        bluetooth = {
-          format = "";
-          "format-disabled" = "󰂲";
-          "format-connected" = "󰂱";
-          "tooltip-format" = "Devices connected: {num_connections}";
-          "on-click" = "omarchy-launch-bluetooth";
-        };
-
-        "pulseaudio#input" = {
-          "format-source" = "";
-          "format-source-muted" = "";
-          format = "{format_source}";
-          "tooltip-format" = "{format_source} {source_volume}%";
-          "scroll-step" = 1;
-          "smooth-scrolling-threshold" = 1;
-          "max-volume" = 100;
-          "on-click" = "omarchy-launch-audio";
-          "on-click-right" = "pamixer -t";
-          "on-scroll-up" = "pactl set-source-volume @DEFAULT_SOURCE@ +1%";
-          "on-scroll-down" = "pactl set-source-volume @DEFAULT_SOURCE@ -1%";
-        };
-
-        "pulseaudio#output" = {
-          format = "{icon}";
+        pulseaudio = {
+          format = "{icon} {volume}%";
           "tooltip-format" = "{icon}   {volume}%";
-          "format-muted" = "";
+          "format-muted" = "  Muted";
           "format-icons" = {
             default = [ "" "" "" ];
           };
           "max-volume" = 100;
           "scroll-step" = 2;
           "smooth-scrolling-threshold" = 1;
-          "on-click" = "omarchy-launch-audio";
+          "on-click" = "pavucontrol";
           "on-click-right" = "pamixer -t";
         };
 
-        mpris = {
-          format = " {artist}-{title}";
-          "format-paused" = "<span color='grey'>{status_icon}</span>";
-          "max-length" = 25;
-          "player-icons" = {
-            default = "⏸";
-            mpv = "🎵";
-          };
-          "status-icons" = {
-            paused = "";
-          };
-          "ignored-players" = [ "firefox" "chromium" "brave" ];
+        cpu = {
+          interval = 10;
+          format = " {usage}%";
+          "on-click" = "kitty btop";
         };
 
-        idle_inhibitor = {
+        memory = {
+          interval = 2;
+          format = " {used:0.1f}G";
+          "on-click" = "kitty btop";
+        };
+
+        battery = {
           format = "{icon}";
+          "format-discharging" = "{icon}";
+          "format-charging" = "{icon}";
+          "format-plugged" = "";
           "format-icons" = {
-            activated = "";
-            deactivated = "󰾫";
+            charging = [ "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
+            default = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          };
+          "format-full" = "󰂅";
+          "tooltip-format" = "{capacity}% {timeTo}";
+          interval = 5;
+          "on-click" = "rofi -show drun";
+          "on-click-right" = ''notify-send -u low "$(upower -i $(upower -e | grep BAT) | grep -E 'percentage|time to empty' | tr -s ' ')"'';
+          states = {
+            warning = 20;
+            critical = 10;
           };
         };
 
-        "custom/updatespacman" = {
-          format = "{}{icon}";
-          "return-type" = "json";
-          "format-icons" = {
-            "has-updates" = " 󰏖";
-            updated = "";
-          };
-          "exec-if" = "which waybar-module-pacman-updates";
-          exec = "waybar-module-pacman-updates --no-zero-output";
-        };
 
-        "group/tray-expander" = {
-          orientation = "inherit";
-          drawer = {
-            "transition-duration" = 600;
-            "children-class" = "tray-group-item";
-          };
-          modules = [
-            "custom/expand-icon"
-            "tray"
-          ];
-        };
-
-        "custom/expand-icon" = {
-          format = " ";
-          tooltip = false;
-        };
 
         tray = {
-          "icon-size" = 12;
-          spacing = 12;
-        };
-
-        "custom/screenrecording-indicator" = {
-          "on-click" = "omarchy-capture-screenrecording";
-          exec = "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh";
-          signal = 8;
-          "return-type" = "json";
+          "icon-size" = 14;
+          spacing = 10;
         };
       };
     };

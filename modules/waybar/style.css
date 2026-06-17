@@ -1,274 +1,139 @@
 * {
   border: none;
-  padding: 0px;
+  padding: 0;
+  margin: 0;
   min-height: 0;
-  font-family: "JetBrains Mono Nerd Font";
-  transition: background-color .3s ease-out;
-  font-weight: bold;
+  font-family: "JetBrains Mono Nerd Font", "Symbols Nerd Font", sans-serif;
   font-size: 12px;
+  font-weight: bold;
 }
 
-window#waybar  {
-  background-color: transparent;
-  transition-property: background-color;
-  transition-duration: .5s;
+window#waybar {
+  background: transparent;
 }
 
-#left1 {
-  border-radius: 16px 0px 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0px 0px 3px 0px;
-  background-color: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 2px #101010;
-  transition-property: background-color;
-  transition-duration: .5s;
-  padding-left: 4px;
-}
-
-#left2 {
-  border-radius: 0px 16px 16px 0px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0px 0px 3px 0px;
-  background-color: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 2px #101010;
-  transition-property: background-color;
-  transition-duration: .5s;
-  margin-left: 4px;
-  padding-right: 8px;
+/* ─── Bar segment pills ─── */
+#left,
+#right {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0 0 3px 0;
+  padding: 0 8px;
+  background: rgba(22, 22, 28, 0.92);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .modules-center {
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0px 0px 3px 0px;
-  background-color: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 2px #101010;
-  transition-property: background-color;
-  transition-duration: .5s;
-  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0 0 3px 0;
+  padding: 0 4px;
+  background: rgba(22, 22, 28, 0.92);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-#right2 {
-  border-radius: 16px 0px 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0px 0px 3px 0px;
-  background-color: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 2px #101010;
-  transition-property: background-color;
-  transition-duration: .5s;
-  padding-left: 8px;
-  margin-right: 4px;
-}
-
-#right1 {
-  border-radius: 0px 16px 16px 0px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0px 0px 3px 0px;
-  background-color: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 2px #101010;
-  transition-property: background-color;
-  transition-duration: .5s;
-  padding-right: 4px;
-  color: #ffffff;
-}
-
-button {
-  box-shadow: inset 0 -3px transparent;
-  border: none;
-  border-radius: 0;
-  transition: 0.3s ease-in-out;
-}
-
-button:hover {
-  background: inherit;
-}
-
+/* ─── Workspaces ─── */
 #workspaces {
-  margin: 0px;
-  transition: 0.2s ease;
-  margin: 0px 0px;
-  padding: 0px 4px;
-  padding-left: 0px;
-}
-
-#workspaces button label {
-  font-size: 16px;
+  padding: 0 2px;
 }
 
 #workspaces button {
-  padding: 0px 4px;
-  margin: 0px;
+  padding: 0 6px;
+  margin: 0;
   color: #ffffff;
-  opacity: 0.45;
-  font-weight: bold;
+  opacity: 0.35;
+  transition: all 0.2s ease;
+}
+
+#workspaces button label {
+  font-size: 14px;
 }
 
 #workspaces button.active {
-  color: #ffffff;
-  transition: all 0.3s ease;
-  padding: 0px 4px;
   opacity: 1.0;
+}
+
+#workspaces button.empty {
+  opacity: 0.12;
 }
 
 #workspaces button:hover {
   background: transparent;
-  color: rgba(255, 255, 255, 0.4);
-  animation: ws_hover 20s ease-in-out 1;
-  transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
+  opacity: 0.7;
 }
 
-#workspaces button.empty {
-  opacity: 0.1;
-  color: #ffffff;
-  transition: all 0.3s ease;
-  padding: 0px 4px;
-}
-
-#workspaces button.empty.active {
-  opacity: 1;
-  color: #ffffff;
-  transition: all 0.3s ease;
-  padding: 0px 4px;
-}
-
-#memory,
-#mpris,
-#custom-expand-icon,
-#tray,
-#cpu,
+/* ─── Generic module styling ─── */
 #clock,
-#battery,
-#backlight,
 #network,
-#bluetooth,
 #pulseaudio,
-#power-profiles-daemon,
-#idle_inhibitor,
-#custom-idle-indicator,
-#custom-notification-silencing-indicator,
-#custom-updatespacman,
-#custom-screenrecording-indicator,
-#custom-update {
-  min-width: 12px;
-  padding: 0 4px;
-  margin: 1px 3px 1px 3px;
-  color: #ffffff;
+#cpu,
+#memory,
+#battery,
+#tray {
+  padding: 0 6px;
+  margin: 1px 2px;
+  color: #cdd6f4;
 }
 
-#custom-expand-icon {
-  margin-right: 0px;
-  opacity: 0.5;
+/* ─── Individual overrides ─── */
+#clock {
+  color: #ffffff;
+  font-size: 12px;
+  padding-right: 8px;
 }
 
 #network {
-  margin-left: 0;
+  padding-left: 4px;
 }
 
-tooltip {
-  padding: 2px;
+#pulseaudio {
+  padding-right: 4px;
 }
 
-#power-profiles-daemon,
-#power-profiles-daemon.performance,
-#power-profiles-daemon.balanced,
-#power-profiles-daemon.power-saver {
-  margin: 0 4px;
-}
-
-.hidden {
-  opacity: 0;
-}
-
-tooltip {
-  padding: 4px;
-  background: rgba(30, 30, 30, 0.95);
-  font-size: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-}
-tooltip label {
-  color: #ffffff;
-  font-weight: normal;
-}
-
-#custom-voxtype {
-  min-width: 12px;
-  margin: 0 0 0 2.5px;
-  color: #ffffff;
-}
-
-#custom-voxtype.recording {
-  color: #a55555;
-}
-
-#custom-idle-indicator,
-#custom-notification-silencing-indicator {
-  min-width: 12px;
-  margin-left: 0;
-  margin-right: 0;
-  font-size: 10px;
-  padding-bottom: 1px;
-  color: #ffffff;
-}
-
-#custom-idle-indicator.active,
-#custom-notification-silencing-indicator.active {
-  color: #a55555;
-}
-
-#custom-screenrecording-indicator {
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  color: transparent;
-}
-
-#custom-screenrecording-indicator.active {
-  color: #eb7087;
-  animation-name: blink-recording;
-  animation-duration: 0.5s;
-}
-
-@keyframes blink-recording {
-  to {
-    color: rgba(30, 30, 30, 0.95);
-  }
-}
-
-#mpris {
-  color: #ffffff;
-  animation: repeat;
-  animation-name: blink;
-  animation-duration: 3s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes blink {
-  to {
-    color: #4a4a4a;
-  }
+#battery {
+  padding-right: 8px;
 }
 
 #cpu.warning,
 #battery.warning {
-  color: #c95d0f;
-}
-
-@keyframes blink2 {
-  to {
-    background-color: transparent;
-    color: #f53c3c;
-  }
+  color: #f9e2af;
 }
 
 #battery.critical:not(.charging) {
-  background-color: transparent;
-  color: #e6d8ba;
-  animation-name: blink2;
-  animation-duration: 0.5s;
-  animation-timing-function: steps(12);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+  color: #f38ba8;
+  animation: blink-critical 0.5s steps(2) infinite;
+}
+
+@keyframes blink-critical {
+  to {
+    color: transparent;
+  }
+}
+
+#tray {
+  padding-left: 4px;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* ─── Tooltips ─── */
+tooltip {
+  padding: 6px 10px;
+  background: rgba(22, 22, 28, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+tooltip label {
+  color: #cdd6f4;
+  font-weight: normal;
 }
