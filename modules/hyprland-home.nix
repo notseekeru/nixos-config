@@ -37,6 +37,7 @@
         "$mod, C, killactive"
         "$mod, M, exit"
         "$mod, V, togglefloating,"
+        "$mod, F, fullscreen,"
 
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
