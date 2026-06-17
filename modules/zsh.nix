@@ -15,7 +15,7 @@
       plugins = [ "git" "sudo" "history" "npm" ];
     };
 
-    initExtra = ''
+    initContent = ''
       if type direnv &>/dev/null; then
         eval "$(direnv hook zsh)"
       fi
