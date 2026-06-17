@@ -8,7 +8,7 @@
     ./modules/hyprland-home.nix
     ./modules/tmux.nix
     ./modules/kitty
-    ./modules/neovim/default.nix
+    ./modules/neovim/init.nix
   ];
 
   home.username = "seeker";

@@ -22,6 +22,9 @@
 
       vim.keymap.set("n", "gg", "gg0")
 
+      vim.keymap.set("n", "j", "jzz")
+      vim.keymap.set("n", "k", "kzz")
+
       vim.keymap.set("v", "J", "j")
 
       vim.keymap.set("v", "K", "k")
