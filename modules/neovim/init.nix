@@ -56,6 +56,8 @@
 
       require("codediff").setup({})
 
+      vim.keymap.set("n", "<leader>gf", ":CodeDiff HEAD<CR>", { desc = "CodeDiff: Toggle diff against HEAD" })
+
       require("blink-cmp").setup({
         keymap = {
           preset = "default",
