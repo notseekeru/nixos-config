@@ -5,10 +5,10 @@
     enable = true;
 
     # Use Home Manager's official options for user info
-    userName = "Stephen Macabulos";
-    userEmail = "myteseeker18@gmail.com";
+    settings.user.name = "Stephen Macabulos";
+    settings.user.email = "myteseeker18@gmail.com";
 
-    extraConfig = {
+    settings = {
       # 1. Use the gh CLI as your password manager for GitHub
       credential."https://github.com".helper = "!" + "${pkgs.gh}/bin/gh auth git-credential";
 

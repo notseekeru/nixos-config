@@ -22,19 +22,15 @@
     createHome = true;
   };
 
-  # Greetd setup
   services.greetd = {
     enable = true;
     settings = {
-      # The greeter session that runs on boot
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'uwsm start hyprland.desktop'";
         user = "greeter";
       };
     };
   };
-
-
 
   hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver # VAAPI hardware acceleration
