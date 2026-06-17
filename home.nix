@@ -27,6 +27,6 @@
     gitleaks
   ];
 
-  programs.home-manager.enable = true; # Always leave this enabled
+  programs.home-manager.enable = true;
 }
 

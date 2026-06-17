@@ -33,10 +33,9 @@
       ];
 
       bind = [
-        "$mod, Q, exec, kitty"
+        "$mod, Q, exec, kitty,"
         "$mod, C, killactive,"
         "$mod, M, exit,"
-        "$mod, E, exec, thunar"
         "$mod, V, togglefloating,"
 
         "$mod, 1, workspace, 1"
