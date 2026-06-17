@@ -47,7 +47,7 @@
     tree
   ];
 
-  services.openssh.enable = true;
+  services.openssh.enable = false;
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   system.stateVersion = "26.05";
