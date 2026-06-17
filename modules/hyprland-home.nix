@@ -33,9 +33,9 @@
       ];
 
       bind = [
-        "$mod, Q, exec, kitty,"
-        "$mod, C, killactive,"
-        "$mod, M, exit,"
+        "$mod, Q, exec, kitty"
+        "$mod, C, killactive"
+        "$mod, M, exit"
         "$mod, V, togglefloating,"
 
         "$mod, 1, workspace, 1"
@@ -69,7 +69,6 @@
     wl-clipboard
     rofi
     dunst
-    kitty
     pavucontrol
     btop
     networkmanagerapplet
