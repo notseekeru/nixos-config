@@ -56,7 +56,8 @@
           preset = "default",
           ["<C-Space>"] = { "show", "show_documentation" },
           ["<C-e>"] = { "hide" },
-          ["<CR>"] = { "accept", "fallback" },
+          ["<Tab>"] = { "accept", "fallback" },
+          ["<CR>"] = { "fallback" },
         },
         sources = {
           default = { "lsp", "path", "snippets", "buffer" },
