@@ -12,13 +12,19 @@
         ",preferred,auto,1.2"
       ];
 
-      exec-once = [
+      "exec-once" = [
         "waybar"
-        "[workspace 1] brave"
-        "[workspace 2] kitty"
-        "[workspace 3] obsidian"
+        "brave"
+        "kitty"
+        "obsidian"
         "awww-daemon"
-        "awww img ~/wallpaper/default3.png"
+        "awww img ~/wallpaper/default2.png"
+      ];
+
+      workspace = [
+        "1, class:^(brave-browser)$, silent"
+        "2, class:^(kitty)$, silent"
+        "3, class:^(obsidian)$, silent"
       ];
 
       env = [
