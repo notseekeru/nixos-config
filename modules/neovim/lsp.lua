@@ -117,6 +117,24 @@ vim.lsp.config.yamlls = vim.tbl_deep_extend("force", vim.lsp.config.yamlls or {}
   on_attach = on_attach,
 })
 
+--- Dockerfile
+vim.lsp.config.dockerls = vim.tbl_deep_extend("force", vim.lsp.config.dockerls or {}, {
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+--- Terraform
+vim.lsp.config.terraformls = vim.tbl_deep_extend("force", vim.lsp.config.terraformls or {}, {
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+--- C/C++
+vim.lsp.config.clangd = vim.tbl_deep_extend("force", vim.lsp.config.clangd or {}, {
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
 --- Markdown
 vim.lsp.config.marksman = vim.tbl_deep_extend("force", vim.lsp.config.marksman or {}, {
   capabilities = capabilities,
@@ -127,6 +145,9 @@ vim.lsp.config.marksman = vim.tbl_deep_extend("force", vim.lsp.config.marksman o
 vim.lsp.enable({
   "nil_ls",
   "lua_ls",
+  "dockerls",
+  "terraformls",
+  "clangd",
   "pyright",
   "vtsls",
   "gopls",

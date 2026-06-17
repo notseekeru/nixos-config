@@ -152,6 +152,7 @@
           json       = { "prettierd", "prettier", stop_after_first = true },
           yaml       = { "yamlfmt" },
           bash       = { "shfmt" },
+          dockerfile = { "hadolint" },
           markdown   = { "prettierd", "prettier", stop_after_first = true },
           ["_"] = { "lsp" },
         },

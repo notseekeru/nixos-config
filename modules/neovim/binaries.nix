@@ -13,12 +13,22 @@
     vscode-json-languageserver             # JSON language server
     yaml-language-server                  # YAML language server
     marksman                              # Markdown language server
+    dockerfile-language-server            # Dockerfile language server
+    terraform-ls                          # Terraform language server
+    clang-tools                           # C/C++ language server (clangd)
 
     # === CLI Tools used by Neovim ===
     ripgrep                               # For grep in telescope/snacks
     fd                                    # Faster find
     fzf                                   # Fuzzy finder
     lazygit                               # Git TUI (Snacks integration)
+
+    # === Linters ===
+    selene                                # Lua linter
+    shellcheck                            # Shell script linter
+    hadolint                              # Dockerfile linter
+    statix                                # Nix anti-pattern linter
+    vale                                  # Markdown/prose linter
 
     # === Formatting ===
     nixpkgs-fmt                           # Nix formatter
