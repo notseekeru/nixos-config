@@ -32,10 +32,9 @@
       da = "direnv allow";
       dr = "direnv reload";
       mountboot = "sudo mount /dev/sda1 /boot";
-      config = "nvim ~/nixos-config/configuration.nix";
       garbage = "nix-collect-garbage -d";
-      rebuild = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
-      cleanrebuild = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
+      rb = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
+      clrb = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
       update = "cd ~/nixos-config && sudo nix flake update --extra-experimental-features 'nix-command flakes'";
     };
   };
