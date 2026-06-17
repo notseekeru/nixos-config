@@ -65,6 +65,8 @@
     rofi
     dunst
     kitty
+    pavucontrol
+    btop
     networkmanagerapplet
     awww # renamed from swww to awww in nixpkgs (June 2026)
     bibata-cursors
