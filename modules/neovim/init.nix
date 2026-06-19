@@ -182,6 +182,24 @@
       vim.opt.ignorecase = true
       vim.opt.smartcase = true
       vim.opt.updatetime = 250
+
+      -- Autosave: save automatically on certain events
+      vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged", "TextChangedI" }, {
+        pattern = "*",
+        callback = function()
+          if vim.bo.modified and vim.bo.buftype == "" then
+            vim.cmd.write()
+          end
+        end,
+        desc = "Autosave",
+      })
+
+      -- Ctrl+S: manual save with formatting
+      vim.keymap.set({ "n", "i", "v" }, "<C-s>", function()
+        if vim.bo.modified and vim.bo.buftype == "" then
+          vim.cmd.write()
+        end
+      end, { desc = "Save file" })
     '';
   };
 }
