@@ -9,11 +9,14 @@
     ./modules/tmux.nix
     ./modules/kitty
     ./modules/neovim/init.nix
+    ./modules/greeter.nix
   ];
 
   home.username = "seeker";
   home.homeDirectory = "/home/seeker";
   home.stateVersion = "26.05";
+
+  services.fstrim.enable = true;
 
   fonts.fontconfig.enable = true;
 

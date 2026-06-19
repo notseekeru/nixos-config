@@ -13,6 +13,12 @@
   # Polkit for privilege escalation
   security.polkit.enable = true;
 
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
+
   # Input handling via libinput
   services.libinput.enable = true;
 
