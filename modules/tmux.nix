@@ -16,6 +16,8 @@
       set -g renumber-windows on 
       unbind-key C-o 
       bind-key m select-pane -t :.+ 
+
+      run-shell -bd 2 'SCRIPT=$(tmux show-option -gqv "@resurrect-restore-script-path") && [ -n "$SCRIPT" ] && "$SCRIPT"'
     '';
 
     plugins = with pkgs.tmuxPlugins; [
@@ -24,9 +26,8 @@
       {
         plugin = continuum;
         extraConfig = ''
-          set -g @continuum-restore 'on'
+          set -g @continuum-restore 'off'
           set -g @continuum-save-interval '10'
-          set -g @continuum-restore-max-delay '60'
         '';
       }
     ];
