@@ -29,13 +29,13 @@
     jack.enable = true;
   };
 
-  programs.zsh.enable = true; # Added due to warning
-
   users.users.seeker = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
+
+  programs.zsh.enable = true; # Added due to warning
 
   environment.sessionVariables = {
     EDITOR = "nvim";
@@ -50,5 +50,4 @@
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   system.stateVersion = "26.05";
-
 }
