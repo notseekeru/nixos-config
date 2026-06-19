@@ -37,6 +37,11 @@
         "$mod, V, togglefloating,"
         "$mod, F, fullscreen,"
 
+        "$mod, h, movefocus, l"
+        "$mod, j, movefocus, d"
+        "$mod, k, movefocus, u"
+        "$mod, l, movefocus, r"
+
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
         "$mod, 3, workspace, 3"
@@ -52,6 +57,11 @@
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+      ];
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
       ];
 
       binds = {
@@ -71,7 +81,7 @@
     pavucontrol
     btop
     networkmanagerapplet
-    awww # renamed from swww to awww in nixpkgs (June 2026)
+    awww
     bibata-cursors
   ];
 }
