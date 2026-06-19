@@ -25,7 +25,6 @@
   # Laptop-specific user packages (appended to base list from home.nix)
   home-manager.users.seeker.home.packages = lib.mkAfter (with pkgs; [
     nerd-fonts.geist-mono
-    obsidian
     brave
   ]);
 }

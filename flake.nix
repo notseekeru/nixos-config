@@ -17,12 +17,6 @@
           home-manager.useUserPackages = true;
           home-manager.users.seeker = import ./home.nix;
         }
-
-        {
-          nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "obsidian"
-          ];
-        }
       ];
     in
     {
