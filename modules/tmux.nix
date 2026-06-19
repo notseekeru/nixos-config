@@ -26,6 +26,7 @@
         extraConfig = ''
           set -g @continuum-restore 'on'
           set -g @continuum-save-interval '10'
+          set -g @continuum-restore-max-delay '60'
         '';
       }
     ];
