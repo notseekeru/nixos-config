@@ -15,7 +15,6 @@
       # 2. Your custom settings moved to the correct spot
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
-      pull.rebase = true;
     };
   };
 }
