@@ -40,7 +40,7 @@
             active = "";
           };
           "persistent-workspaces" = {
-            "*" = 4;
+            "*" = 3;
           };
         };
 
@@ -91,7 +91,7 @@
         };
 
         pulseaudio = {
-          format = "{icon} {volume}%";
+          format = "{icon}   {volume}%";
           "tooltip-format" = "{icon}   {volume}%";
           "format-muted" = "  Muted";
           "format-icons" = {
@@ -106,13 +106,13 @@
 
         cpu = {
           interval = 10;
-          format = " {usage}%";
+          format = "  {usage}%";
           "on-click" = "kitty btop";
         };
 
         memory = {
           interval = 2;
-          format = " {used:0.1f}G";
+          format = "  {used:0.1f}G";
           "on-click" = "kitty btop";
         };
 
