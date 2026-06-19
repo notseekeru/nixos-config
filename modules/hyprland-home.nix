@@ -54,6 +54,11 @@
 
         "$mod, SPACE, exec, rofi -show drun"
 
+        "$mod CTRL, print, exec, grimblast copy area"
+        "$mod, print, exec, grimblast copy screen"
+        "$mod SHIFT, print, exec, grimblast save screen"
+
+
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
@@ -83,5 +88,6 @@
     networkmanagerapplet
     awww
     bibata-cursors
+    grimblast
   ];
 }
