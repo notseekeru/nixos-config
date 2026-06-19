@@ -16,7 +16,6 @@
         "waybar"
         "brave"
         "kitty"
-        "obsidian"
         "awww-daemon"
         "awww img ~/wallpaper/default2.png"
       ];
@@ -24,7 +23,6 @@
       workspace = [
         "1, class:^(brave-browser)$, silent"
         "2, class:^(kitty)$, silent"
-        "3, class:^(obsidian)$, silent"
       ];
 
       env = [

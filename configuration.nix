@@ -10,7 +10,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Override per-host in hosts/<name>/configuration.nix
   networking.hostName = lib.mkDefault "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "Asia/Singapore";
