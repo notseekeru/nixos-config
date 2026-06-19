@@ -1,37 +1,41 @@
 { config, lib, pkgs, ... }:
 
 {
+  # ─── Boot ───
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  # ─── Networking ───
   networking.hostName = lib.mkDefault "nixos";
   networking.networkmanager.enable = true;
+
+  # ─── Time ───
   time.timeZone = "Asia/Singapore";
 
+  # ─── Nix ───
   nix.gc = {
     automatic = true;
     dates = "daily";
     options = "--delete-older-than 1d";
   };
 
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  # ─── SSD TRIM (all hosts have SSDs) ───
+  services.fstrim.enable = true;
 
+  # ─── Tailscale (all hosts) ───
+  services.tailscale.enable = true;
+
+  # ─── User ───
   users.users.seeker = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
 
-  programs.zsh.enable = true; # Added due to warning
+  programs.zsh.enable = true;
 
+  # ─── Environment ───
   environment.sessionVariables = {
     EDITOR = "nvim";
   };
@@ -41,8 +45,6 @@
     tree
   ];
 
-  services.openssh.enable = false;
-  networking.firewall.allowedTCPPorts = [ 22 ];
-
+  # ─── State ───
   system.stateVersion = "26.05";
 }

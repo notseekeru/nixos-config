@@ -40,6 +40,13 @@
             ./hosts/laptop/configuration.nix
           ] ++ sharedModules;
         };
+
+        server = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/server/configuration.nix
+          ] ++ sharedModules;
+        };
       };
     };
 }
