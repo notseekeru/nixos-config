@@ -17,6 +17,7 @@
 
   # Cross-platform packages (available on all machines)
   home.packages = with pkgs; [
+    tldr
     vim
     gh
     pi-coding-agent
