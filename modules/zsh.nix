@@ -23,6 +23,8 @@
       if [ -f ~/gh-token ]; then
         export GH_TOKEN=$(cat ~/gh-token)
       fi 
+
+      KUBECONFIG = ~/kubeconfig
     '';
 
     shellAliases = {
@@ -40,6 +42,8 @@
       config = "tmux a -t 0";
       terra = "tmux a -t 1";
       gitops = "tmux a -t 2";
+
+      k = "kubectl";
     };
   };
 }
