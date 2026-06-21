@@ -42,7 +42,7 @@
       config = "tmux a -t 0";
       terra = "tmux a -t 1";
       gitops = "tmux a -t 2";
-      go = "tmux a -t 3";
+      gohttp = "tmux a -t 3";
 
       k = "kubectl";
     };
