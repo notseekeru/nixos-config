@@ -24,7 +24,7 @@
         export GH_TOKEN=$(cat ~/gh-token)
       fi 
 
-      export KUBECONFIG = ~/kubeconfig
+      export KUBECONFIG=~/kubeconfig
     '';
 
     shellAliases = {
