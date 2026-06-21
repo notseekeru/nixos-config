@@ -7,6 +7,7 @@
     lua-language-server                   # Lua language server
     pyright                               # Python language server
     vtsls                                 # TypeScript/JavaScript (Volt)
+    go                                    # Go compiler/toolchain
     gopls                                 # Go language server
     rust-analyzer                         # Rust language server
     bash-language-server                  # Bash language server
