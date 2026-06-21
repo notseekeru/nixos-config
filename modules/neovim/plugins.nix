@@ -1,24 +1,28 @@
 { pkgs, ... }:
 
+let
+  tsParser = pkgs.vimPlugins.nvim-treesitter-parsers;
+in
 {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
-      nvim-treesitter
-    nvim-treesitter-parsers.go          # Go tree-sitter parser
-    nvim-treesitter-parsers.rust        # Rust tree-sitter parser
-    nvim-treesitter-parsers.python      # Python tree-sitter parser
-    nvim-treesitter-parsers.lua         # Lua tree-sitter parser
-    nvim-treesitter-parsers.nix         # Nix tree-sitter parser
-    nvim-treesitter-parsers.bash        # Bash tree-sitter parser
-    nvim-treesitter-parsers.json        # JSON tree-sitter parser
-    nvim-treesitter-parsers.yaml        # YAML tree-sitter parser
-    nvim-treesitter-parsers.markdown    # Markdown tree-sitter parser
-    nvim-treesitter-parsers.css         # CSS tree-sitter parser
-    nvim-treesitter-parsers.html        # HTML tree-sitter parser
-    nvim-treesitter-parsers.javascript  # JavaScript tree-sitter parser
-    nvim-treesitter-parsers.typescript  # TypeScript tree-sitter parser
-    nvim-treesitter-parsers.dockerfile  # Dockerfile tree-sitter parser
-    nvim-lspconfig
+      (nvim-treesitter.withPlugins (p: [
+        tsParser.go          # Go
+        tsParser.rust        # Rust
+        tsParser.python      # Python
+        tsParser.lua         # Lua
+        tsParser.nix         # Nix
+        tsParser.bash        # Bash
+        tsParser.json        # JSON
+        tsParser.yaml        # YAML
+        tsParser.markdown    # Markdown
+        tsParser.css         # CSS
+        tsParser.html        # HTML
+        tsParser.javascript  # JavaScript
+        tsParser.typescript  # TypeScript
+        tsParser.dockerfile  # Dockerfile
+      ]))
+      nvim-lspconfig
       blink-cmp
       snacks-nvim
       harpoon2
