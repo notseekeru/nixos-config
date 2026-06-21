@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require("nvim-treesitter").setup({})
+require("nvim-treesitter").setup({
+	highlight = { enable = true },
+})
 
 vim.keymap.set("n", "s", "<C-^>")
 
@@ -192,6 +194,21 @@ end, { desc = "Format" })
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
+
+-- Colorscheme
+require("catppuccin").setup({
+	flavour = "mocha", -- mocha, macchiato, frappe, latte
+	term_colors = true,
+	integrations = {
+		treesitter = true,
+		cmp = true,
+		snacks = true,
+		harpoon = true,
+		flash = true,
+		lsp_trouble = true,
+	},
+})
+vim.cmd.colorscheme("catppuccin")
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
