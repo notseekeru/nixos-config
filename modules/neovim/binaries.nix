@@ -9,6 +9,7 @@
     vtsls                                 # TypeScript/JavaScript (Volt)
     go                                    # Go compiler/toolchain
     gopls                                 # Go language server
+    gnumake                               # Build tool (make)
     rust-analyzer                         # Rust language server
     bash-language-server                  # Bash language server
     vscode-json-languageserver             # JSON language server
