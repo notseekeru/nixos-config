@@ -22,6 +22,7 @@ in
         tsParser.typescript  # TypeScript
         tsParser.dockerfile  # Dockerfile
       ]))
+      nvim-web-devicons                  # File/icon provider for picker, explorer, etc.
       nvim-lspconfig
       blink-cmp
       snacks-nvim

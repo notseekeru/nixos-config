@@ -20,6 +20,7 @@
       touch_scroll_multiplier = "1.0";
       background_opacity = "0.95";
       confirm_os_window_close = 0;
+      no-ctrl-s = "yes";
     };
   };
 }

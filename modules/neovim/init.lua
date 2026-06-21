@@ -32,13 +32,6 @@ vim.keymap.set("x", "<leader>p", '"_dP')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>y", '"+y')
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "*" },
-	callback = function()
-		pcall(vim.treesitter.start)
-	end,
-})
-
 dofile(vim.fn.stdpath("config") .. "/lsp.lua")
 
 require("codediff").setup({})
@@ -190,6 +183,26 @@ vim.keymap.set({ "n", "v" }, "<leader>F", function()
 		timeout_ms = 1000,
 	})
 end, { desc = "Format" })
+
+-- Ctrl+S: leave insert mode, save, then format
+vim.keymap.set("i", "<C-s>", function()
+	vim.cmd("stopinsert")
+	vim.cmd("silent write")
+	require("conform").format({
+		lsp_fallback = true,
+		async = false,
+		timeout_ms = 1000,
+	})
+end, { desc = "Leave insert, save & format" })
+
+vim.keymap.set("n", "<C-s>", function()
+	vim.cmd("silent write")
+	require("conform").format({
+		lsp_fallback = true,
+		async = false,
+		timeout_ms = 1000,
+	})
+end, { desc = "Save & format" })
 
 vim.opt.number = true
 vim.opt.relativenumber = true
