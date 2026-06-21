@@ -54,11 +54,23 @@ require("blink-cmp").setup({
 
 require("snacks").setup({
 	bigfile = { enabled = true },
-	explorer = { enabled = true },
+	explorer = {
+		enabled = true,
+		hidden = true,
+		respect_gitignore = false,
+	},
 	indent = { enabled = true },
 	input = { enabled = true },
 	notifier = { enabled = true, style = "compact" },
-	picker = { enabled = true },
+	picker = {
+		enabled = true,
+		sources = {
+			files = {
+				hidden = true,
+				ignore = false,
+			},
+		},
+	},
 	quickfile = { enabled = true },
 	scroll = { enabled = true },
 	statuscolumn = { enabled = true },
