@@ -18,6 +18,10 @@
   # Cross-platform packages (available on all machines)
   home.packages = with pkgs; [
     tldr
+    gcc
+    gnumake
+    binutils
+    glibc
     vim
     gh
     pi-coding-agent
