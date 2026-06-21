@@ -39,10 +39,10 @@
       clrb = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
       update = "cd ~/nixos-config && sudo nix flake update --extra-experimental-features 'nix-command flakes'";
 
-      config = "tmux a -t 0";
-      terra = "tmux a -t 1";
-      gitops = "tmux a -t 2";
-      gohttp = "tmux a -t 3";
+      t0 = "tmux a -t 0";
+      t1 = "tmux a -t 1";
+      t2 = "tmux a -t 2";
+      t3 = "tmux a -t 3";
 
       k = "kubectl";
     };
