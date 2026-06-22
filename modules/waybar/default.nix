@@ -49,6 +49,7 @@
           orientation = "inherit";
           modules = [
             "network"
+            "bluetooth"
             "pulseaudio"
             "memory"
             "cpu"
@@ -88,6 +89,16 @@
           interval = 3;
           spacing = 1;
           "on-click" = "rofi -show drun";
+        };
+
+
+        bluetooth = {
+          format = "󰂯";
+          "format-connected" = "󰂱";
+          "format-disabled" = "󰂲";
+          "format-connected-battery" = "󰥖";
+          "tooltip-format" = "{device_alias}\n{device_address}\n{battery_percentage}%";
+          "on-click" = "blueman-manager";
         };
 
         pulseaudio = {

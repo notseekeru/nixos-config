@@ -16,6 +16,10 @@
   services.tailscale.enable = true;
   networking.interfaces.tailscale0.mtu = 1280;
 
+  # ─── Bluetooth ───
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # SSH disabled on laptop
   services.openssh.enable = false;
 
