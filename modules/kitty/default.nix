@@ -5,12 +5,12 @@
     enable = true;
     font = {
       name = "GeistMono Nerd Font";
-      size = 8;
+      size = 10;
     };
     settings = {
       font_family = "GeistMono Nerd Font Bold";
       bold_font = "GeistMono Nerd Font Bold";
-      font_size = 8;
+      font_size = 10;
       adjust_line_height = "0";
       adjust_column_width = "0";
       cursor_shape = "block";
