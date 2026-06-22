@@ -23,9 +23,6 @@
   # ─── SSD TRIM (all hosts have SSDs) ───
   services.fstrim.enable = true;
 
-  # ─── Tailscale (all hosts) ───
-  services.tailscale.enable = true;
-
   # ─── User ───
   users.users.seeker = {
     isNormalUser = true;

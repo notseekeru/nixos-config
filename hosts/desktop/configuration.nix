@@ -12,6 +12,10 @@
 
   networking.hostName = "desktop";
 
+  # ─── Tailscale (client mode) ───
+  services.tailscale.enable = true;
+  networking.interfaces.tailscale0.mtu = 1280;
+
   # SSH disabled on desktop
   services.openssh.enable = false;
 
