@@ -19,19 +19,27 @@
         "modules-center" = [ "hyprland/workspaces" ];
         "modules-right" = [ "group/right" ];
 
-        # ─── LEFT: Just the clock ───
+        # ─── LEFT: NixOS logo + clock ───
         "group/left" = {
           orientation = "inherit";
           modules = [
+            "custom/nixos"
             "clock"
           ];
+        };
+
+        # ─── NixOS logo (custom) ───
+        "custom/nixos" = {
+          exec = "echo ";
+          format = "{}";
+          tooltip = false;
+          interval = 86400;
         };
 
         # ─── CENTER: Workspaces ───
         "hyprland/workspaces" = {
           "disable-scroll" = true;
           "all-outputs" = true;
-          cursor = true;
           format = "{icon}";
           "format-icons" = {
             default = "";
@@ -88,7 +96,7 @@
           "tooltip-format-disconnected" = "Disconnected";
           interval = 3;
           spacing = 1;
-          "on-click" = "rofi -show drun";
+          "on-click" = "nm-connection-editor";
         };
 
 
@@ -96,7 +104,6 @@
           format = "󰂯";
           "format-connected" = "󰂱";
           "format-disabled" = "󰂲";
-          "format-connected-battery" = "󰥖";
           "tooltip-format" = "{device_alias}\n{device_address}\n{battery_percentage}%";
           "on-click" = "blueman-manager";
         };
@@ -128,10 +135,10 @@
         };
 
         battery = {
-          format = "{icon}";
-          "format-discharging" = "{icon}";
-          "format-charging" = "{icon}";
-          "format-plugged" = "";
+          format = "{icon} {capacity}%";
+          "format-discharging" = "{icon} {capacity}%";
+          "format-charging" = "{icon} {capacity}%";
+          "format-plugged" = " {capacity}%";
           "format-icons" = {
             charging = [ "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
             default = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
