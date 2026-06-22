@@ -50,7 +50,6 @@
         "$mod SHIFT, 2, movetoworkspace, 2"
         "$mod SHIFT, 3, movetoworkspace, 3"
         "$mod SHIFT, 4, movetoworkspace, 4"
-        "$mod, TAB, workspace, previous "
 
         "$mod, SPACE, exec, rofi -show drun"
 
@@ -69,9 +68,6 @@
         "$mod, mouse:273, resizewindow"
       ];
 
-      binds = {
-        workspace_back_and_forth = true;
-      };
     };
   };
 
