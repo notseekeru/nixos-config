@@ -13,8 +13,8 @@ window#waybar {
 }
 
 /* ─── Bar segment pills ─── */
-.group-left,
-.group-right {
+#left,
+#right {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0 0 3px 0;

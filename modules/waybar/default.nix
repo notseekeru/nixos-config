@@ -52,17 +52,16 @@
           };
         };
 
-        # ─── RIGHT: System essentials + tray ───
+        # # ─── RIGHT: System essentials ───
         "group/right" = {
           orientation = "inherit";
           modules = [
-            "network"
-            "bluetooth"
             "pulseaudio"
+            "bluetooth"
             "memory"
             "cpu"
+            "network"
             "battery"
-            "tray"
           ];
         };
 
@@ -82,29 +81,12 @@
               today = "<span color='#ff6699'><b>{}</b></span>";
             };
           };
-
         };
-
-        network = {
-          "format-icons" = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-          format = "{icon}";
-          "format-wifi" = "{icon}";
-          "format-ethernet" = "󰌗";
-          "format-disconnected" = "󰤮";
-          "tooltip-format-wifi" = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          "tooltip-format-ethernet" = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          "tooltip-format-disconnected" = "Disconnected";
-          interval = 3;
-          spacing = 1;
-          "on-click" = "nm-connection-editor";
-        };
-
 
         bluetooth = {
           format = "󰂯";
           "format-connected" = "󰂱";
           "format-disabled" = "󰂲";
-          "tooltip-format" = "{device_alias}\n{device_address}\n{battery_percentage}%";
           "on-click" = "blueman-manager";
         };
 
@@ -154,12 +136,20 @@
           };
         };
 
-
-
-        tray = {
-          "icon-size" = 14;
-          spacing = 10;
+        network = {
+          "format-icons" = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
+          format = "{icon}";
+          "format-wifi" = "{icon}";
+          "format-ethernet" = "󰌗";
+          "format-disconnected" = "󰤮";
+          "tooltip-format-wifi" = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+          "tooltip-format-ethernet" = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+          "tooltip-format-disconnected" = "Disconnected";
+          interval = 3;
+          spacing = 1;
+          "on-click" = "nm-connection-editor";
         };
+
       };
     };
     style = builtins.readFile ./style.css;
