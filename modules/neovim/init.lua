@@ -5,6 +5,10 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true },
 })
 
+-- kj acts as Escape in insert and visual mode
+vim.keymap.set("i", "kj", "<Esc>")
+vim.keymap.set("v", "kj", "<Esc>")
+
 vim.keymap.set("n", "s", "<C-^>")
 
 vim.keymap.set("n", "gg", "gg0")
