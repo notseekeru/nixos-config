@@ -1,5 +1,5 @@
 # Minimal stub — run `nixos-generate-config` on actual hardware to regenerate.
-{ config, lib, pkgs, modulesPath, ... }:
+{ lib, modulesPath, ... }:
 
 {
   imports = [

@@ -6,7 +6,7 @@ in
 {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
-      (nvim-treesitter.withPlugins (p: [
+      (nvim-treesitter.withPlugins (_p: [
         tsParser.go          # Go
         tsParser.rust        # Rust
         tsParser.python      # Python
