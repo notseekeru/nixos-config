@@ -30,4 +30,16 @@
   ];
 
   programs.home-manager.enable = true;
+
+  # Register GH token with gh CLI so git credential helper works
+  # from any context (desktop apps like Obsidian, not just terminal)
+  # Token is stored in ~/.config/gh/hosts.yml (perm 600) — NOT in the Nix store.
+  home.activation.registerGhToken = ''
+    if [ -f "$HOME/gh-token" ]; then
+      token="$(cat "$HOME/gh-token")"
+      if ! "${pkgs.gh}/bin/gh" auth status &>/dev/null; then
+        echo "$token" | env -u GH_TOKEN "${pkgs.gh}/bin/gh" auth login --with-token
+      fi
+    fi
+  '';
 }

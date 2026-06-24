@@ -22,7 +22,7 @@
 
       if [ -f ~/gh-token ]; then
         export GH_TOKEN=$(cat ~/gh-token)
-      fi 
+      fi
 
       export KUBECONFIG=~/kubeconfig
     '';
