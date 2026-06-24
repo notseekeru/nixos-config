@@ -9,10 +9,10 @@
     settings.user.email = "myteseeker18@gmail.com";
 
     settings = {
-      # 1. Use the gh CLI as your password manager for GitHub
-      credential."https://github.com".helper = "!" + "${pkgs.gh}/bin/gh auth git-credential";
+      # Use the gh CLI as password manager for GitHub
+      # Unscoped credential.helper works for all repos and is more reliable
+      credential.helper = "!" + "${pkgs.gh}/bin/gh auth git-credential";
 
-      # 2. Your custom settings moved to the correct spot
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
     };
