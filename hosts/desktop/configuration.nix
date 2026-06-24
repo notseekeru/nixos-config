@@ -7,7 +7,6 @@
     ../../modules/hyprland.nix
     ../../modules/greeter.nix
     ../../modules/pipewire.nix
-    ../../modules/nvidia.nix
   ];
 
   networking.hostName = "desktop";
