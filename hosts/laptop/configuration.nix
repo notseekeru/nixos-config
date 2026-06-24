@@ -34,5 +34,6 @@
   home-manager.users.seeker.home.packages = lib.mkAfter (with pkgs; [
     nerd-fonts.geist-mono
     brave
+    obsidian
   ]);
 }
