@@ -19,9 +19,8 @@
         }
 
         {
-          nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "obsidian"
-          ];
+          # Desktop with NVIDIA GPU + Obsidian — unfree is necessary
+          nixpkgs.config.allowUnfree = true;
         }
       ];
     in

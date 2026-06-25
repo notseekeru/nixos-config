@@ -8,6 +8,7 @@
     ../../modules/greeter.nix
     ../../modules/pipewire.nix
     ../../modules/syncthing.nix
+    ../../modules/nvidia.nix
   ];
 
   networking.hostName = "desktop";
@@ -24,6 +25,14 @@
     ../../modules/hyprland-home.nix
     ../../modules/waybar
     ../../modules/kitty
+  ];
+
+  # ─── Dual monitor layout (desktop only) ───
+  # DP-1 (165Hz gaming) is physically left, HDMI-A-1 (60Hz) is right
+  # Override the shared single-monitor default from hyprland-home.nix
+  home-manager.users.seeker.wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
+    "DP-1,1920x1080@165,0x0,1.2"
+    "HDMI-A-1,1920x1080@60,1920x0,1.2"
   ];
 
   # Desktop-specific user packages (appended to base list from home.nix)
