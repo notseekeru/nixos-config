@@ -36,6 +36,9 @@
 
   programs.zsh.enable = true;
 
+  # ─── Docker (all hosts) ───
+  virtualisation.docker.enable = true;
+
   # ─── Environment ───
   environment.sessionVariables = {
     EDITOR = "nvim";
@@ -44,6 +47,7 @@
   environment.systemPackages = with pkgs; [
     wget
     tree
+    docker-compose
   ];
 
   # ─── State ───
