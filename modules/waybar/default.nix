@@ -19,21 +19,12 @@
         "modules-center" = [ "hyprland/workspaces" ];
         "modules-right" = [ "group/right" ];
 
-        # ─── LEFT: NixOS logo + clock ───
+        # ─── LEFT: Clock ───
         "group/left" = {
           orientation = "inherit";
           modules = [
-            "custom/nixos"
             "clock"
           ];
-        };
-
-        # ─── NixOS logo (custom) ───
-        "group/left" = {
-          exec = "echo ";
-          format = "{}";
-          tooltip = false;
-          interval = 86400;
         };
 
         # ─── CENTER: Workspaces ───
