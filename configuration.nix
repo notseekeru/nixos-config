@@ -30,7 +30,7 @@
   # ─── User ───
   users.users.seeker = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     shell = pkgs.zsh;
   };
 
