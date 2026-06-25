@@ -30,10 +30,22 @@
   # ─── Dual monitor layout (desktop only) ───
   # DP-1 (165Hz gaming) is physically left, HDMI-A-1 (60Hz) is right
   # Override the shared single-monitor default from hyprland-home.nix
-  home-manager.users.seeker.wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
-    "DP-1,1920x1080@165,0x0,1.0"
-    "HDMI-A-1,1920x1080@60,1920x0,1.0"
-  ];
+  home-manager.users.seeker.wayland.windowManager.hyprland.settings = {
+    # Your existing monitor override
+    monitor = lib.mkForce [
+      "DP-1,1920x1080@165,0x0,1.0"
+      "HDMI-A-1,1920x1080@60,1920x0,1.0"
+    ];
+
+    # Explicitly bind workspaces to physical monitors
+    workspace = [
+      "1, monitor:DP-1, default:true"
+      "2, monitor:DP-1"
+      "3, monitor:HDMI-A-1, default:true"
+      "4, monitor:HDMI-A-1"
+    ];
+  };
+
 
   # Desktop-specific user packages (appended to base list from home.nix)
   home-manager.users.seeker.home.packages = lib.mkAfter (with pkgs; [
