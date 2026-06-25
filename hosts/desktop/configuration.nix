@@ -7,6 +7,7 @@
     ../../modules/hyprland.nix
     ../../modules/greeter.nix
     ../../modules/pipewire.nix
+    ../../modules/syncthing.nix
   ];
 
   networking.hostName = "desktop";

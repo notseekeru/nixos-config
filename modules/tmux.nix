@@ -17,6 +17,10 @@
       unbind-key C-o 
       bind-key m select-pane -t :.+ 
 
+      # Synced via Syncthing across devices for portable session restore
+      set -g @resurrect-save-full-history 'on'
+      set -g @resurrect-capture-pane-contents 'on'
+
       run-shell -bd 2 'SCRIPT=$(tmux show-option -gqv "@resurrect-restore-script-path") && [ -n "$SCRIPT" ] && "$SCRIPT"'
     '';
 

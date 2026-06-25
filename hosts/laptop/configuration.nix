@@ -8,6 +8,7 @@
     ../../modules/greeter.nix
     ../../modules/pipewire.nix
     ../../modules/intel-gpu.nix
+    ../../modules/syncthing.nix
   ];
 
   networking.hostName = "laptop";
