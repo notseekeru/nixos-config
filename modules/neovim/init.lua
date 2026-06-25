@@ -133,9 +133,6 @@ end, { desc = "Harpoon: File 4" })
 
 -- bufferline.nvim: Chrome-like tabs at the top
 require("bufferline").setup({
-	highlight = {
-		inactive = { italic = false },
-	},
 	options = {
 		-- Buffer numbering: none, ordinal, buffer_id, both
 		numbers = "none",
