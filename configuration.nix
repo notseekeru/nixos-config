@@ -9,6 +9,7 @@
   # ─── Networking ───
   networking.hostName = lib.mkDefault "nixos";
   networking.networkmanager.enable = true;
+  networking.networkmanager.insertNameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   # ─── Time ───
   time.timeZone = "Asia/Singapore";
