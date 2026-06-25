@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -12,6 +12,21 @@
   ];
 
   networking.hostName = "desktop";
+
+  boot.extraModprobeConfig = ''
+    options rtw88_core disable_lps_deep=y
+    options rtw88_usb disable_lps_deep=y
+  '';
+
+  networking.networkmanager.wifi.powersave = false;
+
+  # 1. Kill off the broken default kernel modules completely
+  boot.blacklistedKernelModules = [ "rtw88_8822bu" "rtw88_usb" "rtw88_core" ];
+
+  # 2. FIXED: Pulled directly from pkgs.linuxPackages to stop the infinite evaluation loop
+  boot.extraModulePackages = [
+    pkgs.linuxPackages.rtl88x2bu
+  ];
 
   # ─── Tailscale (client mode) ───
   services.tailscale.enable = true;
@@ -28,26 +43,22 @@
   ];
 
   # ─── Dual monitor layout (desktop only) ───
-  # DP-1 (165Hz gaming) is physically left, HDMI-A-1 (60Hz) is right
-  # Override the shared single-monitor default from hyprland-home.nix
   home-manager.users.seeker.wayland.windowManager.hyprland.settings = {
-    # Your existing monitor override
     monitor = lib.mkForce [
       "DP-1,1920x1080@165,0x0,1.0"
       "HDMI-A-1,1920x1080@60,1920x0,1.0"
     ];
 
-    # Explicitly bind workspaces to physical monitors
     workspace = [
       "1, monitor:DP-1, default:true"
       "2, monitor:HDMI-A-1"
     ];
   };
 
-
-  # Desktop-specific user packages (appended to base list from home.nix)
+  # Desktop-specific user packages
   home-manager.users.seeker.home.packages = lib.mkAfter (with pkgs; [
     nerd-fonts.geist-mono
     brave
   ]);
 }
+

@@ -11,13 +11,6 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.insertNameservers = [ "1.1.1.1" "8.8.8.8" ];
 
-  boot.extraModprobeConfig = ''
-    options rtw88_core disable_lps_deep=y
-    options rtw88_pci disable_aspm=y
-  '';
-
-  networking.networkmanager.wifi.powersave = false;
-
   # ─── Tailscale ───
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
