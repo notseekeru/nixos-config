@@ -163,10 +163,10 @@ require("bufferline").setup({
 })
 
 -- Keymaps
-vim.keymap.set("n", "<leader>bl", function()
+vim.keymap.set("n", "<leader>bh", function()
 	require("bufferline").cycle(-1)
 end, { desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>bh", function()
+vim.keymap.set("n", "<leader>bl", function()
 	require("bufferline").cycle(1)
 end, { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>bj", function()
