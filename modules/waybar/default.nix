@@ -29,7 +29,7 @@
         };
 
         # ─── NixOS logo (custom) ───
-        "custom/nixos" = {
+        "group/left" = {
           exec = "echo ";
           format = "{}";
           tooltip = false;
