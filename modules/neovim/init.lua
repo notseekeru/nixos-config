@@ -313,7 +313,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged", "TextChangedI" }, {
 -- persistence.nvim: auto-save/restore session (like LazyVim)
 require("persistence").setup({
 	options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals" },
-	need = 0, -- Always save session, even with 0 file buffers
+	need = 0,
 })
 
 -- Auto-restore session on startup (only if nvim opened without file args)
@@ -326,18 +326,3 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		end
 	end,
 })
-
--- Save session manually (optional)
-vim.keymap.set("n", "<leader>qs", function()
-	require("persistence").save()
-end, { desc = "Persistence: Save session" })
-
--- Restore last session
-vim.keymap.set("n", "<leader>ql", function()
-	require("persistence").load()
-end, { desc = "Persistence: Restore last session" })
-
--- Stop auto-saving (don't save session on exit)
-vim.keymap.set("n", "<leader>qd", function()
-	require("persistence").stop()
-end, { desc = "Persistence: Don't save session" })
