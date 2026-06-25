@@ -40,9 +40,7 @@
     # Explicitly bind workspaces to physical monitors
     workspace = [
       "1, monitor:DP-1, default:true"
-      "2, monitor:DP-1"
-      "3, monitor:HDMI-A-1, default:true"
-      "4, monitor:HDMI-A-1"
+      "2, monitor:HDMI-A-1"
     ];
   };
 
