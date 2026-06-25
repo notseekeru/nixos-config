@@ -32,6 +32,7 @@ in
       codediff-nvim
       bufferline-nvim                   # Chrome-style tabs at the top
       catppuccin-nvim                   # Colorscheme
+      persistence-nvim                  # Auto-save/restore session (LazyVim-style)
     ];
   };
 }
