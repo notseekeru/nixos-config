@@ -11,6 +11,9 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.insertNameservers = [ "1.1.1.1" "8.8.8.8" ];
 
+  # ─── Tailscale ───
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
   # ─── Time ───
   time.timeZone = "Asia/Singapore";
 
