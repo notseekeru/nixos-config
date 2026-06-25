@@ -28,6 +28,9 @@
     pkgs.linuxPackages.rtl88x2bu
   ];
 
+  # ─── Nvidia GPU in Docker (nvidia-container-toolkit) ───
+  hardware.nvidia-container-toolkit.enable = true;
+
   # ─── Tailscale (client mode) ───
   services.tailscale.enable = true;
   networking.interfaces.tailscale0.mtu = 1280;
