@@ -17,7 +17,7 @@
         "brave"
         "kitty"
         "awww-daemon"
-        "awww img ~/wallpaper/default2.png"
+        "awww img ~/nixos-config/images/default2.png"
       ];
 
       workspace = [
