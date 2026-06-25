@@ -131,6 +131,59 @@ vim.keymap.set("n", "<leader>h4", function()
 	harpoon:list():select(4)
 end, { desc = "Harpoon: File 4" })
 
+-- bufferline.nvim: Chrome-like tabs at the top
+require("bufferline").setup({
+	highlight = {
+		inactive = { italic = false },
+	},
+	options = {
+		-- Buffer numbering: none, ordinal, buffer_id, both
+		numbers = "none",
+		tab_size = 18,
+		separator_style = "slant",
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = "Explorer",
+				padding = 1,
+			},
+		},
+		buffer_close_icon = "󰅖",
+		close_command = "bdelete! %d",
+		right_mouse_command = "bdelete! %d",
+		left_mouse_command = "buffer %d",
+		middle_mouse_command = nil,
+		close_icon = "",
+		show_buffer_icons = true,
+		show_close_icon = false,
+		show_tab_indicators = true,
+		indicator = {
+			icon = "▎",
+			style = "icon",
+		},
+	},
+})
+
+-- Keymaps
+vim.keymap.set("n", "[b", function()
+	require("bufferline").cycle(-1)
+end, { desc = "Previous buffer" })
+vim.keymap.set("n", "]b", function()
+	require("bufferline").cycle(1)
+end, { desc = "Next buffer" })
+vim.keymap.set("n", "[B", function()
+	require("bufferline").move(-1)
+end, { desc = "Move buffer tab left" })
+vim.keymap.set("n", "]B", function()
+	require("bufferline").move(1)
+end, { desc = "Move buffer tab right" })
+vim.keymap.set("n", "<leader>bd", function()
+	vim.api.nvim_buf_delete(0, {})
+end, { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>bo", function()
+	require("bufferline").close_others()
+end, { desc = "Close other buffers" })
+
 vim.keymap.set("n", "<leader>e", function()
 	require("snacks").explorer()
 end, { desc = "Snacks: Toggle explorer" })
@@ -232,6 +285,7 @@ require("catppuccin").setup({
 		treesitter = true,
 		cmp = true,
 		snacks = true,
+		bufferline = true,
 		harpoon = true,
 		flash = true,
 		lsp_trouble = true,

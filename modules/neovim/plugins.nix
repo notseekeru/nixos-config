@@ -30,6 +30,7 @@ in
       flash-nvim
       conform-nvim
       codediff-nvim
+      bufferline-nvim                   # Chrome-style tabs at the top
       catppuccin-nvim                   # Colorscheme
     ];
   };
