@@ -17,12 +17,11 @@
         "brave"
         "kitty"
         "awww-daemon"
-        "awww img ~/nixos-config/images/default2.png"
+        "awww img ~/nixos-config/images/default.jpg"
       ];
 
       workspace = [
         "1, class:^(brave-browser)$, silent"
-        "2, class:^(kitty)$, silent"
       ];
 
       env = [
