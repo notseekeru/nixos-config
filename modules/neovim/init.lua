@@ -275,21 +275,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 
--- Colorscheme
-require("catppuccin").setup({
-	flavour = "mocha", -- mocha, macchiato, frappe, latte
-	term_colors = true,
-	integrations = {
-		treesitter = true,
-		cmp = true,
-		snacks = true,
-		bufferline = true,
-		harpoon = true,
-		flash = true,
-		lsp_trouble = true,
-	},
-})
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("moonfly")
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
