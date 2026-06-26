@@ -17,23 +17,11 @@
       unbind-key C-o 
       bind-key m select-pane -t :.+ 
 
-      # Manual save/restore within a session (optional)
-      set -g @resurrect-save-full-history 'on'
-      set -g @resurrect-capture-pane-contents 'on'
-
-      # Initial reproducible layout is handled by tmux-init-sessions script
+      # Reproducible layout handled by tmux-init-sessions
     '';
 
     plugins = with pkgs.tmuxPlugins; [
       sensible
-      resurrect
-      {
-        plugin = continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'off'
-          set -g @continuum-save-interval '0'
-        '';
-      }
     ];
   };
 }
