@@ -2,9 +2,6 @@
 
 {
   # Nvidia GPU (GTX 1660 Super)
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
-
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
