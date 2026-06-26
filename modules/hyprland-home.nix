@@ -15,13 +15,8 @@
       "exec-once" = [
         "waybar"
         "brave"
-        "kitty"
         "awww-daemon"
         "awww img ~/nixos-config/images/default.jpg"
-      ];
-
-      workspace = [
-        "1, class:^(brave-browser)$, silent"
       ];
 
       env = [
