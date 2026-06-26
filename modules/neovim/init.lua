@@ -231,7 +231,7 @@ require("conform").setup({
 		javascriptreact = { "prettierd", "prettier", stop_after_first = true },
 		typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 		json = { "prettierd", "prettier", stop_after_first = true },
-		yaml = { "yamlfmt" },
+		yaml = { "lsp" },
 		bash = { "shfmt" },
 		dockerfile = { "hadolint" },
 		markdown = { "prettierd", "prettier", stop_after_first = true },
