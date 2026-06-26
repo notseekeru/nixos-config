@@ -1,13 +1,10 @@
 { pkgs, ... }:
 
 {
-  # Creates all tmux sessions on first start
-  # No dependence on resurrect save files or tmuxp
   home.file.".local/bin/tmux-init-sessions" = {
     executable = true;
     text = ''
       #!/usr/bin/env bash
-      # Creates reproducible tmux sessions — works on any machine
       set -euo pipefail
 
       create_session() {
@@ -17,29 +14,29 @@
         shift 3
 
         if tmux has-session -t "$name" 2>/dev/null; then
-          # Check if this is just a default session (1 window "zsh")
-          # that was auto-created — if so, replace it
           local win_count win_name
           win_count=$(tmux list-windows -t "$name" -F '#{window_name}' 2>/dev/null | wc -l)
           win_name=$(tmux list-windows -t "$name" -F '#{window_name}' 2>/dev/null | head -1)
           if [ "$win_count" -eq 1 ] && [ "$win_name" = "zsh" ]; then
             tmux kill-session -t "$name" 2>/dev/null || true
           else
-            # Session has real windows — leave it as-is
             return 0
           fi
         fi
 
         tmux new-session -d -s "$name" -c "$first_dir" -n "$first_win"
-
         while [ $# -ge 2 ]; do
           tmux new-window -t "$name:" -c "$2" -n "$1"
           shift 2
         done
       }
 
-      # Create sessions 1-4 first, then session 0 last
-      # so it becomes the most recent and default attach target
+      # ─── EDIT YOUR SESSIONS BELOW ───────────────────────
+      # Format: create_session <name> <dir> <first-window> \
+      #           <window-name> <dir> \
+      #           <window-name> <dir>
+      # Session 0 is created last so it's the default attach target.
+      # ──────────────────────────────────────────────────────
 
       # Session 1: terraform
       create_session 1 /home/seeker/terraform terraform \
@@ -62,7 +59,7 @@
         zsh /home/seeker/diagram_website \
         pi /home/seeker/diagram_website
 
-      # Session 0 created last so it's the default attach target
+      # Session 0: nixos-config (created last = default attach)
       create_session 0 /home/seeker/nixos-config rebuild \
         neovim /home/seeker/nixos-config \
         pi /home/seeker/nixos-config \
