@@ -17,7 +17,17 @@
         shift 3
 
         if tmux has-session -t "$name" 2>/dev/null; then
-          return 0
+          # Check if this is just a default session (1 window "zsh")
+          # that was auto-created — if so, replace it
+          local win_count win_name
+          win_count=$(tmux list-windows -t "$name" -F '#{window_name}' 2>/dev/null | wc -l)
+          win_name=$(tmux list-windows -t "$name" -F '#{window_name}' 2>/dev/null | head -1)
+          if [ "$win_count" -eq 1 ] && [ "$win_name" = "zsh" ]; then
+            tmux kill-session -t "$name" 2>/dev/null || true
+          else
+            # Session has real windows — leave it as-is
+            return 0
+          fi
         fi
 
         tmux new-session -d -s "$name" -c "$first_dir" -n "$first_win"
@@ -28,11 +38,8 @@
         done
       }
 
-      # Session 0: nixos-config
-      create_session 0 /home/seeker/nixos-config rebuild \
-        neovim /home/seeker/nixos-config \
-        pi /home/seeker/nixos-config \
-        home /home/seeker
+      # Create sessions 1-4 first, then session 0 last
+      # so it becomes the most recent and default attach target
 
       # Session 1: terraform
       create_session 1 /home/seeker/terraform terraform \
@@ -54,6 +61,12 @@
         zsh /home/seeker/portfolio_website \
         zsh /home/seeker/diagram_website \
         pi /home/seeker/diagram_website
+
+      # Session 0 created last so it's the default attach target
+      create_session 0 /home/seeker/nixos-config rebuild \
+        neovim /home/seeker/nixos-config \
+        pi /home/seeker/nixos-config \
+        home /home/seeker
     '';
   };
 }

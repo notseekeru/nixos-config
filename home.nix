@@ -6,6 +6,7 @@
     ./modules/git.nix
     ./modules/zsh.nix
     ./modules/tmux.nix
+    ./modules/tmux-init.nix
     ./modules/neovim/init.nix
   ];
 

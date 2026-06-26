@@ -17,11 +17,11 @@
       unbind-key C-o 
       bind-key m select-pane -t :.+ 
 
-      # Synced via Syncthing across devices for portable session restore
+      # Manual save/restore within a session (optional)
       set -g @resurrect-save-full-history 'on'
       set -g @resurrect-capture-pane-contents 'on'
 
-      run-shell -bd 2 'SCRIPT=$(tmux show-option -gqv "@resurrect-restore-script-path") && [ -n "$SCRIPT" ] && "$SCRIPT"'
+      # Initial reproducible layout is handled by tmux-init-sessions script
     '';
 
     plugins = with pkgs.tmuxPlugins; [
@@ -31,7 +31,7 @@
         plugin = continuum;
         extraConfig = ''
           set -g @continuum-restore 'off'
-          set -g @continuum-save-interval '10'
+          set -g @continuum-save-interval '0'
         '';
       }
     ];
