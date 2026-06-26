@@ -27,6 +27,7 @@
     pi-coding-agent
     pre-commit
     gitleaks
+    prismlauncher
   ];
 
   programs.home-manager.enable = true;
