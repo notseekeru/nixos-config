@@ -9,6 +9,7 @@
     ../../modules/pipewire.nix
     ../../modules/syncthing.nix
     ../../modules/nvidia.nix
+    ../../modules/steam.nix
   ];
 
   networking.hostName = "desktop";
@@ -65,5 +66,7 @@
     brave
     obsidian
   ]);
+
+
 }
 
