@@ -8,12 +8,9 @@
         exclusive = true;
         reload_style_on_change = true;
         position = "top";
-        spacing = 0;
-        height = 0;
         "margin-top" = 2;
         "margin-left" = 5;
         "margin-right" = 5;
-        "margin-bottom" = 0;
 
         "modules-left" = [ "group/left" ];
         "modules-center" = [ "hyprland/workspaces" ];
@@ -81,7 +78,7 @@
 
         pulseaudio = {
           format = "{icon}   {volume}%";
-          "tooltip-format" = "{icon}   {volume}%";
+          "tooltip-format" = "{icon}  {volume}%";
           "format-muted" = "  Muted";
           "format-icons" = {
             default = [ "" "" "" ];
@@ -102,7 +99,6 @@
             charging = [ "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
             default = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
           };
-          "format-full" = "󰂅";
           "tooltip-format" = "{capacity}% {timeTo}";
           interval = 5;
           "on-click" = "rofi -show drun";
@@ -115,7 +111,6 @@
 
         network = {
           "format-icons" = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-          format = "{icon}";
           "format-wifi" = "{icon}";
           "format-ethernet" = "󰌗";
           "format-disconnected" = "󰤮";

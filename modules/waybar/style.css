@@ -66,8 +66,7 @@ window#waybar {
 #clock,
 #network,
 #pulseaudio,
-#battery,
-#tray {
+#battery {
   padding: 0 6px;
   margin: 1px 2px;
   color: #cdd6f4;
@@ -105,20 +104,6 @@ window#waybar {
   to {
     color: transparent;
   }
-}
-
-#tray {
-  padding-left: 4px;
-  padding-right: 0;
-  margin-right: 0;
-}
-
-#tray > .passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
 }
 
 /* ─── Tooltips ─── */
