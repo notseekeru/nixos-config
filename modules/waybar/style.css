@@ -9,27 +9,19 @@
 }
 
 window#waybar {
-  background: transparent;
+  background: rgba(22, 22, 28, 0.92);
 }
 
 /* ─── Bar segment pills ─── */
 #left,
 #right {
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0;
   padding: 0 8px;
-  background: rgba(22, 22, 28, 0.92);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .modules-center {
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0;
   padding: 0 4px;
-  background: rgba(22, 22, 28, 0.92);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Workspaces ─── */
