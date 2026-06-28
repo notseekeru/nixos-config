@@ -58,6 +58,9 @@
         "$mod, print, exec, grimblast copy screen"
         "$mod SHIFT, print, exec, grimblast save screen"
 
+        ", mouse:275, exec, wtype -M Alt -k Left -m Alt"
+        ", mouse:276, exec, wtype -M Alt -k Right -m Alt"
+
 
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
@@ -86,5 +89,6 @@
     awww
     bibata-cursors
     grimblast
+    wtype
   ];
 }
