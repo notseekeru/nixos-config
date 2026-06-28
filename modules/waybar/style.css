@@ -15,7 +15,7 @@ window#waybar {
 /* ─── Bar segment pills ─── */
 #left,
 #right {
-  border-radius: 16px;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0 0 3px 0;
   padding: 0 8px;
@@ -24,7 +24,7 @@ window#waybar {
 }
 
 .modules-center {
-  border-radius: 16px;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0 0 3px 0;
   padding: 0 4px;
@@ -126,7 +126,7 @@ tooltip {
   padding: 6px 10px;
   background: rgba(22, 22, 28, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
+  border-radius: 2px;
   font-size: 11px;
 }
 
