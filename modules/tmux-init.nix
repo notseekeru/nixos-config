@@ -31,13 +31,6 @@
         done
       }
 
-      # ─── EDIT YOUR SESSIONS BELOW ───────────────────────
-      # Format: create_session <name> <dir> <first-window> \
-      #           <window-name> <dir> \
-      #           <window-name> <dir>
-      # Session 0 is created last so it's the default attach target.
-      # ──────────────────────────────────────────────────────
-
       # Session 1: terraform
       create_session 1 /home/seeker/terraform terraform \
         terraform-commands /home/seeker/terraform \
@@ -60,8 +53,8 @@
         pi /home/seeker/diagram_website
 
       # Session 0: nixos-config (created last = default attach)
-      create_session 0 /home/seeker/nixos-config rebuild \
-        neovim /home/seeker/nixos-config \
+      create_session 0 /home/seeker/nixos-config neovim \
+        commands /home/seeker/nixos-config \
         pi /home/seeker/nixos-config \
         home /home/seeker
     '';
