@@ -24,6 +24,13 @@
         "XCURSOR_SIZE,24"
       ];
 
+      general = {
+        gaps_in = 2;
+        gaps_out = 6;
+        border_size = 2;
+        layout = "dwindle";
+      };
+
       bind = [
         "$mod, Q, exec, kitty"
         "$mod, C, killactive"
