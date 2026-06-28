@@ -66,8 +66,6 @@ window#waybar {
 #clock,
 #network,
 #pulseaudio,
-#cpu,
-#memory,
 #battery,
 #tray {
   padding: 0 6px;
@@ -94,7 +92,6 @@ window#waybar {
   padding-right: 8px;
 }
 
-#cpu.warning,
 #battery.warning {
   color: #f9e2af;
 }

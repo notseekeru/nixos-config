@@ -49,8 +49,6 @@
           modules = [
             "pulseaudio"
             "bluetooth"
-            "memory"
-            "cpu"
             "network"
             "battery"
           ];
@@ -93,18 +91,6 @@
           "smooth-scrolling-threshold" = 1;
           "on-click" = "pavucontrol";
           "on-click-right" = "pamixer -t";
-        };
-
-        cpu = {
-          interval = 10;
-          format = "  {usage}%";
-          "on-click" = "kitty btop";
-        };
-
-        memory = {
-          interval = 2;
-          format = "  {used:0.1f}G";
-          "on-click" = "kitty btop";
         };
 
         battery = {
