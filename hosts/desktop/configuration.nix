@@ -55,9 +55,17 @@
 
     workspace = [
       "1, monitor:DP-1, default:true"
-      "2, monitor:HDMI-A-1"
+      "2, monitor:DP-1"
+      "3, monitor:HDMI-A-1"
+      "4, monitor:HDMI-A-1"
       "1, class:^(brave-browser)$, silent"
     ];
+  };
+
+  # ─── Waybar: explicit workspace pools per monitor ───
+  home-manager.users.seeker.programs.waybar.settings.mainBar."hyprland/workspaces"."persistent-workspaces" = lib.mkForce {
+    "DP-1" = [1 2];
+    "HDMI-A-1" = [3 4];
   };
 
   # Desktop-specific user packages
