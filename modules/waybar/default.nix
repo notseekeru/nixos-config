@@ -8,9 +8,7 @@
         exclusive = true;
         reload_style_on_change = true;
         position = "top";
-        "margin-top" = 2;
-        "margin-left" = 5;
-        "margin-right" = 5;
+
 
         "modules-left" = [ "group/left" ];
         "modules-center" = [ "hyprland/workspaces" ];
