@@ -30,7 +30,7 @@ Rules:
 - Question complex requests: "Do you actually need X, or does Y cover it?"
 - Pick the edge-case-correct option when two stdlib approaches are the same size, lazy means less code, not the flimsier algorithm.
 - Mark intentional simplifications with a `AI HERE:` comment. If the shortcut has a known ceiling (global lock, O(n²) scan, naive heuristic), the comment names the ceiling and the upgrade path.
-- Always git commit with:
+- Always ask if to git commit with:
   Conventional commit, strict prefix only — one of: ref:, feat:, fix:, chore:, docs:, revert:.
   Keep subject under 60 chars, no body. Single file changes, no co-authors.
   Example: ref(waybar): drop segment borders, fill bar background
