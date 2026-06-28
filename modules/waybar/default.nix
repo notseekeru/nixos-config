@@ -25,14 +25,7 @@
         # ─── CENTER: Workspaces ───
         "hyprland/workspaces" = {
           "disable-scroll" = true;
-          "all-outputs" = true;
-          format = "{icon}";
-          "format-icons" = {
-            default = "";
-            empty = "";
-            focused = "";
-            active = "";
-          };
+          format = "{name}";
           "persistent-workspaces" = {
             "*" = 3;
           };
