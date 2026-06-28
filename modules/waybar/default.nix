@@ -61,21 +61,21 @@
         };
 
         bluetooth = {
-          format = "󰂯";
+          format = "󰂯 ";
           "format-connected" = "󰂱";
           "format-disabled" = "󰂲";
           "on-click" = "blueman-manager";
         };
 
         pulseaudio = {
-          format = "{icon}   {volume}%";
-          "tooltip-format" = "{icon}  {volume}%";
+          format = "{icon} {volume}% ";
+          "tooltip-format" = "{icon}{volume}%";
           "format-muted" = "  Muted";
           "format-icons" = {
             default = [ "" "" "" ];
           };
           "max-volume" = 100;
-          "scroll-step" = 2;
+          "scroll-step" = 5;
           "smooth-scrolling-threshold" = 1;
           "on-click" = "pavucontrol";
           "on-click-right" = "pamixer -t";
@@ -102,7 +102,7 @@
 
         network = {
           "format-icons" = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-          "format-wifi" = "{icon}";
+          "format-wifi" = "{icon} ";
           "format-ethernet" = "󰌗";
           "format-disconnected" = "󰤮";
           "tooltip-format-wifi" = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
