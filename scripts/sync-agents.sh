@@ -15,12 +15,12 @@ if ! git rev-parse --git-dir >/dev/null 2>&1; then
   exit 0
 fi
 
-cp "$1" "$2"
-
 if ! git diff --quiet HEAD 2>/dev/null; then
   echo "skip $dir (dirty, uncommitted changes)" >&2
   exit 0
 fi
+
+cp "$1" "$2"
 
 git add AGENTS.md
 git commit -m "$3" 2>/dev/null || true
