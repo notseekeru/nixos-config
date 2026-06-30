@@ -28,6 +28,7 @@
     pi-coding-agent
     pre-commit
     gitleaks
+    logisim-evolution
   ];
 
   programs.home-manager.enable = true;
