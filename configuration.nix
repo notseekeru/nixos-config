@@ -48,6 +48,7 @@
     wget
     tree
     docker-compose
+    usbutils
   ];
 
   # ─── State ───
