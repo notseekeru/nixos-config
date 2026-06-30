@@ -33,6 +33,7 @@ in
       bufferline-nvim                   # Chrome-style tabs at the top
       vim-moonfly-colors               # Colorscheme
       persistence-nvim                  # Auto-save/restore session (LazyVim-style)
+      nvim-lint                      # Async linter for ruff, hadolint, etc.
     ];
   };
 }
