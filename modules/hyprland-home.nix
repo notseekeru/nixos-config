@@ -17,6 +17,7 @@
         "brave"
         "awww-daemon"
         "awww img ~/nixos-config/images/default.jpg"
+        "cliphist store"
       ];
 
       env = [
@@ -54,6 +55,8 @@
 
         "$mod, SPACE, exec, rofi -show drun"
 
+        "$mod SHIFT, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+
         "$mod CTRL, print, exec, grimblast copy area"
         "$mod, print, exec, grimblast copy screen"
         "$mod SHIFT, print, exec, grimblast save screen"
@@ -81,6 +84,7 @@
 
   home.packages = with pkgs; [
     wl-clipboard
+    cliphist
     rofi
     dunst
     pavucontrol
