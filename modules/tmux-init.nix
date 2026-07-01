@@ -55,9 +55,9 @@
         pi /home/seeker/diagram_website
 
       create_session 4 /home/seeker/auth_lib \
-        auth_lib
-        commands
-        pi
+        auth_lib /homeseeker/auth_lib \
+        commands /homeseeker/auth_lib \
+        pi /homeseeker/auth_lib 
 
       # Session 0: nixos-config (created last = default attach)
       create_session 0 /home/seeker/nixos-config nixos-config \
