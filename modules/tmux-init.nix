@@ -54,7 +54,8 @@
         commands /home/seeker/diagram_website \
         pi /home/seeker/diagram_website
 
-      create_session 4 /home/seeker/auth_lib \
+      # Session 5: auth_lib
+      create_session 5 /home/seeker/auth_lib \
         auth_lib /homeseeker/auth_lib \
         commands /homeseeker/auth_lib \
         pi /homeseeker/auth_lib 
