@@ -60,7 +60,7 @@
         pi
 
       # Session 0: nixos-config (created last = default attach)
-      create_session 0 /home/seeker/nixos-config neovim \
+      create_session 0 /home/seeker/nixos-config nixos-config \
         commands /home/seeker/nixos-config \
         pi /home/seeker/nixos-config \
         home /home/seeker
