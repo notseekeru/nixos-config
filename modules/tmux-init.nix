@@ -33,26 +33,31 @@
 
       # Session 1: terraform
       create_session 1 /home/seeker/terraform terraform \
-        terraform-commands /home/seeker/terraform \
-        terraform-pi /home/seeker/terraform
+        commands /home/seeker/terraform \
+        pi /home/seeker/terraform
 
       # Session 2: gitops
       create_session 2 /home/seeker/gitops gitops \
-        gitops-command /home/seeker/gitops \
-        gitops-pi /home/seeker/gitops
+        commands /home/seeker/gitops \
+        pi /home/seeker/gitops
 
       # Session 3: http-engine-go
       create_session 3 /home/seeker/http-engine-go http-engine-go \
-        http-commands /home/seeker/http-engine-go \
-        go-http-pi /home/seeker/http-engine-go
+        commands /home/seeker/http-engine-go \
+        pi /home/seeker/http-engine-go
 
       # Session 4: websites
       create_session 4 /home/seeker/portfolio_website portfolio \
-        portfolio /home/seeker/portfolio_website \
-        portfolio /home/seeker/portfolio_website \
+        commands /home/seeker/portfolio_website \
+        pi /home/seeker/portfolio_website \
         diagram /home/seeker/diagram_website \
-        diagram /home/seeker/diagram_website \
-        diagram /home/seeker/diagram_website
+        commands /home/seeker/diagram_website \
+        pi /home/seeker/diagram_website
+
+      create_session 4 /home/seeker/auth_lib \
+        auth_lib
+        commands
+        pi
 
       # Session 0: nixos-config (created last = default attach)
       create_session 0 /home/seeker/nixos-config neovim \
