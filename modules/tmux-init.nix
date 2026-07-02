@@ -63,7 +63,9 @@
       create_session 0 /home/seeker/nixos-config nixos-config \
         commands /home/seeker/nixos-config \
         pi /home/seeker/nixos-config \
-        home /home/seeker
+        home /home/seeker \
+        leetcode /home/seeker/leetcode
+
     '';
   };
 }
