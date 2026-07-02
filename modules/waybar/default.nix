@@ -39,6 +39,7 @@
             "bluetooth"
             "network"
             "battery"
+            "custom/power"
           ];
         };
 
@@ -114,6 +115,17 @@
         };
 
       };
+
+      # ─── RIGHTMOST: Shutdown button ───
+      "custom/power" = {
+        format = "⏻";
+        interval = "once";
+        exec = "echo";
+        return-type = "json";
+        on-click = "systemctl poweroff";
+        tooltip = false;
+      };
+
     };
     style = builtins.readFile ./style.css;
   };
