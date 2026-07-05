@@ -88,6 +88,7 @@
     rofi
     dunst
     pavucontrol
+    nautilus
     btop
     networkmanagerapplet
     awww
