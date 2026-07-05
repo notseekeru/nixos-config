@@ -31,40 +31,34 @@
         done
       }
 
-      # Session 1: terraform
-      create_session 1 /home/seeker/terraform terraform \
-        commands /home/seeker/terraform \
-        pi /home/seeker/terraform
-
-      # Session 2: gitops
-      create_session 2 /home/seeker/gitops gitops \
-        commands /home/seeker/gitops \
-        pi /home/seeker/gitops
-
-      # Session 3: http-engine-go
-      create_session 3 /home/seeker/http-engine-go http-engine-go \
-        commands /home/seeker/http-engine-go \
-        pi /home/seeker/http-engine-go
-
-      # Session 4: websites
-      create_session 4 /home/seeker/portfolio_website portfolio \
-        commands /home/seeker/portfolio_website \
-        pi /home/seeker/portfolio_website \
-        diagram /home/seeker/diagram_website \
-        commands /home/seeker/diagram_website \
-        pi /home/seeker/diagram_website
-
-      # Session 5: auth_lib
-      create_session 5 /home/seeker/auth_lib auth_lib \
-        commands /home/seeker/auth_lib \
-        pi /home/seeker/auth_lib 
-
-      # Session 0: nixos-config (created last = default attach)
-      create_session 0 /home/seeker/nixos-config nixos-config \
+      create_session nixos-config /home/seeker/nixos-config nixos-config \
         commands /home/seeker/nixos-config \
         pi /home/seeker/nixos-config \
         home /home/seeker \
-        leetcode /home/seeker/leetcode
+ 
+      create_session terraform /home/seeker/terraform terraform \
+        commands /home/seeker/terraform \
+        pi /home/seeker/terraform
+
+      create_session gitops /home/seeker/gitops gitops \
+        commands /home/seeker/gitops \
+        pi /home/seeker/gitops
+
+      create_session http-engine-go /home/seeker/http-engine-go http-engine-go \
+        commands /home/seeker/http-engine-go \
+        pi /home/seeker/http-engine-go
+
+      create_session portfolio_website /home/seeker/portfolio_website portfolio \
+        commands /home/seeker/portfolio_website \
+        pi /home/seeker/portfolio_website
+
+      create_session diagram_website /home/seeker/diagram_website diagram \
+        commands /home/seeker/diagram_website \
+        pi /home/seeker/diagram_website
+
+      create_session auth_lib /home/seeker/auth_lib auth_lib \
+        commands /home/seeker/auth_lib \
+        pi /home/seeker/auth_lib 
 
     '';
   };
