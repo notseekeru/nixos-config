@@ -114,16 +114,14 @@
           "on-click" = "sudo nm-connection-editor";
         };
 
-      };
+        # ─── Shutdown ───
+        "custom/power" = {
+          format = "⏻";
+          interval = "once";
+          on-click = "systemctl poweroff";
+          tooltip = false;
+        };
 
-      # ─── RIGHTMOST: Shutdown button ───
-      "custom/power" = {
-        format = "⏻";
-        interval = "once";
-        exec = "echo";
-        return-type = "json";
-        on-click = "systemctl poweroff";
-        tooltip = false;
       };
 
     };
