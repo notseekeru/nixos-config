@@ -18,6 +18,7 @@
   time.timeZone = "Asia/Singapore";
 
   # ─── Nix ───
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc = {
     automatic = true;
     dates = "daily";
