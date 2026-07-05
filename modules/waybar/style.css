@@ -71,6 +71,12 @@ window#waybar {
   padding-right: 8px;
 }
 
+#custom-power {
+  padding: 0 8px;
+  font-size: 16px;
+  color: #cdd6f4;
+}
+
 #network {
   padding-left: 4px;
 }
