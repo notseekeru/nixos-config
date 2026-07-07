@@ -40,6 +40,10 @@
         commands /home/seeker/terraform \
         pi /home/seeker/terraform
 
+      create_session ansible /home/seeker/ansible ansible \
+        commands /home/seeker/ansible \
+        pi /home/seeker/ansible
+
       create_session gitops /home/seeker/gitops gitops \
         commands /home/seeker/gitops \
         pi /home/seeker/gitops
