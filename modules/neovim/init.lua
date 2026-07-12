@@ -21,6 +21,12 @@ vim.keymap.set("v", "J", "j")
 
 vim.keymap.set("v", "K", "k")
 
+-- Window navigation: <C-h/j/k/l> without <C-w> prefix
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
+
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-e>", "<C-u>zz", { noremap = true, silent = true })
 
