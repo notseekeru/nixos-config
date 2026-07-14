@@ -8,6 +8,7 @@
     ../../modules/greeter.nix
     ../../modules/pipewire.nix
     ../../modules/syncthing.nix
+    ../../modules/networking.nix
     ../../modules/nvidia.nix
     ../../modules/steam.nix
   ];

@@ -9,6 +9,7 @@
     ../../modules/pipewire.nix
     ../../modules/intel-gpu.nix
     ../../modules/syncthing.nix
+    ../../modules/networking.nix
   ];
 
   networking.hostName = "laptop";
