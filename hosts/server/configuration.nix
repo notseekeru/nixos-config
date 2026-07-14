@@ -5,6 +5,7 @@
     ../../configuration.nix
     ./hardware-configuration.nix
     ../../modules/syncthing.nix
+    ../../modules/networking.nix
   ];
 
   networking.hostName = "server";

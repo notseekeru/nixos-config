@@ -32,6 +32,7 @@ Three machines, one flake. Declarative NixOS with shared modules and per-host ov
 │   ├── intel-gpu.nix           # Intel GPU config
 │   ├── steam.nix               # Steam + 32-bit
 │   ├── syncthing.nix           # Syncthing
+│   ├── networking.nix          # tcpdump, wireshark
 │   ├── git.nix                 # Global git config
 │   ├── direnv.nix              # Direnv
 │   ├── zsh.nix                 # Zsh
