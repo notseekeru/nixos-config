@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  environment.systemPackages = [ pkgs.tcpdump ];
+  environment.systemPackages = with pkgs; [ tcpdump wireshark ];
 }
