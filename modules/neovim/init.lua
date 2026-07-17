@@ -232,15 +232,14 @@ require("conform").setup({
 		nix = { "nixpkgs-fmt" },
 		lua = { "stylua" },
 		python = { "ruff" },
-		javascript = { "prettierd", "prettier", stop_after_first = true },
-		typescript = { "prettierd", "prettier", stop_after_first = true },
-		javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-		typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-		json = { "prettierd", "prettier", stop_after_first = true },
+		javascript = { "biome" },
+		typescript = { "biome" },
+		javascriptreact = { "biome" },
+		typescriptreact = { "biome" },
+		json = { "biome" },
 		yaml = { "lsp" },
 		bash = { "shfmt" },
 		dockerfile = { "hadolint" },
-		markdown = { "prettierd", "prettier", stop_after_first = true },
 		["_"] = { "lsp" },
 	},
 	format_on_save = {
@@ -252,6 +251,10 @@ require("conform").setup({
 -- nvim-lint: async linter diagnostics
 require("lint").linters_by_ft = {
 	python = { "ruff" },
+	javascript = { "biome" },
+	typescript = { "biome" },
+	javascriptreact = { "biome" },
+	typescriptreact = { "biome" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {

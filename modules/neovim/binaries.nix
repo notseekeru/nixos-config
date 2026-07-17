@@ -35,7 +35,7 @@
     nixpkgs-fmt # Nix formatter
     stylua # Lua formatter
     ruff # Python formatter (also linter)
-    prettierd # TS/JS/JSON/YAML/MD formatter (daemon)
+    biome # TS/JS/JSON formatter & linter
     shfmt # Bash formatter
     yamlfmt # YAML formatter
 
