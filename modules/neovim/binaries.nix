@@ -37,6 +37,7 @@
     ruff # Python formatter (also linter)
     biome # TS/JS/JSON formatter & linter
     shfmt # Bash formatter
+    prettierd # Markdown formatter (daemon)
     yamlfmt # YAML formatter
 
     # === Tree-sitter CLI (optional) ===

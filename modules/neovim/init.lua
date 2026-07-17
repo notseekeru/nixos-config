@@ -237,6 +237,7 @@ require("conform").setup({
 		javascriptreact = { "biome" },
 		typescriptreact = { "biome" },
 		json = { "biome" },
+		markdown = { "prettierd" },
 		yaml = { "lsp" },
 		bash = { "shfmt" },
 		dockerfile = { "hadolint" },
