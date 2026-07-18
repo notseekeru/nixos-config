@@ -252,10 +252,10 @@ require("conform").setup({
 -- nvim-lint: async linter diagnostics
 require("lint").linters_by_ft = {
 	python = { "ruff" },
-	javascript = { "biome" },
-	typescript = { "biome" },
-	javascriptreact = { "biome" },
-	typescriptreact = { "biome" },
+	javascript = { "biomejs" },
+	typescript = { "biomejs" },
+	javascriptreact = { "biomejs" },
+	typescriptreact = { "biomejs" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
