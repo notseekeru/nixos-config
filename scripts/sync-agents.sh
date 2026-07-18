@@ -1,8 +1,26 @@
 #!/usr/bin/env sh
 # Sync AGENTS.md from nixos-config to all projects, then commit
 
+set -eu
+
 SRC="$HOME/nixos-config/AGENTS.md"
-MSG="chore(agents): manual sync AGENTS.md across repos via manual sync script"
+
+# Generate commit message from pi (headless), with fallback chain
+if [ -z "${1:-}" ]; then
+  DIFF=$(git -C "$HOME/nixos-config" diff HEAD -- AGENTS.md 2>/dev/null || true)
+  if [ -z "$DIFF" ]; then
+    DIFF=$(git -C "$HOME/nixos-config" diff --cached -- AGENTS.md 2>/dev/null || true)
+  fi
+
+  if [ -n "$DIFF" ]; then
+    DESC=$(echo "$DIFF" | pi -p "Summarize this diff in a short phrase for a commit message. Output only the description, nothing else. No prefix." 2>/dev/null || true)
+    MSG="chore(agents): ${DESC:-manual sync AGENTS.md across repos}"
+  else
+    MSG="chore(agents): manual sync AGENTS.md across repos"
+  fi
+else
+  MSG="$1"
+fi
 
 find "$HOME" -maxdepth 4 -name AGENTS.md -type f \
     ! -path "$HOME/nixos-config/*" \
