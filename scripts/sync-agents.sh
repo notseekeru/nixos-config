@@ -2,11 +2,11 @@
 # Sync AGENTS.md from nixos-config to all projects, then commit
 
 SRC="$HOME/nixos-config/AGENTS.md"
-MSG="chore(agents): updated AGENTS.md and synced with automated script"
+MSG="chore(agents): manual sync AGENTS.md across repos via manual sync script"
 
 find "$HOME" -maxdepth 4 -name AGENTS.md -type f \
-  ! -path "$HOME/nixos-config/*" \
-  -exec sh -c '
+    ! -path "$HOME/nixos-config/*" \
+    -exec sh -c '
 dir="$(dirname "$2")"
 cd "$dir" || exit
 
