@@ -7,7 +7,7 @@ local capabilities = require("blink-cmp").get_lsp_capabilities()
 
 -- Diagnostic configuration
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = { truncate_line = false },
   signs = true,
   underline = true,
   update_in_insert = false,
