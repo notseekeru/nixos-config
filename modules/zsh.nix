@@ -57,6 +57,8 @@
       t3 = "tmux a -t 3";
 
       k = "kubectl";
+
+      gcm = ''git add -A && git diff --cached --stat && read -q "REPLY?Commit? (y/N): " && echo && [[ "$REPLY" != [yY] ]] && echo Aborted. || git commit -m "$(echo Generate a short conventional commit message with scope, properly and cleanly for: $(git diff --cached --stat | tr '\n' ' ') | pi --provider deepseek --model deepseek-v4-flash 2>/dev/null)"'';
     };
   };
 }
