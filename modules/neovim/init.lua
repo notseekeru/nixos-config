@@ -243,10 +243,24 @@ require("conform").setup({
 		dockerfile = { "hadolint" },
 		["_"] = { "lsp" },
 	},
-	format_on_save = {
-		lsp_fallback = true,
-		timeout_ms = 1000,
-	},
+	format_on_save = false,
+})
+
+-- Explicit format on save via BufWritePre (avoids conflict with autosave)
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("formatautosave", { clear = true }),
+	pattern = "*",
+	callback = function(args)
+		if vim.bo[args.buf].buftype ~= "" then
+			return
+		end
+		require("conform").format({
+			buf = args.buf,
+			lsp_fallback = true,
+			timeout_ms = 1000,
+			async = false,
+		})
+	end,
 })
 
 -- nvim-lint: async linter diagnostics
