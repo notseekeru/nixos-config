@@ -14,6 +14,7 @@
   ];
 
   modules.obs.enable = true;
+  modules.obs.hardwareEncoder = "qsv_hevc";
 
   networking.hostName = "laptop";
 

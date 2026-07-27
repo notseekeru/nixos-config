@@ -105,7 +105,10 @@ let
     version = 2;
   };
 
-  defaultProfile = pkgs.writeText "obs-default-profile" ''
+  # Build profile INI from cfg settings so encoder is configurable
+  profileIni = let
+    e = cfg.hardwareEncoder;
+  in pkgs.writeText "obs-profile.ini" ''
     [General]
     Name=Default
 
@@ -116,8 +119,8 @@ let
     [Output]
     Mode=Simple
     RecType=Standard
-    RecFormat=mkv
-    RecEncoder=x264
+    RecFormat=${if e == "qsv_hevc" then "mp4" else "mkv"}
+    RecEncoder=${e}
     RecQuality=HQ
     RecTracks=1
     VBitrate=2500
@@ -133,7 +136,7 @@ let
 
     [AdvOut]
     RecType=Standard
-    RecEncoder=x264
+    RecEncoder=${e}
     FFOutputToFile=false
     FFURL=blank
     RecFilePath=
@@ -177,10 +180,24 @@ in
       description = "Extra OBS plugins to install";
       example = lib.literalExpression "[ pkgs.obs-studio-plugins.obs-backgroundremoval ]";
     };
+
+    hardwareEncoder = lib.mkOption {
+      type = lib.types.enum [ "x264" "qsv_hevc" ];
+      default = "x264";
+      description = ''
+        Recording encoder:
+        - x264: software (CPU), best compatibility, .mkv
+        - qsv_hevc: Intel Quick Sync HEVC, needs intel-media-driver, .mp4
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = obsPkgs ++ cfg.externalPlugins;
+    environment.systemPackages = obsPkgs ++ cfg.externalPlugins
+      ++ lib.optionals (cfg.hardwareEncoder == "qsv_hevc") (with pkgs; [
+        intel-media-driver   # VAAPI → QSV for HEVC encode
+        vpl-gpu-rt           # oneVPL GPU runtime
+      ]);
 
     # OBS needs realtime scheduling for glitch-free capture
     security.pam.loginLimits = [
@@ -250,7 +267,7 @@ in
         '';
 
         # ── Profile: Default (recording-focused) ──
-        "obs-studio/basic/profiles/Default/basic.ini".source = defaultProfile;
+        "obs-studio/basic/profiles/Default/basic.ini".source = profileIni;
 
         # ── Scene collection: Default (desktop audio + mic + display) ──
         "obs-studio/basic/scenes/Default.json".text = defaultScene;
