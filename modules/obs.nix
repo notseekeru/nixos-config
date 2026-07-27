@@ -11,6 +11,7 @@ let
     obs-studio-plugins.input-overlay                  # Keyboard/mouse overlay
     obs-studio-plugins.obs-move-transition            # Smooth scene transitions
     obs-studio-plugins.obs-multi-rtmp                 # Multi-platform streaming
+    mpv                                              # Video playback for recordings
   ];
 
   # Default scene collection: Desktop Audio + Mic (pulse) + Display Capture (wlrobs)
@@ -209,14 +210,13 @@ in
     # Ensure user is in audio group for realtime privileges
     users.users.seeker.extraGroups = lib.mkBefore [ "audio" ];
 
+    # Backup existing OBS config files before declarative overwrite
+    home-manager.backupFileExtension = ".hm-bak";
+
     # Inject declarative OBS config into home-manager
     home-manager.users.seeker = { ... }: {
-      # OBS config directory layout
       xdg.configFile = {
-        # ── Global ──
         "obs-studio/global.ini".source = globalIni;
-
-        # ── User preferences (no FirstRun nag) ──
         "obs-studio/user.ini".text = ''
           [General]
           Pre19Defaults=false
@@ -265,11 +265,7 @@ in
           [Output]
           RecEncoder=x264
         '';
-
-        # ── Profile: Default (recording-focused) ──
         "obs-studio/basic/profiles/Default/basic.ini".source = profileIni;
-
-        # ── Scene collection: Default (desktop audio + mic + display) ──
         "obs-studio/basic/scenes/Default.json".text = defaultScene;
       };
     };
