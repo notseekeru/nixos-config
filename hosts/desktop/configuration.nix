@@ -11,6 +11,7 @@
     ../../modules/networking.nix
     ../../modules/nvidia.nix
     ../../modules/steam.nix
+    ../../modules/obs.nix
   ];
 
   networking.hostName = "desktop";
@@ -70,6 +71,12 @@
   };
 
   # Desktop-specific user packages
+  # ─── OBS ───
+  modules.obs.enable = true;
+  modules.obs.externalPlugins = with pkgs.obs-studio-plugins; [
+    obs-backgroundremoval
+  ];
+
   home-manager.users.seeker.home.packages = lib.mkAfter (with pkgs; [
     nerd-fonts.geist-mono
     brave

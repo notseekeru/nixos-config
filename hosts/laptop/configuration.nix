@@ -10,7 +10,10 @@
     ../../modules/intel-gpu.nix
     ../../modules/syncthing.nix
     ../../modules/networking.nix
+    ../../modules/obs.nix
   ];
+
+  modules.obs.enable = true;
 
   networking.hostName = "laptop";
 
