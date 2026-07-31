@@ -210,14 +210,11 @@ in
     # Ensure user is in audio group for realtime privileges
     users.users.seeker.extraGroups = lib.mkBefore [ "audio" ];
 
-    # Backup existing OBS config files before declarative overwrite
-    home-manager.backupFileExtension = ".hm-bak";
-
-    # Inject declarative OBS config into home-manager
     home-manager.users.seeker = { ... }: {
       xdg.configFile = {
-        "obs-studio/global.ini".source = globalIni;
-        "obs-studio/user.ini".text = ''
+        "obs-studio/global.ini" = { source = globalIni; force = true; };
+        "obs-studio/user.ini" = {
+          text = ''
           [General]
           Pre19Defaults=false
           Pre21Defaults=false
@@ -264,9 +261,11 @@ in
 
           [Output]
           RecEncoder=x264
-        '';
-        "obs-studio/basic/profiles/Default/basic.ini".source = profileIni;
-        "obs-studio/basic/scenes/Default.json".text = defaultScene;
+          '';
+          force = true;
+        };
+        "obs-studio/basic/profiles/Default/basic.ini" = { source = profileIni; force = true; };
+        "obs-studio/basic/scenes/Default.json" = { text = defaultScene; force = true; };
       };
     };
   };
