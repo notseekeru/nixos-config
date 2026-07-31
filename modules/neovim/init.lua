@@ -83,7 +83,7 @@ require("snacks").setup({
 		},
 	},
 	quickfile = { enabled = true },
-	scroll = { enabled = true },
+	scroll = { enabled = false },
 	statuscolumn = { enabled = true },
 	words = { enabled = true },
 })
