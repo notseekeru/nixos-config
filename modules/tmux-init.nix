@@ -48,9 +48,9 @@
         commands /home/seeker/gitops \
         pi /home/seeker/gitops
 
-      create_session http-engine-go /home/seeker/http-engine-go http-engine-go \
-        commands /home/seeker/http-engine-go \
-        pi /home/seeker/http-engine-go
+      create_session l4-l7-rproxy-lb-http-go /home/seeker/l4-l7-rproxy-lb-http-go l4-l7-rproxy-lb-http-go \
+        commands /home/seeker/l4-l7-rproxy-lb-http-go \
+        pi /home/seeker/l4-l7-rproxy-lb-http-go
 
       create_session portfolio_website /home/seeker/portfolio_website portfolio \
         commands /home/seeker/portfolio_website \
