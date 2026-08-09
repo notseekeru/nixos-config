@@ -64,9 +64,9 @@
         commands /home/seeker/auth_lib \
         pi /home/seeker/auth_lib 
 
-      create_session scratch_encryption_rust /home/seeker/scratch-encryption-rust/ encyrption \
-        commands /home/seeker/scratch-encryption-rust/ \
-        pi /home/seeker/scratch-encryption-rust/
+      create_session maxterview_website /home/seeker/maxterview_website maxterview \
+        commands /home/seeker/maxterview_website \
+        pi /home/seeker/maxterview_website
 
     '';
   };
