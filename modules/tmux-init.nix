@@ -50,7 +50,8 @@
 
       create_session custom-http-c /home/seeker/custom-http-c custom-http-c \
         commands /home/seeker/custom-http-c \
-        pi /home/seeker/custom-http-c
+        pi /home/seeker/custom-http-c \
+        curl /home/seeker/custom-http-c/
 
       create_session portfolio_website /home/seeker/portfolio_website portfolio \
         commands /home/seeker/portfolio_website \
