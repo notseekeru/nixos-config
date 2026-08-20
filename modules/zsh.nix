@@ -59,7 +59,7 @@
 
       k = "kubectl";
 
-      gcm = ''git add -A && msg=$(echo Output ONLY a single conventional commit subject with scope ≤60 chars. No preamble, no markdown, no explanation. Diff: $(git diff --cached | tr '\n' ' ') | pi 2>/dev/null | tr -d '\`' | grep -oP '^[a-z]+(?:\([^)]*\))?!?:? .*' | head -1) && git commit -m "$msg"'';
+      gcm = ''git add -A && msg=$(echo Output ONLY a single conventional commit subject with scope ≤60 chars. No preamble, no markdown, no explanation. Diff: $(git diff --cached | tr '\n' ' ') | pi --provider deepseek --model deepseek-v4-flash 2>/dev/null | tr -d '\`' | grep -oP '^[a-z]+(?:\([^)]*\))?!?:? .*' | head -1) && git commit -m "$msg"'';
     };
   };
 }
