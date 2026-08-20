@@ -49,7 +49,8 @@
       garbage = "nix-collect-garbage -d";
       rb = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
       clrb = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .\#\$(hostname) --refresh --show-trace";
-      update = "cd ~/nixos-config && sudo nix flake update --extra-experimental-features 'nix-command flakes'";
+      upnix = "cd ~/nixos-config && nix flake lock --update-input nixpkgs --extra-experimental-features 'nix-command flakes' && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
+      uphm = "cd ~/nixos-config && nix flake lock --update-input home-manager --extra-experimental-features 'nix-command flakes' && sudo nixos-rebuild switch --flake .\#\$(hostname) --show-trace";
 
       t0 = "tmux a -t 0";
       t1 = "tmux a -t 1";
