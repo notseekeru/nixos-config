@@ -5,9 +5,12 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Declarative pi coding-agent (extensions/settings/args)
+    pi.url = "github:lukasl-dev/pi.nix";
+
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, pi, ... }:
     let
       system = "x86_64-linux";
       sharedModules = [
@@ -15,7 +18,10 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.seeker = import ./home.nix;
+          home-manager.users.seeker = import ./home.nix {
+            inherit pi;
+            pkgs = nixpkgs.legacyPackages.${system};
+          };
         }
 
         {

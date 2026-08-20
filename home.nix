@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, pi, ... }:
 
 {
   imports = [
+    pi.homeModules.default
     ./modules/direnv.nix
     ./modules/git.nix
     ./modules/zsh.nix
@@ -25,11 +26,22 @@
     glibc
     vim
     gh
-    pi-coding-agent
     pre-commit
     gitleaks
     logisim-evolution
   ];
+
+  # Declarative pi coding-agent (install + settings + args via module)
+  programs.pi.coding-agent = {
+    enable = true;
+    # Provider/model baked into the wrapper so the gcm alias calls plain `pi`.
+    extraArgs = [
+      "--provider"
+      "deepseek"
+      "--model"
+      "deepseek-v4-flash"
+    ];
+  };
 
   programs.home-manager.enable = true;
 
