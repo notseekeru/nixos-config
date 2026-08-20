@@ -59,7 +59,7 @@
 
       k = "kubectl";
 
-      gcm = ''git add -A && git commit -m "$(echo Generate a conventional commit subject with scope, 60 chars or less: $(git diff --cached | tr '\n' ' ') | pi 2>/dev/null)"'';
+      gcm = ''git add -A && msg=$(echo Output ONLY a single conventional commit subject with scope ≤60 chars. No preamble, no markdown, no explanation. Diff: $(git diff --cached | tr '\n' ' ') | pi 2>/dev/null | tr -d '\`' | grep -oP '^[a-z]+(?:\([^)]*\))?!?:? .*' | head -1) && git commit -m "$msg"'';
     };
   };
 }
