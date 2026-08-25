@@ -54,7 +54,8 @@
         "$mod SHIFT, 4, movetoworkspace, 4"
 
         "$mod, SPACE, exec, rofi -show drun"
-
+        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
         "$mod SHIFT, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
         "$mod CTRL, print, exec, grimblast copy area"
@@ -95,5 +96,7 @@
     bibata-cursors
     grimblast
     wtype
+    brightnessctl
+    awww
   ];
 }

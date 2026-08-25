@@ -35,6 +35,7 @@
         "group/right" = {
           orientation = "inherit";
           modules = [
+            "backlight"
             "pulseaudio"
             "bluetooth"
             "network"
@@ -99,6 +100,15 @@
             warning = 20;
             critical = 10;
           };
+        };
+        backlight = {
+          format = "{icon} {percent}%";
+          format-icons = [ "" "󰛨" "󱩏" ];
+          on-scroll-up = "brightnessctl set +5%";
+          on-scroll-down = "brightnessctl set 5%-";
+          on-click = "brightnessctl set +10%";
+          on-click-right = "brightnessctl set 10%-";
+          tooltip-format = "{percent}%";
         };
 
         network = {
