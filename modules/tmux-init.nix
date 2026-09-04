@@ -61,10 +61,6 @@
         commands /home/seeker/diagram_website \
         pi /home/seeker/diagram_website
 
-      create_session auth_lib /home/seeker/auth_lib auth_lib \
-        commands /home/seeker/auth_lib \
-        pi /home/seeker/auth_lib 
-
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
