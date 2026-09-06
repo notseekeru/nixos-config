@@ -1,23 +1,19 @@
 #!/usr/bin/env sh
 # Sync AGENTS.md from nixos-config to all projects, commit, ask push per repo y/n/q
-# Usage: sync-agents.sh [commit-msg]   (default: derive message from diff)
+# Usage: sync-agents.sh commit="chore(agents): msg"
 set -eu
+
 SRC="$HOME/nixos-config/AGENTS.md"
 
-# Generate commit message from pi (headless), with fallback chain.
-if [ -z "${1:-}" ]; then
-  DIFF=$(git -C "$HOME/nixos-config" diff HEAD -- AGENTS.md 2>/dev/null || true)
-  [ -z "$DIFF" ] && DIFF=$(git -C "$HOME/nixos-config" diff --cached -- AGENTS.md 2>/dev/null || true)
+case "${1:-}" in
+  commit=*) MSG="${1#commit=}" ;;
+  *)
+    echo "usage: sync-agents.sh commit=\"chore(agents): msg\"" >&2
+    exit 1
+    ;;
+esac
 
-  if [ -n "$DIFF" ]; then
-    DESC=$(echo "$DIFF" | pi -p "Summarize this diff in a short phrase for a commit message. Output only the description, nothing else. No prefix." 2>/dev/null || true)
-    MSG="chore(agents): ${DESC:-manual sync AGENTS.md across repos}"
-  else
-    MSG="chore(agents): manual sync AGENTS.md across repos"
-  fi
-else
-  MSG="$1"
-fi
+[ -n "$MSG" ] || { echo "usage: commit message cannot be empty" >&2; exit 1; }
 
 find "$HOME" -maxdepth 4 -name AGENTS.md -type f \
     ! -path "$HOME/nixos-config/*" \
