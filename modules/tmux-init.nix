@@ -48,11 +48,6 @@
         commands /home/seeker/gitops \
         pi /home/seeker/gitops
 
-      create_session custom-http-c /home/seeker/custom-http-c custom-http-c \
-        commands /home/seeker/custom-http-c \
-        pi /home/seeker/custom-http-c \
-        curl /home/seeker/custom-http-c/
-
       create_session portfolio_website /home/seeker/portfolio_website portfolio \
         commands /home/seeker/portfolio_website \
         pi /home/seeker/portfolio_website
@@ -64,6 +59,11 @@
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
+
+      create_session custom-http-c /home/seeker/custom-http-c custom-http-c \
+        commands /home/seeker/custom-http-c \
+        pi /home/seeker/custom-http-c \
+        curl /home/seeker/custom-http-c/
 
     '';
   };
