@@ -40,10 +40,6 @@
         commands /home/seeker/terraform \
         pi /home/seeker/terraform
 
-      create_session ansible /home/seeker/ansible ansible \
-        commands /home/seeker/ansible \
-        pi /home/seeker/ansible
-
       create_session gitops /home/seeker/gitops gitops \
         commands /home/seeker/gitops \
         pi /home/seeker/gitops
@@ -51,10 +47,6 @@
       create_session portfolio_website /home/seeker/portfolio_website portfolio \
         commands /home/seeker/portfolio_website \
         pi /home/seeker/portfolio_website
-
-      create_session diagram_website /home/seeker/diagram_website diagram \
-        commands /home/seeker/diagram_website \
-        pi /home/seeker/diagram_website
 
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
