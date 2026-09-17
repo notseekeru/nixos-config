@@ -30,6 +30,7 @@
     gitleaks
     logisim-evolution
     steam-run
+    infisical
   ];
 
   programs.home-manager.enable = true;
