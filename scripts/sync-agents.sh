@@ -52,3 +52,23 @@ while :; do
   esac
 done
 ' _ "$SRC" {} "$MSG" \;
+
+# Commit the source repo (nixos-config) itself — it is excluded from the loop above.
+# Only AGENTS.md, so unrelated flake edits stay untouched.
+git -C "$HOME/nixos-config" add AGENTS.md
+if git -C "$HOME/nixos-config" commit -q -m "$MSG" 2>/dev/null; then
+  echo "synced nixos-config"
+  base=nixos-config
+  while :; do
+    printf "push %s? [y/n/q] " "$base"
+    read ans || exit 0
+    case "$ans" in
+      y|Y) git -C "$HOME/nixos-config" push && break ;;
+      n|N) break ;;
+      q|Q) exit 0 ;;
+      *) ;;
+    esac
+  done
+else
+  echo "skip nixos-config (no AGENTS.md change to commit)" >&2
+fi
