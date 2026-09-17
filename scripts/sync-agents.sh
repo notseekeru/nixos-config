@@ -6,14 +6,17 @@ set -eu
 SRC="$HOME/nixos-config/AGENTS.md"
 
 case "${1:-}" in
-  commit=*) MSG="${1#commit=}" ;;
-  *)
+commit=*) MSG="${1#commit=}" ;;
+*)
     echo "usage: sync-agents.sh commit=\"chore(agents): msg\"" >&2
     exit 1
     ;;
 esac
 
-[ -n "$MSG" ] || { echo "usage: commit message cannot be empty" >&2; exit 1; }
+[ -n "$MSG" ] || {
+    echo "usage: commit message cannot be empty" >&2
+    exit 1
+}
 
 find "$HOME" -maxdepth 4 -name AGENTS.md -type f \
     ! -path "$HOME/nixos-config/*" \
