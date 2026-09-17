@@ -29,6 +29,7 @@
     pre-commit
     gitleaks
     logisim-evolution
+    steam-run
   ];
 
   programs.home-manager.enable = true;
