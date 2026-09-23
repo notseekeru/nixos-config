@@ -1,21 +1,32 @@
 #!/usr/bin/env sh
-# Sync AGENTS.md from nixos-config to all projects, commit, ask push per repo y/n/q
-# Usage: sync-agents.sh commit="chore(agents): msg"
+# Sync AGENTS.md from nixos-config to all projects and commit.
+# Usage: sync-agents.sh commit="chore(agents): msg" [push=yes]
 set -eu
 
 SRC="$HOME/nixos-config/AGENTS.md"
+MSG=""
+PUSH="no"
 
-case "${1:-}" in
-commit=*) MSG="${1#commit=}" ;;
-*)
-    echo "usage: sync-agents.sh commit=\"chore(agents): msg\"" >&2
-    exit 1
-    ;;
-esac
+for arg in "$@"; do
+    case "$arg" in
+    commit=*) MSG="${arg#commit=}" ;;
+    push=yes|push=no) PUSH="${arg#push=}" ;;
+    *)
+        echo "usage: sync-agents.sh commit=\"chore(agents): msg\" [push=yes]" >&2
+        exit 1
+        ;;
+    esac
+done
 
 [ -n "$MSG" ] || {
     echo "usage: commit message cannot be empty" >&2
     exit 1
+}
+
+# push=yes is the only opt-in; anything else stays local to avoid surprise pushes.
+push_repo() {
+    [ "$PUSH" = yes ] || return 0
+    git -C "$1" push
 }
 
 find "$HOME" -maxdepth 4 -name AGENTS.md -type f \
@@ -32,38 +43,16 @@ fi
 
 cp "$1" "$2"
 git add AGENTS.md
-msg="$3"
-git commit -q -m "$msg" 2>/dev/null || { echo "skip $base (commit failed)" >&2; exit 0; }
+git commit -q -m "$3" 2>/dev/null || { echo "skip $base (commit failed)" >&2; exit 0; }
 echo "synced $base"
-
-while :; do
-  printf "push %s? [y/n/q] " "$base"
-  read ans || exit 0
-  case "$ans" in
-    y|Y) git push && break ;;
-    n|N) break ;;
-    q|Q) exit 0 ;;
-    *) ;;
-  esac
-done
 ' _ "$SRC" {} "$MSG" \;
 
 # Commit the source repo (nixos-config) itself — it is excluded from the loop above.
 # Only AGENTS.md, so unrelated flake edits stay untouched.
 git -C "$HOME/nixos-config" add AGENTS.md
 if git -C "$HOME/nixos-config" commit -q -m "$MSG" 2>/dev/null; then
-  echo "synced nixos-config"
-  base=nixos-config
-  while :; do
-    printf "push %s? [y/n/q] " "$base"
-    read ans || exit 0
-    case "$ans" in
-      y|Y) git -C "$HOME/nixos-config" push && break ;;
-      n|N) break ;;
-      q|Q) exit 0 ;;
-      *) ;;
-    esac
-  done
+    echo "synced nixos-config"
+    push_repo "$HOME/nixos-config"
 else
-  echo "skip nixos-config (no AGENTS.md change to commit)" >&2
+    echo "skip nixos-config (no AGENTS.md change to commit)" >&2
 fi
