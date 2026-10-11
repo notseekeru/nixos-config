@@ -6,9 +6,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # pi-coding-agent only: the main nixpkgs pin predates pi 1.0, and bumping it
-    # would rebuild the system. Pinned to the nixpkgs commit that shipped 1.0.3.
-    # Drop this input once nixpkgs is bumped past 2026-10-05.
-    nixpkgs-pi.url = "github:nixos/nixpkgs/5e867b1db0f219e0e906574cca1175f421a87834";
+    # would rebuild the system. Pinned to the nixpkgs commit that shipped 1.0.4.
+    # Drop this input once nixpkgs is bumped past 2026-10-06.
+    nixpkgs-pi.url = "github:nixos/nixpkgs/73e11bb9754652b05324c6f7270a1629cfb7be3d";
   };
 
   outputs = { nixpkgs, home-manager, nixpkgs-pi, ... }:
