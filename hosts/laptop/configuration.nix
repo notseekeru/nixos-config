@@ -26,8 +26,9 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  # SSH disabled on laptop
-  services.openssh.enable = false;
+  # ─── SSH (tailscale0 only; openFirewall would expose 22 on every interface) ───
+  services.openssh.enable = true;
+  services.openssh.openFirewall = false;
 
   # Laptop GUI home-manager modules
   home-manager.users.seeker.imports = [
