@@ -8,11 +8,9 @@
     extraConfig = ''
       set -g default-terminal "tmux-256color"
       set -ga terminal-overrides ",*256col*:Tc"
-      set -g mouse on
 
       # disable drag-to-copy; yank is vi-only
       unbind-key -T copy-mode-vi MouseDragEnd1Pane
-      set -s copy-command 'wl-copy'
       set -s set-clipboard on
 
       # ─── vi-mode copy/paste ───
