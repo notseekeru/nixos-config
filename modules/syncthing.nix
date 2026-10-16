@@ -4,6 +4,7 @@ let
   inherit (lib) mkIf mkDefault;
   user = "seeker";
   homeDir = "/home/${user}";
+  resurrectDir = "${homeDir}/.tmux/resurrect";
 in
 {
   # ─── Syncthing ───
@@ -27,4 +28,9 @@ in
     allowedTCPPorts = [ 22000 ];
     allowedUDPPorts = [ 22000 21027 ];
   };
+
+  # Ensure the tmux-resurrect directory exists
+  systemd.tmpfiles.rules = [
+    "d ${resurrectDir} 0755 ${user} ${user} -"
+  ];
 }
