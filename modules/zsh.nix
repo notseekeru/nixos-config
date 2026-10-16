@@ -32,9 +32,9 @@
         if command -v tmux &>/dev/null; then
           # Create sessions if they don't exist yet
           [ -x ~/.local/bin/tmux-init-sessions ] && ~/.local/bin/tmux-init-sessions
-          # Attach to session 0 at the home window
-          tmux new-session -A -D -s 0 \; select-window -t home 2>/dev/null || \
-            tmux new-session -A -s main
+          # select-window must run detached: chained after attach it only fires on detach
+          tmux select-window -t nixos-config:home
+          tmux attach -d -t nixos-config
         fi
       fi
     '';
