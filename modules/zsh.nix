@@ -32,7 +32,9 @@
         if command -v tmux &>/dev/null; then
           # Create sessions if they don't exist yet
           [ -x ~/.local/bin/tmux-init-sessions ] && ~/.local/bin/tmux-init-sessions
-          tmux new-session -A -D -s nixos-config \; select-window -t home
+          # Attach to session 0 at the home window
+          tmux new-session -A -D -s 0 \; select-window -t home 2>/dev/null || \
+            tmux new-session -A -s main
         fi
       fi
     '';
