@@ -14,6 +14,8 @@
       unbind-key -T copy-mode-vi MouseDragEnd1Pane
       set -s copy-command 'wl-copy'
       set -s set-clipboard on
+      # emit OSC 52 for any client TERM, not just xterm* (the SSH client's TERM may carry no Ms)
+      set -as terminal-features '*:clipboard'
 
       # ─── vi-mode copy/paste ───
       bind-key -T copy-mode-vi v send -X begin-selection

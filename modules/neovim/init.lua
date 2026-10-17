@@ -1,6 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- OSC 52 clipboard so yanks follow the SSH session to the client terminal (set before the provider loads)
+vim.g.clipboard = "osc52"
+
 require("nvim-treesitter").setup({
 	highlight = { enable = true },
 })
