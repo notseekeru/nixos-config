@@ -27,7 +27,7 @@
           "disable-scroll" = true;
           format = "{name}";
           "persistent-workspaces" = {
-            "*" = 3;
+            "*" = 5;
           };
         };
 
