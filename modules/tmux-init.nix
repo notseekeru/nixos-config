@@ -44,6 +44,10 @@
         commands /home/seeker/gitops \
         pi /home/seeker/gitops
 
+      create_session agents /home/seeker/agents agents \
+        commands /home/seeker/agents \
+        pi /home/seeker/agents
+
       create_session portfolio_website /home/seeker/portfolio_website portfolio \
         commands /home/seeker/portfolio_website \
         pi /home/seeker/portfolio_website
