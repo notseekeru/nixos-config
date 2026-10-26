@@ -56,10 +56,14 @@
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
 
-      create_session custom-http-c /home/seeker/custom-http-c custom-http-c \
-        commands /home/seeker/custom-http-c \
-        pi /home/seeker/custom-http-c \
-        curl /home/seeker/custom-http-c/
+      create_session k6-load-testing /home/seeker/k6-load-testing k6 \
+        commands /home/seeker/k6-load-testing \
+        pi /home/seeker/k6-load-testing
+
+      # create_session custom-http-c /home/seeker/custom-http-c custom-http-c \
+      #   commands /home/seeker/custom-http-c \
+      #   pi /home/seeker/custom-http-c \
+      #   curl /home/seeker/custom-http-c/
 
     '';
   };
