@@ -31,7 +31,6 @@
     logisim-evolution
     steam-run
     infisical
-    python3
   ];
 
   programs.home-manager.enable = true;
