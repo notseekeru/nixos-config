@@ -56,6 +56,10 @@
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
 
+      create_session dsa-finals-psu /home/seeker/dsa-finals-psu dsa-finals-psu \
+        commands /home/seeker/dsa-finals-psu \
+        pi /home/seeker/dsa-finals-psu
+
       create_session k6-load-testing /home/seeker/k6-load-testing k6 \
         commands /home/seeker/k6-load-testing \
         pi /home/seeker/k6-load-testing
