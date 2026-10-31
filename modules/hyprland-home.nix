@@ -85,13 +85,25 @@
     ./waybar
   ];
 
+  qt = {
+    enable = true;
+    platformTheme.name = "kde";
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = "org.kde.dolphin.desktop";
+    };
+  };
+
   home.packages = with pkgs; [
     wl-clipboard
     cliphist
     rofi
     dunst
     pavucontrol
-    nautilus
+    kdePackages.dolphin
     btop
     networkmanagerapplet
     awww
