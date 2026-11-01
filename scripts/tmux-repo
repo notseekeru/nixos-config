@@ -77,17 +77,23 @@ added() { comm -13 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | 
 removed() { comm -23 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort); }
 
 count_changes() {
+    local n
     [ -n "$PENDING" ] || { printf '0'; return 0; }
-    comm -3 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort) | wc -l
+    n=$(comm -3 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort) | wc -l)
+    [ "$n" = 0 ] && ! cmp -s "$ORIG" "$FILE" && n=1
+    printf '%s' "$n"
 }
 
 subject() {
     local a d p out="" parts=()
     a=$(added | paste -sd' ' -)
     d=$(removed | paste -sd' ' -)
+    if [ -z "$a" ] && [ -z "$d" ]; then
+        cmp -s "$ORIG" "$FILE" || printf 'chore(tmux): reorder repos'
+        return 0
+    fi
     [ -n "$a" ] && parts+=("add $a")
     [ -n "$d" ] && parts+=("remove $d")
-    [ "${#parts[@]}" -gt 0 ] || return 0
     for p in "${parts[@]}"; do out="${out:+$out, }$p"; done
     printf 'chore(tmux): %s' "$out"
 }
@@ -129,10 +135,46 @@ enter() {
     fi
 }
 
+block_bounds() {
+    awk -v n="$1" '
+        /^[[:space:]]*create_session[[:space:]]/ && $2 == n { s = NR; on = 1 }
+        on && /^[[:space:]]*pi / { print s, NR; exit }
+    ' "$FILE"
+}
+
+move() {
+    local name="$1" delta="$2" a="" b="" c="" d="" i=-1 j k t
+    local -a names
+    mapfile -t names < <(entries | cut -f1)
+    for ((k = 0; k < ${#names[@]}; k++)); do
+        [ "${names[k]}" = "$name" ] && { i=$k; break; }
+    done
+    [ "$i" -ge 0 ] || die "not registered: $name"
+    j=$((i + delta))
+    if [ "$j" -lt 0 ]; then printf 'already first\n' >&2; return 0; fi
+    if [ "$j" -ge "${#names[@]}" ]; then printf 'already last\n' >&2; return 0; fi
+    stage
+    read -r a b < <(block_bounds "$name") || die "block not found: $name"
+    read -r c d < <(block_bounds "${names[j]}") || die "block not found: ${names[j]}"
+    if [ "$a" -gt "$c" ]; then
+        t=$a; a=$c; c=$t
+        t=$b; b=$d; d=$t
+    fi
+    awk -v a="$a" -v b="$b" -v c="$c" -v d="$d" '
+        { L[NR] = $0 }
+        END {
+            for (i = 1; i < a; i++) print L[i]
+            for (i = c; i <= d; i++) print L[i]
+            for (i = b + 1; i < c; i++) print L[i]
+            for (i = a; i <= b; i++) print L[i]
+            for (i = d + 1; i <= NR; i++) print L[i]
+        }' "$FILE" | write
+}
+
 pick_repo() {
     local out dir
     out=$(find "$HOME" -mindepth 1 -maxdepth 2 -name .git -type d -printf '%h\n' 2>/dev/null |
-        awk -v reg="$(entries | cut -f1 | tr '\n' ' ')" 'index(" " reg " ", " " $NF " ") { next } { print }' |
+        awk -F/ -v reg="$(entries | cut -f1 | tr '\n' ' ')" 'index(" " reg " ", " " $NF " ") { next } { print }' |
         sort -u | fzf --print-query --reverse --height=60% \
         --header='pick a repo, or type a path' --prompt='add> ') || return 1
     dir=$(printf '%s\n' "$out" | tail -1)
@@ -143,7 +185,7 @@ pick_repo() {
 apply() {
     local msg subj n dir cur=""
     [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
-    if [ "$(count_changes)" = 0 ]; then
+    if cmp -s "$ORIG" "$FILE"; then
         unstage
         printf 'no net changes\n'
         return 0
@@ -190,34 +232,48 @@ quit() {
 }
 
 menu() {
-    local choice dir act row
+    local out key choice dir row
     while :; do
         row="apply ($(count_changes) changes)"
-        choice=$( {
+        out=$( {
             printf '+ add repo\n'
             [ -n "$PENDING" ] && printf '%s\n' "$row"
             entries | cut -f1
-        } | fzf --reverse --height=60% --header="tmux repos | $NIX" --prompt='repo> ') || quit
-        [ -n "$choice" ] || quit
+        } | fzf --reverse --height=60% --expect=A,D,J,K \
+            --header='enter attach | A add | D delete | K/J move | esc quit' \
+            --prompt='repo> ') || quit
+        key=$(printf '%s\n' "$out" | head -1)
+        choice=$(printf '%s\n' "$out" | tail -n +2)
 
+        case "$key" in
+            A)
+                dir=$(pick_repo) && add "$dir"
+                continue
+                ;;
+            D|J|K)
+                if [ -n "$choice" ] && entries | cut -f1 | grep -qxF -- "$choice"; then
+                    case "$key" in
+                        D) delete "$choice" ;;
+                        J) move "$choice" 1 ;;
+                        K) move "$choice" -1 ;;
+                    esac
+                fi
+                continue
+                ;;
+        esac
+
+        [ -n "$choice" ] || quit
         if [ "$choice" = '+ add repo' ]; then
             dir=$(pick_repo) || continue
             add "$dir"
             continue
         fi
-
         if [ -n "$PENDING" ] && [ "$choice" = "$row" ]; then
             apply || continue
             continue
         fi
-
-        dir=$(entries | awk -v n="$choice" '$1 == n { print $2; exit }')
-        act=$(printf 'attach\ndelete\nback\n' | fzf --reverse --height=40% \
-            --header="$choice -> $dir" --prompt='action> ') || continue
-        case "$act" in
-            attach) enter "$choice"; return 0 ;;
-            delete) delete "$choice" ;;
-        esac
+        enter "$choice"
+        return 0
     done
 }
 
@@ -238,6 +294,13 @@ if [ "${1:-}" = --self-test ]; then
     remove selftest-repo
     cmp -s "$ORIG" "$FILE" || die "self-test: insert+remove did not round-trip"
     [ -z "$(subject)" ] || die "self-test: subject not empty after revert"
+    mapfile -t order < <(entries | cut -f1)
+    move "${order[1]}" -1
+    [ "$(entries | cut -f1 | head -1)" = "${order[1]}" ] || die "self-test: move up failed"
+    [ "$(subject)" = 'chore(tmux): reorder repos' ] || die "self-test: reorder subject wrong"
+    [ "$(count_changes)" = 1 ] || die "self-test: reorder not counted"
+    move "${order[1]}" 1
+    cmp -s "$ORIG" "$FILE" || die "self-test: move did not round-trip"
     printf 'self-test ok\n'
     exit 0
 fi
