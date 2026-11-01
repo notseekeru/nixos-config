@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# AI HERE: assumes repo at ~/nixos-config and flake attr == hostname; override NIX if the repo moves.
+NIX="${TMUX_REPO_NIX:-$HOME/nixos-config/modules/tmux-init.nix}"
+CONFIG="${NIX%/*/*}"
+TMP=""
+cleanup() { [ -z "$TMP" ] || rm -rf "$TMP"; }
+trap cleanup EXIT
+
+die() { printf 'tmux-repo: %s\n' "$*" >&2; exit 1; }
+
+entries() {
+    awk '/^[[:space:]]*create_session[[:space:]]/ { print $2 "\t" $3 }' "$NIX"
+}
+
+write() {
+    local tmp="$NIX.tmp.$$"
+    cat >"$tmp"
+    [ -s "$tmp" ] || { rm -f "$tmp"; die "empty write, $NIX untouched"; }
+    chmod --reference="$NIX" "$tmp"
+    mv "$tmp" "$NIX"
+}
+
+insert() {
+    local name="$1" dir="$2" at
+    at=$(awk '/^[[:space:]]*pi \// { last = NR } END { print last + 0 }' "$NIX")
+    [ "$at" -gt 0 ] || die "no active create_session block in $NIX to append after"
+    awk -v at="$at" -v name="$name" -v dir="$dir" '
+        { print }
+        NR == at {
+            printf "      create_session %s %s %s \\\n        commands %s \\\n        pi %s\n", name, dir, name, dir, dir
+        }' "$NIX" | write
+}
+
+remove() {
+    awk -v n="$1" '
+        /^[[:space:]]*create_session[[:space:]]/ {
+            if ($2 == n) { skip = 1; next }
+            skip = 0
+        }
+        skip { if ($0 ~ /^[[:space:]]*pi /) skip = 0; next }
+        { print }' "$NIX" | write
+}
+
+rebuild() {
+    sudo nixos-rebuild switch --flake "$CONFIG#$(hostname)" --show-trace
+}
+
+sessions() {
+    local s="$HOME/.local/bin/tmux-init-sessions"
+    [ -x "$s" ] || die "missing $s, run nixos-rebuild switch first"
+    "$s" || true
+}
+
+snapshot() { SNAP="$NIX.snap.$$"; cp "$NIX" "$SNAP"; }
+
+commit() {
+    rebuild && { rm -f "$SNAP"; return 0; }
+    abort "rebuild failed, $NIX restored"
+}
+
+abort() {
+    cp "$SNAP" "$NIX"
+    rm -f "$SNAP"
+    die "$*"
+}
+
+add() {
+    local dir="${1:-}" name n
+    [ -n "$dir" ] || die "no repo directory given"
+    [ -d "$dir" ] || die "not a directory: $dir"
+    dir=$(cd "$dir" && pwd)
+    name=$(basename "$dir")
+    case "$name$dir" in *[[:space:]]*) die "whitespace in repo path unsupported: $dir" ;; esac
+    entries | cut -f1 | grep -qxF -- "$name" && die "already registered: $name"
+    snapshot
+    insert "$name" "$dir"
+    n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
+    [ "$n" = 1 ] || abort "insert failed, edit reverted"
+    commit
+    sessions
+    tmux has-session -t "$name" 2>/dev/null || die "session $name not created, check $NIX"
+    printf 'added %s -> %s\n' "$name" "$dir"
+}
+
+delete() {
+    local name="$1" n
+    entries | cut -f1 | grep -qxF -- "$name" || die "not registered: $name"
+    [ "${TMUX:-}" = "" ] || [ "$(tmux display-message -p -t "$TMUX_PANE" '#S' 2>/dev/null)" != "$name" ] ||
+        die "cannot delete the session you are attached to"
+    snapshot
+    remove "$name"
+    n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
+    [ "$n" = 0 ] || abort "remove failed, edit reverted"
+    commit
+    tmux has-session -t "$name" 2>/dev/null && tmux kill-session -t "$name"
+    printf 'deleted %s\n' "$name"
+}
+
+enter() {
+    local name="$1"
+    sessions
+    if [ -n "${TMUX:-}" ]; then
+        tmux switch-client -t "$name"
+    else
+        tmux attach -d -t "$name"
+    fi
+}
+
+pick_repo() {
+    local out dir
+    out=$(find "$HOME" -mindepth 1 -maxdepth 2 -name .git -type d -printf '%h\n' 2>/dev/null |
+        awk -v reg="$(entries | cut -f1 | tr '\n' ' ')" 'index(" " reg " ", " " $NF " ") { next } { print }' |
+        sort -u | fzf --print-query --reverse --height=60% \
+        --header='pick a repo, or type a path' --prompt='add> ') || return 1
+    dir=$(printf '%s\n' "$out" | tail -1)
+    [ -n "$dir" ] || return 1
+    printf '%s\n' "$dir"
+}
+
+menu() {
+    local choice dir act conf
+    while :; do
+        choice=$( {
+            printf '+ add repo\n'
+            entries | cut -f1
+        } | fzf --reverse --height=60% --header="tmux repos | $NIX" --prompt='repo> ') || return 0
+        [ -n "$choice" ] || return 0
+
+        if [ "$choice" = '+ add repo' ]; then
+            dir=$(pick_repo) || continue
+            add "$dir"
+            continue
+        fi
+
+        dir=$(entries | awk -v n="$choice" '$1 == n { print $2; exit }')
+        act=$(printf 'attach\ndelete\nback\n' | fzf --reverse --height=40% \
+            --header="$choice -> $dir" --prompt='action> ') || continue
+        case "$act" in
+            attach) enter "$choice"; return 0 ;;
+            delete)
+                conf=$(printf 'no\nyes\n' | fzf --reverse --height=30% \
+                    --header="delete $choice from nix and tmux?" --prompt='> ') || continue
+                [ "$conf" = yes ] || continue
+                delete "$choice"
+                ;;
+        esac
+    done
+}
+
+if [ "${1:-}" = --self-test ]; then
+    TMP=$(mktemp -d)
+    cp "$NIX" "$TMP/orig"
+    NIX="$TMP/nix"
+    cp "$TMP/orig" "$NIX"
+    insert selftest-repo /tmp/selftest
+    grep -q '^      create_session selftest-repo /tmp/selftest selftest-repo \\$' "$NIX" ||
+        die "self-test: insert produced no block"
+    [ "$(entries | cut -f1 | grep -cxF selftest-repo)" = 1 ] ||
+        die "self-test: insert not registered once"
+    remove selftest-repo
+    cmp -s "$TMP/orig" "$NIX" || die "self-test: insert+remove did not round-trip"
+    printf 'self-test ok\n'
+    exit 0
+fi
+
+menu

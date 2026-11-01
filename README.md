@@ -41,7 +41,8 @@ Three machines, one flake. Declarative NixOS with shared modules and per-host ov
 │   └── neovim/                 # Neovim with LSP
 ├── images/                     # Wallpapers
 └── scripts/
-    └── sync-agents.sh          # Sync AGENTS.md to projects
+    ├── sync-agents.sh          # Sync AGENTS.md to projects
+    └── tmux-repo                # Add/remove tmux repo sessions
 ```
 
 ## Build

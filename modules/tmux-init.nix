@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  home.file.".local/bin/tmux-repo".source = ../scripts/tmux-repo;
+
   home.file.".local/bin/tmux-init-sessions" = {
     executable = true;
     text = ''
