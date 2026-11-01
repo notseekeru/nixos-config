@@ -42,7 +42,7 @@ Three machines, one flake. Declarative NixOS with shared modules and per-host ov
 ├── images/                     # Wallpapers
 └── scripts/
     ├── sync-agents.sh          # Sync AGENTS.md to projects
-    └── tmux-repo                # Add/remove tmux repo sessions
+    └── tmux-repo                # Tmux session TUI: add/remove/reorder
 ```
 
 ## Build
@@ -52,6 +52,10 @@ sudo nixos-rebuild switch --flake .#desktop
 sudo nixos-rebuild switch --flake .#laptop
 sudo nixos-rebuild switch --flake .#server
 ```
+
+## Tmux sessions
+
+Repo sessions live in `modules/tmux-init.nix`. `scripts/tmux-repo` edits that list, commits on apply, and drives tmux directly, so an added repo is usable without a rebuild. Login autostart is generated at build time, so it only sees a change after the next `nixos-rebuild switch`.
 
 ## Principles
 
