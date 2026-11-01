@@ -40,11 +40,9 @@
         commands /home/seeker/terraform \
         pi /home/seeker/terraform
 
-
       create_session agents /home/seeker/agents agents \
         commands /home/seeker/agents \
         pi /home/seeker/agents
-
 
       create_session seremotion /home/seeker/seremotion seremotion \
         commands /home/seeker/seremotion \

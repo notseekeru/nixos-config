@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# AI HERE: assumes the repo lives at ~/nixos-config; start() mirrors the window shape of tmux-init.nix.
+# AI HERE: assumes repo at ~/nixos-config and flake attr == hostname; start() mirrors tmux-init.nix.
 NIX="${TMUX_REPO_NIX:-$HOME/nixos-config/modules/tmux-init.nix}"
 CONFIG="${NIX%/*/*}"
 FILE="$NIX"
@@ -55,6 +55,10 @@ start() {
     tmux new-session -d -s "$name" -c "$dir" -n "$name"
     tmux new-window -t "$name:" -c "$dir" -n commands
     tmux new-window -t "$name:" -c "$dir" -n pi
+}
+
+rebuild() {
+    sudo nixos-rebuild switch --flake "$CONFIG#$(hostname)" --show-trace
 }
 
 stage() {
@@ -209,7 +213,7 @@ amendable() {
 }
 
 apply() {
-    local msg subj prev n dir cur=""
+    local msg subj prev n dir cur="" before=""
     local -a cargs
     [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
     if cmp -s "$ORIG" "$FILE"; then
@@ -227,11 +231,21 @@ apply() {
 
     cargs=(-q --only -m "$msg")
     amendable && cargs+=(--amend)
+    before=$(git -C "$CONFIG" rev-parse HEAD 2>/dev/null || true)
     cp "$FILE" "$NIX"
     if ! git -C "$CONFIG" commit "${cargs[@]}" -- "$NIX"; then
         cp "$ORIG" "$NIX"
         unstage
         die "commit failed, edit reverted"
+    fi
+    if ! rebuild; then
+        cp "$ORIG" "$NIX"
+        if [ -n "$before" ]; then
+            git -C "$CONFIG" reset -q --soft "$before"
+            git -C "$CONFIG" reset -q HEAD -- "$NIX"
+        fi
+        unstage
+        die "rebuild failed, commit and edit reverted"
     fi
 
     while read -r n; do
