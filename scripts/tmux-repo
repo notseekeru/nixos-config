@@ -27,7 +27,11 @@ write() {
 insert() {
     local name="$1" dir="$2" at
     at=$(awk '/^[[:space:]]*pi \// { last = NR } END { print last + 0 }' "$FILE")
-    [ "$at" -gt 0 ] || die "no active create_session block in $FILE to append after"
+    if [ "$at" -eq 0 ]; then
+        at=$(awk "/^[[:space:]]*'';/ { print NR; exit }" "$FILE")
+        at=$((at - 1))
+    fi
+    [ "$at" -gt 0 ] || die "no place in $FILE to add a session"
     awk -v at="$at" -v name="$name" -v dir="$dir" '
         { print }
         NR == at {
@@ -100,12 +104,15 @@ subject() {
 
 add() {
     local dir="${1:-}" name n
-    [ -n "$dir" ] || die "no repo directory given"
-    [ -d "$dir" ] || die "not a directory: $dir"
+    if [ -z "$dir" ]; then printf 'no repo directory given\n' >&2; return 1; fi
+    if [ ! -d "$dir" ]; then printf 'not a directory: %s\n' "$dir" >&2; return 1; fi
     dir=$(cd "$dir" && pwd)
     name=$(basename "$dir")
-    case "$name$dir" in *[[:space:]]*) die "whitespace in repo path unsupported: $dir" ;; esac
-    entries | cut -f1 | grep -qxF -- "$name" && die "already registered: $name"
+    case "$name$dir" in *[[:space:]]*) printf 'whitespace in repo path unsupported: %s\n' "$dir" >&2; return 1 ;; esac
+    if entries | cut -f1 | grep -qxF -- "$name"; then
+        printf 'already registered: %s\n' "$name" >&2
+        return 1
+    fi
     stage
     insert "$name" "$dir"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
@@ -115,7 +122,10 @@ add() {
 
 delete() {
     local name="$1" n
-    entries | cut -f1 | grep -qxF -- "$name" || die "not registered: $name"
+    if ! entries | cut -f1 | grep -qxF -- "$name"; then
+        printf 'not registered: %s\n' "$name" >&2
+        return 1
+    fi
     stage
     remove "$name"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
@@ -126,7 +136,10 @@ delete() {
 enter() {
     local name="$1" dir
     dir=$(entries_of "$NIX" | awk -v n="$name" '$1 == n { print $2; exit }')
-    [ -n "$dir" ] || die "staged only, apply first: $name"
+    if [ -z "$dir" ]; then
+        printf 'staged only, apply first: %s\n' "$name" >&2
+        return 1
+    fi
     start "$name" "$dir"
     if [ -n "${TMUX:-}" ]; then
         tmux switch-client -t "$name"
@@ -149,7 +162,7 @@ move() {
     for ((k = 0; k < ${#names[@]}; k++)); do
         [ "${names[k]}" = "$name" ] && { i=$k; break; }
     done
-    [ "$i" -ge 0 ] || die "not registered: $name"
+    [ "$i" -ge 0 ] || { printf 'not registered: %s\n' "$name" >&2; return 1; }
     j=$((i + delta))
     if [ "$j" -lt 0 ]; then printf 'already first\n' >&2; return 0; fi
     if [ "$j" -ge "${#names[@]}" ]; then printf 'already last\n' >&2; return 0; fi
@@ -226,18 +239,21 @@ quit() {
     if [ -n "$PENDING" ] && [ "$(count_changes)" != 0 ]; then
         act=$(printf 'discard\napply\n' | fzf --reverse --height=30% \
             --header="$(count_changes) staged, apply now?" --prompt='> ') || act=""
-        [ "$act" = apply ] && apply
+        if [ "$act" = apply ]; then apply || true; fi
     fi
     exit 0
 }
 
 menu() {
-    local out key choice dir row
+    local out key choice dir row n
     while :; do
-        row="apply ($(count_changes) changes)"
+        n=$(count_changes)
+        row="apply ($n change$([ "$n" = 1 ] || printf s))"
         out=$( {
             printf '+ add repo\n'
-            [ -n "$PENDING" ] && printf '%s\n' "$row"
+            if [ -n "$PENDING" ] && ! cmp -s "$ORIG" "$FILE"; then
+                printf '%s\n' "$row"
+            fi
             entries | cut -f1
         } | fzf --reverse --height=60% --expect=A,D,J,K \
             --header='enter attach | A add | D delete | K/J move | esc quit' \
@@ -247,15 +263,16 @@ menu() {
 
         case "$key" in
             A)
-                dir=$(pick_repo) && add "$dir"
+                dir=$(pick_repo) || continue
+                add "$dir" || continue
                 continue
                 ;;
             D|J|K)
                 if [ -n "$choice" ] && entries | cut -f1 | grep -qxF -- "$choice"; then
                     case "$key" in
-                        D) delete "$choice" ;;
-                        J) move "$choice" 1 ;;
-                        K) move "$choice" -1 ;;
+                        D) delete "$choice" || true ;;
+                        J) move "$choice" 1 || true ;;
+                        K) move "$choice" -1 || true ;;
                     esac
                 fi
                 continue
@@ -265,15 +282,16 @@ menu() {
         [ -n "$choice" ] || quit
         if [ "$choice" = '+ add repo' ]; then
             dir=$(pick_repo) || continue
-            add "$dir"
+            add "$dir" || continue
             continue
         fi
         if [ -n "$PENDING" ] && [ "$choice" = "$row" ]; then
             apply || continue
             continue
         fi
-        enter "$choice"
-        return 0
+        if enter "$choice"; then
+            return 0
+        fi
     done
 }
 
