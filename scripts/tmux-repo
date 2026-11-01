@@ -4,33 +4,35 @@ set -euo pipefail
 # AI HERE: assumes repo at ~/nixos-config and flake attr == hostname; override NIX if the repo moves.
 NIX="${TMUX_REPO_NIX:-$HOME/nixos-config/modules/tmux-init.nix}"
 CONFIG="${NIX%/*/*}"
+FILE="$NIX"
+ORIG=""
+PENDING=""
 TMP=""
 cleanup() { [ -z "$TMP" ] || rm -rf "$TMP"; }
 trap cleanup EXIT
 
 die() { printf 'tmux-repo: %s\n' "$*" >&2; exit 1; }
 
-entries() {
-    awk '/^[[:space:]]*create_session[[:space:]]/ { print $2 "\t" $3 }' "$NIX"
-}
+entries_of() { awk '/^[[:space:]]*create_session[[:space:]]/ { print $2 "\t" $3 }' "$1"; }
+entries() { entries_of "$FILE"; }
 
 write() {
-    local tmp="$NIX.tmp.$$"
+    local tmp="$FILE.tmp.$$"
     cat >"$tmp"
-    [ -s "$tmp" ] || { rm -f "$tmp"; die "empty write, $NIX untouched"; }
-    chmod --reference="$NIX" "$tmp"
-    mv "$tmp" "$NIX"
+    [ -s "$tmp" ] || { rm -f "$tmp"; die "empty write, $FILE untouched"; }
+    chmod --reference="$FILE" "$tmp"
+    mv "$tmp" "$FILE"
 }
 
 insert() {
     local name="$1" dir="$2" at
-    at=$(awk '/^[[:space:]]*pi \// { last = NR } END { print last + 0 }' "$NIX")
-    [ "$at" -gt 0 ] || die "no active create_session block in $NIX to append after"
+    at=$(awk '/^[[:space:]]*pi \// { last = NR } END { print last + 0 }' "$FILE")
+    [ "$at" -gt 0 ] || die "no active create_session block in $FILE to append after"
     awk -v at="$at" -v name="$name" -v dir="$dir" '
         { print }
         NR == at {
             printf "      create_session %s %s %s \\\n        commands %s \\\n        pi %s\n", name, dir, name, dir, dir
-        }' "$NIX" | write
+        }' "$FILE" | write
 }
 
 remove() {
@@ -40,7 +42,7 @@ remove() {
             skip = 0
         }
         skip { if ($0 ~ /^[[:space:]]*pi /) skip = 0; next }
-        { print }' "$NIX" | write
+        { print }' "$FILE" | write
 }
 
 rebuild() {
@@ -53,17 +55,43 @@ sessions() {
     "$s" || true
 }
 
-snapshot() { SNAP="$NIX.snap.$$"; cp "$NIX" "$SNAP"; }
-
-commit() {
-    rebuild && { rm -f "$SNAP"; return 0; }
-    abort "rebuild failed, $NIX restored"
+stage() {
+    [ -n "$PENDING" ] && return 0
+    [ -z "$(git -C "$CONFIG" status --porcelain -- "$NIX")" ] ||
+        die "uncommitted changes in $NIX, commit or stash them first"
+    TMP=$(mktemp -d)
+    ORIG="$TMP/orig"
+    FILE="$TMP/nix"
+    cp "$NIX" "$ORIG"
+    cp "$NIX" "$FILE"
+    PENDING=1
 }
 
-abort() {
-    cp "$SNAP" "$NIX"
-    rm -f "$SNAP"
-    die "$*"
+unstage() {
+    [ -z "$TMP" ] || rm -rf "$TMP"
+    TMP=""
+    ORIG=""
+    FILE="$NIX"
+    PENDING=""
+}
+
+added() { comm -13 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort); }
+removed() { comm -23 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort); }
+
+count_changes() {
+    [ -n "$PENDING" ] || { printf '0'; return 0; }
+    comm -3 <(entries_of "$ORIG" | cut -f1 | sort) <(entries | cut -f1 | sort) | wc -l
+}
+
+subject() {
+    local a d p out="" parts=()
+    a=$(added | paste -sd' ' -)
+    d=$(removed | paste -sd' ' -)
+    [ -n "$a" ] && parts+=("add $a")
+    [ -n "$d" ] && parts+=("remove $d")
+    [ "${#parts[@]}" -gt 0 ] || return 0
+    for p in "${parts[@]}"; do out="${out:+$out, }$p"; done
+    printf 'chore(tmux): %s' "$out"
 }
 
 add() {
@@ -74,32 +102,26 @@ add() {
     name=$(basename "$dir")
     case "$name$dir" in *[[:space:]]*) die "whitespace in repo path unsupported: $dir" ;; esac
     entries | cut -f1 | grep -qxF -- "$name" && die "already registered: $name"
-    snapshot
+    stage
     insert "$name" "$dir"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
-    [ "$n" = 1 ] || abort "insert failed, edit reverted"
-    commit
-    sessions
-    tmux has-session -t "$name" 2>/dev/null || die "session $name not created, check $NIX"
-    printf 'added %s -> %s\n' "$name" "$dir"
+    [ "$n" = 1 ] || { cp "$ORIG" "$FILE"; die "insert failed, staging reset"; }
+    printf 'staged add %s\n' "$name"
 }
 
 delete() {
     local name="$1" n
     entries | cut -f1 | grep -qxF -- "$name" || die "not registered: $name"
-    [ "${TMUX:-}" = "" ] || [ "$(tmux display-message -p -t "$TMUX_PANE" '#S' 2>/dev/null)" != "$name" ] ||
-        die "cannot delete the session you are attached to"
-    snapshot
+    stage
     remove "$name"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
-    [ "$n" = 0 ] || abort "remove failed, edit reverted"
-    commit
-    tmux has-session -t "$name" 2>/dev/null && tmux kill-session -t "$name"
-    printf 'deleted %s\n' "$name"
+    [ "$n" = 0 ] || { cp "$ORIG" "$FILE"; die "remove failed, staging reset"; }
+    printf 'staged remove %s\n' "$name"
 }
 
 enter() {
     local name="$1"
+    entries_of "$NIX" | cut -f1 | grep -qxF -- "$name" || die "staged only, apply first: $name"
     sessions
     if [ -n "${TMUX:-}" ]; then
         tmux switch-client -t "$name"
@@ -119,18 +141,74 @@ pick_repo() {
     printf '%s\n' "$dir"
 }
 
+apply() {
+    local msg subj n cur=""
+    [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
+    if [ "$(count_changes)" = 0 ]; then
+        unstage
+        printf 'no net changes\n'
+        return 0
+    fi
+    subj=$(subject)
+    read -r -e -i "$subj" -p 'commit msg> ' msg || return 1
+    [ -n "$msg" ] || msg="$subj"
+
+    cp "$FILE" "$NIX"
+    if ! git -C "$CONFIG" commit -q -m "$msg" -- "$NIX"; then
+        cp "$ORIG" "$NIX"
+        unstage
+        die "commit failed, edit reverted"
+    fi
+    if ! rebuild; then
+        cp "$ORIG" "$NIX"
+        git -C "$CONFIG" reset -q --soft HEAD~1
+        git -C "$CONFIG" reset -q HEAD -- "$NIX"
+        unstage
+        die "rebuild failed, commit and edit reverted"
+    fi
+    sessions
+    [ -n "${TMUX:-}" ] && cur=$(tmux display-message -p -t "$TMUX_PANE" '#S' 2>/dev/null || true)
+    while read -r n; do
+        [ -n "$n" ] || continue
+        if [ "$n" = "$cur" ]; then
+            printf 'kept session %s (you are in it)\n' "$n"
+            continue
+        fi
+        tmux has-session -t "$n" 2>/dev/null && tmux kill-session -t "$n"
+    done <<<"$(removed)"
+    unstage
+    printf 'applied: %s\n' "$msg"
+}
+
+quit() {
+    local act
+    if [ -n "$PENDING" ] && [ "$(count_changes)" != 0 ]; then
+        act=$(printf 'discard\napply\n' | fzf --reverse --height=30% \
+            --header="$(count_changes) staged, apply now?" --prompt='> ') || act=""
+        [ "$act" = apply ] && apply
+    fi
+    exit 0
+}
+
 menu() {
-    local choice dir act conf
+    local choice dir act row
     while :; do
+        row="apply ($(count_changes) changes)"
         choice=$( {
             printf '+ add repo\n'
+            [ -n "$PENDING" ] && printf '%s\n' "$row"
             entries | cut -f1
-        } | fzf --reverse --height=60% --header="tmux repos | $NIX" --prompt='repo> ') || return 0
-        [ -n "$choice" ] || return 0
+        } | fzf --reverse --height=60% --header="tmux repos | $NIX" --prompt='repo> ') || quit
+        [ -n "$choice" ] || quit
 
         if [ "$choice" = '+ add repo' ]; then
             dir=$(pick_repo) || continue
             add "$dir"
+            continue
+        fi
+
+        if [ -n "$PENDING" ] && [ "$choice" = "$row" ]; then
+            apply || continue
             continue
         fi
 
@@ -139,28 +217,28 @@ menu() {
             --header="$choice -> $dir" --prompt='action> ') || continue
         case "$act" in
             attach) enter "$choice"; return 0 ;;
-            delete)
-                conf=$(printf 'no\nyes\n' | fzf --reverse --height=30% \
-                    --header="delete $choice from nix and tmux?" --prompt='> ') || continue
-                [ "$conf" = yes ] || continue
-                delete "$choice"
-                ;;
+            delete) delete "$choice" ;;
         esac
     done
 }
 
 if [ "${1:-}" = --self-test ]; then
     TMP=$(mktemp -d)
-    cp "$NIX" "$TMP/orig"
-    NIX="$TMP/nix"
-    cp "$TMP/orig" "$NIX"
+    ORIG="$TMP/orig"
+    FILE="$TMP/nix"
+    cp "$NIX" "$ORIG"
+    cp "$NIX" "$FILE"
+    PENDING=1
     insert selftest-repo /tmp/selftest
-    grep -q '^      create_session selftest-repo /tmp/selftest selftest-repo \\$' "$NIX" ||
+    grep -q '^      create_session selftest-repo /tmp/selftest selftest-repo \\$' "$FILE" ||
         die "self-test: insert produced no block"
     [ "$(entries | cut -f1 | grep -cxF selftest-repo)" = 1 ] ||
         die "self-test: insert not registered once"
+    [ "$(subject)" = 'chore(tmux): add selftest-repo' ] ||
+        die "self-test: subject wrong"
     remove selftest-repo
-    cmp -s "$TMP/orig" "$NIX" || die "self-test: insert+remove did not round-trip"
+    cmp -s "$ORIG" "$FILE" || die "self-test: insert+remove did not round-trip"
+    [ -z "$(subject)" ] || die "self-test: subject not empty after revert"
     printf 'self-test ok\n'
     exit 0
 fi
