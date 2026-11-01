@@ -195,8 +195,22 @@ pick_repo() {
     printf '%s\n' "$dir"
 }
 
+# AI HERE: amends only an unpushed tmux-scoped commit that touched just this file.
+amendable() {
+    local rel files
+    [ -z "$(git -C "$CONFIG" branch -r --contains HEAD 2>/dev/null)" ] || return 1
+    case "$(git -C "$CONFIG" log -1 --format=%s 2>/dev/null)" in
+        chore\(tmux\):*|feat\(tmux\):*|fix\(tmux\):*|ref\(tmux\):*) ;;
+        *) return 1 ;;
+    esac
+    rel="${NIX#"$CONFIG"/}"
+    files=$(git -C "$CONFIG" diff-tree --no-commit-id --name-only -r --root HEAD 2>/dev/null)
+    [ "$files" = "$rel" ]
+}
+
 apply() {
-    local msg subj n dir cur=""
+    local msg subj prev n dir cur=""
+    local -a cargs
     [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
     if cmp -s "$ORIG" "$FILE"; then
         unstage
@@ -204,11 +218,17 @@ apply() {
         return 0
     fi
     subj=$(subject)
+    if amendable; then
+        prev=$(git -C "$CONFIG" log -1 --format=%s 2>/dev/null || true)
+        subj="${prev}, ${subj#chore(tmux): }"
+    fi
     read -r -e -i "$subj" -p 'commit msg> ' msg || return 1
     [ -n "$msg" ] || msg="$subj"
 
+    cargs=(-q --only -m "$msg")
+    amendable && cargs+=(--amend)
     cp "$FILE" "$NIX"
-    if ! git -C "$CONFIG" commit -q -m "$msg" -- "$NIX"; then
+    if ! git -C "$CONFIG" commit "${cargs[@]}" -- "$NIX"; then
         cp "$ORIG" "$NIX"
         unstage
         die "commit failed, edit reverted"
