@@ -13,7 +13,6 @@
   home.username = "seeker";
   home.homeDirectory = "/home/seeker";
   home.stateVersion = "26.05";
-  home.sessionPath = [ "$HOME/.local/bin" ];
 
   fonts.fontconfig.enable = true;
 

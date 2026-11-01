@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# AI HERE: assumes repo at ~/nixos-config and flake attr == hostname; override NIX if the repo moves.
+# AI HERE: assumes the repo lives at ~/nixos-config; start() mirrors the window shape of tmux-init.nix.
 NIX="${TMUX_REPO_NIX:-$HOME/nixos-config/modules/tmux-init.nix}"
 CONFIG="${NIX%/*/*}"
 FILE="$NIX"
@@ -45,14 +45,12 @@ remove() {
         { print }' "$FILE" | write
 }
 
-rebuild() {
-    sudo nixos-rebuild switch --flake "$CONFIG#$(hostname)" --show-trace
-}
-
-sessions() {
-    local s="$HOME/.local/bin/tmux-init-sessions"
-    [ -x "$s" ] || die "missing $s, run nixos-rebuild switch first"
-    "$s" || true
+start() {
+    local name="$1" dir="$2"
+    tmux has-session -t "$name" 2>/dev/null && return 0
+    tmux new-session -d -s "$name" -c "$dir" -n "$name"
+    tmux new-window -t "$name:" -c "$dir" -n commands
+    tmux new-window -t "$name:" -c "$dir" -n pi
 }
 
 stage() {
@@ -120,9 +118,10 @@ delete() {
 }
 
 enter() {
-    local name="$1"
-    entries_of "$NIX" | cut -f1 | grep -qxF -- "$name" || die "staged only, apply first: $name"
-    sessions
+    local name="$1" dir
+    dir=$(entries_of "$NIX" | awk -v n="$name" '$1 == n { print $2; exit }')
+    [ -n "$dir" ] || die "staged only, apply first: $name"
+    start "$name" "$dir"
     if [ -n "${TMUX:-}" ]; then
         tmux switch-client -t "$name"
     else
@@ -142,7 +141,7 @@ pick_repo() {
 }
 
 apply() {
-    local msg subj n cur=""
+    local msg subj n dir cur=""
     [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
     if [ "$(count_changes)" = 0 ]; then
         unstage
@@ -159,14 +158,13 @@ apply() {
         unstage
         die "commit failed, edit reverted"
     fi
-    if ! rebuild; then
-        cp "$ORIG" "$NIX"
-        git -C "$CONFIG" reset -q --soft HEAD~1
-        git -C "$CONFIG" reset -q HEAD -- "$NIX"
-        unstage
-        die "rebuild failed, commit and edit reverted"
-    fi
-    sessions
+
+    while read -r n; do
+        [ -n "$n" ] || continue
+        dir=$(entries | awk -v n="$n" '$1 == n { print $2; exit }')
+        start "$n" "$dir" || printf 'warning: session %s not created\n' "$n" >&2
+    done <<<"$(added)"
+
     [ -n "${TMUX:-}" ] && cur=$(tmux display-message -p -t "$TMUX_PANE" '#S' 2>/dev/null || true)
     while read -r n; do
         [ -n "$n" ] || continue
@@ -176,6 +174,7 @@ apply() {
         fi
         tmux has-session -t "$n" 2>/dev/null && tmux kill-session -t "$n"
     done <<<"$(removed)"
+
     unstage
     printf 'applied: %s\n' "$msg"
 }
