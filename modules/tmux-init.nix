@@ -45,21 +45,24 @@
         commands /home/seeker/agents \
         pi /home/seeker/agents
 
-      create_session portfolio_website /home/seeker/portfolio_website portfolio \
-        commands /home/seeker/portfolio_website \
-        pi /home/seeker/portfolio_website
+
+      create_session seremotion /home/seeker/seremotion seremotion \
+        commands /home/seeker/seremotion \
+        pi /home/seeker/seremotion
+
+      create_session sesume /home/seeker/sesume sesume \
+        commands /home/seeker/sesume \
+        pi /home/seeker/sesume
 
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
-
-      create_session dsa-finals-psu /home/seeker/dsa-finals-psu dsa-finals-psu \
-        commands /home/seeker/dsa-finals-psu \
-        pi /home/seeker/dsa-finals-psu
-
       create_session k6-load-testing /home/seeker/k6-load-testing k6 \
         commands /home/seeker/k6-load-testing \
         pi /home/seeker/k6-load-testing
+      create_session dsa-finals-psu /home/seeker/dsa-finals-psu dsa-finals-psu \
+        commands /home/seeker/dsa-finals-psu \
+        pi /home/seeker/dsa-finals-psu
 
     '';
   };
