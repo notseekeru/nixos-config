@@ -40,9 +40,6 @@
         commands /home/seeker/terraform \
         pi /home/seeker/terraform
 
-      create_session gitops /home/seeker/gitops gitops \
-        commands /home/seeker/gitops \
-        pi /home/seeker/gitops
 
       create_session agents /home/seeker/agents agents \
         commands /home/seeker/agents \
