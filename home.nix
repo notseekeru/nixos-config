@@ -41,7 +41,8 @@
     if [ -f "$HOME/gh-token" ]; then
       token="$(cat "$HOME/gh-token")"
       if ! "${pkgs.gh}/bin/gh" auth status &>/dev/null; then
-        echo "$token" | env -u GH_TOKEN "${pkgs.gh}/bin/gh" auth login --with-token
+        echo "$token" | env -u GH_TOKEN "${pkgs.gh}/bin/gh" auth login --with-token ||
+          echo "gh login skipped: token rejected (needs read:org)" >&2
       fi
     fi
   '';
