@@ -59,7 +59,7 @@
 
       k = "kubectl";
 
-      gcm = ''git add -A && msg=$(echo Output ONLY a single conventional commit subject with scope ≤60 chars. No preamble, no markdown, no explanation. Diff: $(git diff --cached | tr '\n' ' ') | pi --provider deepseek --model deepseek-v4-flash 2>/dev/null | tr -d '\`' | grep -oP '^[a-z]+(?:\([^)]*\))?!?:? .*' | head -1) && git commit -m "$msg"'';
+      gmcm = ''git add -A && msg=$(echo Output ONLY a single conventional commit subject with scope ≤60 chars. No preamble, no markdown, no explanation. Diff: $(git diff --cached | tr '\n' ' ') | pi --model opencode-go/deepseek-v4.1-flash --thinking off 2>/dev/null | tr -d '\`' | grep -oP '^[a-z]+(?:\([^)]*\))?!?:? .*' | head -1) && git commit -m "$msg"'';
 
       # Ephemeral pi install: node only inside the command, never on global PATH.
       pii = ''nix shell nixpkgs#nodejs --command pi install'';
