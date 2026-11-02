@@ -35,6 +35,7 @@ insert() {
     awk -v at="$at" -v name="$name" -v dir="$dir" '
         { print }
         NR == at {
+            if ($0 != "") print ""
             printf "      create_session %s %s %s \\\n        commands %s \\\n        pi %s\n", name, dir, name, dir, dir
         }' "$FILE" | write
 }
@@ -45,7 +46,14 @@ remove() {
             if ($2 == n) { skip = 1; next }
             skip = 0
         }
-        skip { if ($0 ~ /^[[:space:]]*pi /) skip = 0; next }
+        skip {
+            if ($0 ~ /^[[:space:]]*pi /) { skip = 0; drop = 1 }
+            next
+        }
+        drop {
+            drop = 0
+            if ($0 ~ /^[[:space:]]*$/) next
+        }
         { print }' "$FILE" | write
 }
 

@@ -7,11 +7,14 @@
       #!/usr/bin/env bash
       set -euo pipefail
 
+      declared=" "
+
       create_session() {
         local name="$1"
         local first_dir="$2"
         local first_win="$3"
         shift 3
+        declared="$declared$name "
 
         if tmux has-session -t "$name" 2>/dev/null; then
           local win_count win_name
@@ -55,12 +58,28 @@
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
+
       create_session k6-load-testing /home/seeker/k6-load-testing k6 \
         commands /home/seeker/k6-load-testing \
         pi /home/seeker/k6-load-testing
+
       create_session dsa-finals-psu /home/seeker/dsa-finals-psu dsa-finals-psu \
         commands /home/seeker/dsa-finals-psu \
         pi /home/seeker/dsa-finals-psu
+
+      current=""
+      if [ -n "''${TMUX:-}" ]; then
+        current=$(tmux display-message -p '#S' 2>/dev/null || true)
+      fi
+      while read -r s; do
+        case " $declared " in
+          *" $s "*) continue ;;
+        esac
+        if [ "$s" = "$current" ]; then
+          continue
+        fi
+        tmux kill-session -t "$s" 2>/dev/null || true
+      done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null || true)
 
     '';
   };

@@ -55,7 +55,7 @@ sudo nixos-rebuild switch --flake .#server
 
 ## Tmux sessions
 
-Repo sessions live in `modules/tmux-init.nix`, and login autostart is generated from that list at build time. `scripts/tmux-repo` edits the list and, on apply, commits it and runs `nixos-rebuild switch` so autostart stays in sync, then creates or kills the sessions in tmux.
+Repo sessions live in `modules/tmux-init.nix`, and login autostart is generated from that list at build time: listed sessions are created, unlisted ones are killed. `scripts/tmux-repo` edits the list and, on apply, commits it, runs `nixos-rebuild switch`, then creates or kills the sessions in tmux.
 
 ## Principles
 
