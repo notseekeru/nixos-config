@@ -69,6 +69,10 @@ rebuild() {
     sudo nixos-rebuild switch --flake "$CONFIG#$(hostname)" --show-trace
 }
 
+build() {
+    ( cd "$TMP" && sudo nixos-rebuild build --flake "$CONFIG#$(hostname)" --show-trace )
+}
+
 stage() {
     [ -n "$PENDING" ] && return 0
     if [ -n "$(git -C "$CONFIG" status --porcelain -- "$NIX")" ]; then
@@ -223,7 +227,7 @@ amendable() {
 }
 
 apply() {
-    local msg subj prev n dir cur="" before=""
+    local msg subj prev n dir cur=""
     local -a cargs
     [ -n "$PENDING" ] || { printf 'nothing staged\n'; return 0; }
     if cmp -s "$ORIG" "$FILE"; then
@@ -241,21 +245,20 @@ apply() {
 
     cargs=(-q --only -m "$msg")
     amendable && cargs+=(--amend)
-    before=$(git -C "$CONFIG" rev-parse HEAD 2>/dev/null || true)
     cp "$FILE" "$NIX"
+    if ! build; then
+        cp "$ORIG" "$NIX"
+        unstage
+        die "build failed, edit reverted"
+    fi
     if ! git -C "$CONFIG" commit "${cargs[@]}" -- "$NIX"; then
         cp "$ORIG" "$NIX"
         unstage
         die "commit failed, edit reverted"
     fi
     if ! rebuild; then
-        cp "$ORIG" "$NIX"
-        if [ -n "$before" ]; then
-            git -C "$CONFIG" reset -q --soft "$before"
-            git -C "$CONFIG" reset -q HEAD -- "$NIX"
-        fi
         unstage
-        die "rebuild failed, commit and edit reverted"
+        die "activation failed, commit kept"
     fi
 
     while read -r n; do
