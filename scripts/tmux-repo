@@ -63,8 +63,10 @@ rebuild() {
 
 stage() {
     [ -n "$PENDING" ] && return 0
-    [ -z "$(git -C "$CONFIG" status --porcelain -- "$NIX")" ] ||
-        die "uncommitted changes in $NIX, commit or stash them first"
+    if [ -n "$(git -C "$CONFIG" status --porcelain -- "$NIX")" ]; then
+        printf 'uncommitted changes in %s, commit them first\n' "$NIX" >&2
+        return 1
+    fi
     TMP=$(mktemp -d)
     ORIG="$TMP/orig"
     FILE="$TMP/nix"
@@ -117,7 +119,7 @@ add() {
         printf 'already registered: %s\n' "$name" >&2
         return 1
     fi
-    stage
+    stage || return 1
     insert "$name" "$dir"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
     [ "$n" = 1 ] || { cp "$ORIG" "$FILE"; die "insert failed, staging reset"; }
@@ -130,7 +132,7 @@ delete() {
         printf 'not registered: %s\n' "$name" >&2
         return 1
     fi
-    stage
+    stage || return 1
     remove "$name"
     n=$(entries | cut -f1 | grep -cxF -- "$name" || true)
     [ "$n" = 0 ] || { cp "$ORIG" "$FILE"; die "remove failed, staging reset"; }
@@ -170,7 +172,7 @@ move() {
     j=$((i + delta))
     if [ "$j" -lt 0 ]; then printf 'already first\n' >&2; return 0; fi
     if [ "$j" -ge "${#names[@]}" ]; then printf 'already last\n' >&2; return 0; fi
-    stage
+    stage || return 1
     read -r a b < <(block_bounds "$name") || die "block not found: $name"
     read -r c d < <(block_bounds "${names[j]}") || die "block not found: ${names[j]}"
     if [ "$a" -gt "$c" ]; then
