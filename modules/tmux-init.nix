@@ -55,6 +55,10 @@
         commands /home/seeker/sesume \
         pi /home/seeker/sesume
 
+      create_session portfolio_website /home/seeker/portfolio_website portfolio_website \
+        commands /home/seeker/portfolio_website \
+        pi /home/seeker/portfolio_website
+
       create_session maxterview_website /home/seeker/maxterview_website maxterview \
         commands /home/seeker/maxterview_website \
         pi /home/seeker/maxterview_website
