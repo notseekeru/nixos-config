@@ -67,6 +67,10 @@
         commands /home/seeker/dsa-finals-psu \
         pi /home/seeker/dsa-finals-psu
 
+      create_session leetcode /home/seeker/leetcode leetcode \
+        commands /home/seeker/leetcode \
+        pi /home/seeker/leetcode
+
       current=""
       if [ -n "''${TMUX:-}" ]; then
         current=$(tmux display-message -p '#S' 2>/dev/null || true)
