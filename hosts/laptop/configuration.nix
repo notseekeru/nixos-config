@@ -26,6 +26,17 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings.main = {
+        muhenkan = "space";
+        henkan = "space";
+      };
+    };
+  };
+
   # ─── SSH (tailscale0 only; openFirewall would expose 22 on every interface) ───
   services.openssh.enable = true;
   services.openssh.openFirewall = false;
