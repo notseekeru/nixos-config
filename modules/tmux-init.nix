@@ -47,9 +47,9 @@
         commands /home/seeker/agents \
         pi /home/seeker/agents
 
-      create_session seremotion /home/seeker/seremotion seremotion \
-        commands /home/seeker/seremotion \
-        pi /home/seeker/seremotion
+      create_session seperframes /home/seeker/seperframes seperframes \
+        commands /home/seeker/seperframes \
+        pi /home/seeker/seperframes
 
       create_session sesume /home/seeker/sesume sesume \
         commands /home/seeker/sesume \
