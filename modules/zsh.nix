@@ -63,6 +63,8 @@
 
       # Ephemeral pi install: node only inside the command, never on global PATH.
       pii = ''nix shell nixpkgs#nodejs --command pi install'';
+
+      bat = "cat /sys/class/power_supply/BAT0/capacity && cat /sys/class/power_supply/BAT0/status";
     };
   };
 }
